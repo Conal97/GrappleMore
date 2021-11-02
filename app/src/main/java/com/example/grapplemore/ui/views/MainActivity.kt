@@ -1,8 +1,7 @@
-package com.example.grapplemore.ui
+package com.example.grapplemore.ui.views
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
 import com.example.grapplemore.R
 import com.example.grapplemore.data.model.daos.UserDao
 import dagger.hilt.android.AndroidEntryPoint
