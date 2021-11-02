@@ -2,17 +2,20 @@ package com.example.grapplemore.data.repositories
 
 import com.example.grapplemore.data.model.daos.UserDao
 import com.example.grapplemore.data.model.entities.UserEntity
+import javax.inject.Inject
 
-// Repository implements the functions defined in the dao interface
-class UserRepository(private val dao: UserDao) {
+// Repository implements the functions defined in the dao interface, injection through dagger
+class UserRepository @Inject constructor (
+    private val userDao: UserDao
+    ) {
 
-    val users = dao.getAllUsers()
+    fun getAllUsers() = userDao.getAllUsers()
 
     suspend fun insert(user: UserEntity) {
-        return dao.insert(user)
+        return userDao.insert(user)
     }
 
     suspend fun getUserName(userName: String):UserEntity? {
-        return dao.getUsername(userName)
+        return userDao.getUsername(userName)
     }
 }
