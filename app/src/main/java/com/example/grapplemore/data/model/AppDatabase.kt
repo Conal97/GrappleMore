@@ -18,32 +18,9 @@ import com.example.grapplemore.data.model.entities.UserEntity
     version = 1
 
 )
+// Dagger-Hilt handles the boilerplate associated with the database
 abstract class AppDatabase: RoomDatabase() {
 
-    abstract val UserDao: UserDao
+    abstract fun getUserDao(): UserDao
 
-    companion object {
-
-        @Volatile
-        private var INSTANCE: AppDatabase? = null
-
-        // If the database already exists, retain that version, otherwise build the database.
-        fun getInstance(context: Context): AppDatabase {
-            synchronized(this) {
-
-                var instance = INSTANCE
-
-                if (instance == null) {
-                    instance = Room.databaseBuilder(
-                        context.applicationContext,
-                        AppDatabase::class.java,
-                        "app_database"
-                    ).fallbackToDestructiveMigration().build()
-
-                    INSTANCE = instance
-                }
-                return instance
-            }
-        }
-    }
 }
