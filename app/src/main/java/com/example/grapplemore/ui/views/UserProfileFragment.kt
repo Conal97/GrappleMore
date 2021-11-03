@@ -5,7 +5,5 @@ import com.example.grapplemore.R
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class loginFragment : Fragment(R.layout.login_fragment) {
-
-
+class UserProfileFragment : Fragment(R.layout.user_profile_fragment) {
 }

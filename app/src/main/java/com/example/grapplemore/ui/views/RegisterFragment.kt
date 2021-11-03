@@ -7,7 +7,7 @@ import com.example.grapplemore.ui.viewModels.RegisterViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class registerFragment: Fragment(R.layout.register_fragment) {
+class RegisterFragment: Fragment(R.layout.register_fragment) {
 
     private val viewModel: RegisterViewModel by viewModels()
 }

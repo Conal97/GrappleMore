@@ -8,8 +8,8 @@
     <string name="enter_last_name">Enter Last Name</string>
     <string name="enter_user_name">Enter User Name</string>
     <string name="enter_password">Enter Password</string>
-    <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="login">Login</string>
     <string name="register">Register</string>
     <string name="placeholder_s_user_profile">Placeholder\'s User Profile</string>
+    <string name="signup">signup</string>
 </resources>
