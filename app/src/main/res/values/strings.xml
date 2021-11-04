@@ -11,5 +11,5 @@
     <string name="login">Login</string>
     <string name="register">Register</string>
     <string name="placeholder_s_user_profile">Placeholder\'s User Profile</string>
-    <string name="signup">signup</string>
+    <string name="signup">Create Account</string>
 </resources>

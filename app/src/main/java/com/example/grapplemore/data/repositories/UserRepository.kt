@@ -15,7 +15,7 @@ class UserRepository @Inject constructor (
         return userDao.insert(user)
     }
 
-    suspend fun getUserName(userName: String):UserEntity? {
-        return userDao.getUsername(userName)
+    suspend fun getUser(userName: String):UserEntity? {
+        return userDao.getUser(userName)
     }
 }

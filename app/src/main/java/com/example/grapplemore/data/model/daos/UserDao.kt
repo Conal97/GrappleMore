@@ -15,7 +15,7 @@ interface UserDao {
     suspend fun  insert(register: UserEntity)
 
     @Query("select * from users_table where user_name like :userName")
-    suspend fun getUsername(userName: String): UserEntity?
+    suspend fun getUser(userName: String): UserEntity?
 
     @Query("select * from users_table order by userId desc")
     // output is LiveData of type list of user entity
