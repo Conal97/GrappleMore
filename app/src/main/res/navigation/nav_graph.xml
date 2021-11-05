@@ -2,34 +2,30 @@
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    app:startDestination="@id/loginFragment">
-    <fragment
-        android:id="@+id/loginFragment"
-        android:label="login_fragment"
-        android:name="com.example.grapplemore.ui.views.LoginFragment"
-        tools:layout="@layout/login_fragment" >
-        <action
-            android:id="@+id/action_loginFragment_to_UserProfileFragment"
-            app:destination="@id/UserProfileFragment" />
-        <action
-            android:id="@+id/action_loginFragment_to_UserProfileFragment2"
-            app:destination="@id/UserProfileFragment" />
-        <action
-            android:id="@+id/action_loginFragment_to_RegisterUserFragment"
-            app:destination="@id/RegisterUserFragment" />
-    </fragment>
+    app:startDestination="@id/firebaseLoginFragment">
     <fragment
         android:id="@+id/RegisterUserFragment"
         android:label="register_fragment"
         android:name="com.example.grapplemore.ui.views.RegisterFragment"
         tools:layout="@layout/register_fragment" >
         <action
-            android:id="@+id/action_RegisterUserFragment_to_loginFragment"
-            app:destination="@id/loginFragment" />
+            android:id="@+id/action_RegisterUserFragment_to_firebaseLoginFragment"
+            app:destination="@id/firebaseLoginFragment" />
     </fragment>
     <fragment
         android:id="@+id/UserProfileFragment"
         android:label="register_fragment"
         android:name="com.example.grapplemore.ui.views.UserProfileFragment"
         tools:layout="@layout/user_profile_fragment" />
+    <fragment
+        android:id="@+id/firebaseLoginFragment"
+        android:name="com.example.grapplemore.ui.views.FirebaseLoginFragment"
+        android:label="FirebaseLoginFragment" >
+        <action
+            android:id="@+id/action_firebaseLoginFragment_to_UserProfileFragment"
+            app:destination="@id/UserProfileFragment" />
+        <action
+            android:id="@+id/action_firebaseLoginFragment_to_RegisterUserFragment"
+            app:destination="@id/RegisterUserFragment" />
+    </fragment>
 </navigation>

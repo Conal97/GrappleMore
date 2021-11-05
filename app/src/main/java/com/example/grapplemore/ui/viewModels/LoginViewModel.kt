@@ -3,8 +3,6 @@ package com.example.grapplemore.ui.viewModels
 import android.util.Log
 import android.widget.EditText
 import android.widget.Toast
-import androidx.databinding.Bindable
-import androidx.databinding.Observable
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -19,13 +17,13 @@ import javax.inject.Inject
 @HiltViewModel
 class LoginViewModel @Inject constructor(
     private val userRepository: UserRepository
-): ViewModel(), Observable{
+): ViewModel(){
 
     // LiveData for this viewModel, accessed via dataBinding
-    @Bindable
+
     val username = MutableLiveData<String?>()
 
-    @Bindable
+
     val password = MutableLiveData<String?>()
 
     // Scope for coroutines
@@ -116,9 +114,4 @@ class LoginViewModel @Inject constructor(
 
     // ---------------
 
-    override fun removeOnPropertyChangedCallback(callback: Observable.OnPropertyChangedCallback?) {
-    }
-
-    override fun addOnPropertyChangedCallback(callback: Observable.OnPropertyChangedCallback?) {
-    }
 }

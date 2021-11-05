@@ -1,21 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<layout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:context="com.example.grapplemore.ui.views.LoginFragment">
-
-    <data>
-        <variable
-            name="myLoginViewModel"
-            type="com.example.grapplemore.ui.viewModels.LoginViewModel" />
-    </data>
-
-
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
-
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
 
         <TextView
             android:id="@+id/tvUserName"
@@ -54,7 +43,6 @@
             android:hint="@string/enter_user_name"
             android:importantForAutofill="no"
             android:inputType="textPersonName"
-            android:text="@={myLoginViewModel.username}"
             android:minHeight="48dp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/tvUserName"
@@ -68,7 +56,6 @@
             android:hint="@string/enter_password"
             android:importantForAutofill="no"
             android:inputType="textPassword"
-            android:text="@={myLoginViewModel.password}"
             android:minHeight="48dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -82,7 +69,6 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="24dp"
             android:text="@string/login"
-            android:onClick="@{()->myLoginViewModel.login()}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
@@ -95,7 +81,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/signup"
-            android:onClick="@{()->myLoginViewModel.createAccount()}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.504"
@@ -105,4 +90,3 @@
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-</layout>
