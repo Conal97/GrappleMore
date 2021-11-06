@@ -42,7 +42,6 @@ class FirebaseLoginFragment : Fragment(R.layout.login_fragment) {
         }
     }
 
-
     private fun loginUser(inputEmail: String, inputPassword: String) {
         auth.signInWithEmailAndPassword(inputEmail, inputPassword)
             .addOnCompleteListener { task ->
