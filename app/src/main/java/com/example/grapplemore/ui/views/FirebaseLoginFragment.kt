@@ -7,7 +7,6 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.NavHostFragment
 import com.example.grapplemore.R
 import com.example.grapplemore.databinding.LoginFragmentBinding
-import com.example.grapplemore.databinding.LoginFragmentBinding.bind
 import com.google.firebase.auth.FirebaseAuth
 import timber.log.Timber
 
@@ -15,31 +14,45 @@ import timber.log.Timber
 class FirebaseLoginFragment : Fragment(R.layout.login_fragment) {
 
     private var auth: FirebaseAuth = FirebaseAuth.getInstance()
-    private lateinit var binding: LoginFragmentBinding
+    private var fragmentLoginBinding: LoginFragmentBinding? = null
+
 
     override fun onStart() {
         super.onStart()
         // Check if user is signed in (non-null) and update UI accordingly.
-        val currentUser = auth.currentUser
-        if(currentUser != null){
-            NavHostFragment.findNavController(this).navigate(R.id.action_firebaseLoginFragment_to_UserProfileFragment)
-        }
+//        val currentUser = auth.currentUser
+//        if(currentUser != null){
+//            navToProfile()
+//        }
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        binding = bind(view)
-
-        val inputEmail = binding.etUserName
-        val inputPassword = binding.etPassword
+        val binding = LoginFragmentBinding.bind(view)
+        fragmentLoginBinding = binding
 
         binding.loginButton.setOnClickListener {
-            loginUser(inputEmail.toString(), inputPassword.toString())
+
+            val inputEmail = binding.etUserName.text.toString()
+            val inputPassword = binding.etPassword.text.toString()
+
+            loginUser(inputEmail, inputPassword)
         }
 
         binding.signupButton.setOnClickListener {
             createAccount()
         }
+
+        binding.resetPasswordButton.setOnClickListener {
+            val inputEmail = binding.etUserName.text.toString()
+            resetPassword(inputEmail)
+        }
+    }
+
+    override fun onDestroyView() {
+        // Consider not storing the binding instance in a field, if not needed.
+        fragmentLoginBinding = null
+        super.onDestroyView()
     }
 
     private fun loginUser(inputEmail: String, inputPassword: String) {
@@ -49,7 +62,7 @@ class FirebaseLoginFragment : Fragment(R.layout.login_fragment) {
                     // sign in successful
                     Timber.d("sign in with email: success")
                     checkLoggedInState()
-                    // nav to user profile here
+                    navToProfile()
                 } else {
                     Timber.d("sign in with email: failure", task.exception)
                     Toast.makeText(context, "Authentication failed", Toast.LENGTH_LONG).show()
@@ -57,8 +70,24 @@ class FirebaseLoginFragment : Fragment(R.layout.login_fragment) {
             }
     }
 
+    private fun resetPassword(inputEmail: String) {
+        // Send a reset password email to a user who has forgotten their password
+        auth.sendPasswordResetEmail(inputEmail)
+            .addOnCompleteListener { task ->
+                if (task.isSuccessful) {
+                    Timber.d("Email sent", task.exception)
+                    Toast.makeText(context, "Email sent", Toast.LENGTH_LONG).show()
+                }
+            }
+
+    }
+
+    private fun navToProfile() {
+        NavHostFragment.findNavController(this).navigate(R.id.action_firebaseLoginFragment_to_UserProfileFragment)
+    }
+
     private fun createAccount(){
-        NavHostFragment.findNavController(this).navigate(R.id.action_firebaseLoginFragment_to_RegisterUserFragment)
+        NavHostFragment.findNavController(this).navigate(R.id.action_firebaseLoginFragment_to_firebaseRegisterFragment)
     }
 
     private fun checkLoggedInState() {
@@ -68,6 +97,4 @@ class FirebaseLoginFragment : Fragment(R.layout.login_fragment) {
             Toast.makeText(requireActivity(), "Logged in!", Toast.LENGTH_LONG).show()
         }
     }
-
-
 }

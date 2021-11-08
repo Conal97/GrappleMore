@@ -4,15 +4,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     app:startDestination="@id/firebaseLoginFragment">
     <fragment
-        android:id="@+id/RegisterUserFragment"
-        android:label="register_fragment"
-        android:name="com.example.grapplemore.ui.views.RegisterFragment"
-        tools:layout="@layout/register_fragment" >
-        <action
-            android:id="@+id/action_RegisterUserFragment_to_firebaseLoginFragment"
-            app:destination="@id/firebaseLoginFragment" />
-    </fragment>
-    <fragment
         android:id="@+id/UserProfileFragment"
         android:label="register_fragment"
         android:name="com.example.grapplemore.ui.views.UserProfileFragment"
@@ -25,7 +16,15 @@
             android:id="@+id/action_firebaseLoginFragment_to_UserProfileFragment"
             app:destination="@id/UserProfileFragment" />
         <action
-            android:id="@+id/action_firebaseLoginFragment_to_RegisterUserFragment"
-            app:destination="@id/RegisterUserFragment" />
+            android:id="@+id/action_firebaseLoginFragment_to_firebaseRegisterFragment"
+            app:destination="@id/firebaseRegisterFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/firebaseRegisterFragment"
+        android:name="com.example.grapplemore.ui.views.FirebaseRegisterFragment"
+        android:label="FirebaseRegisterFragment" >
+        <action
+            android:id="@+id/action_firebaseRegisterFragment_to_UserProfileFragment"
+            app:destination="@id/UserProfileFragment" />
     </fragment>
 </navigation>

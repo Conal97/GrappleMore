@@ -12,4 +12,6 @@
     <string name="register">Register</string>
     <string name="placeholder_s_user_profile">Placeholder\'s User Profile</string>
     <string name="signup">Create Account</string>
+    <string name="re_enter_password">Re-enter Password</string>
+    <string name="reset_password">Reset Password</string>
 </resources>
