@@ -90,6 +90,7 @@ class FirebaseLoginFragment : Fragment(R.layout.login_fragment) {
         NavHostFragment.findNavController(this).navigate(R.id.action_firebaseLoginFragment_to_firebaseRegisterFragment)
     }
 
+    // Change this?
     private fun checkLoggedInState() {
         if (auth.currentUser == null) {
             Toast.makeText(requireActivity(), "Not a valid login - please sign up", Toast.LENGTH_LONG).show()

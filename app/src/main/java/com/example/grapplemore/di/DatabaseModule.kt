@@ -17,8 +17,6 @@ object DatabaseModule {
 
     // 'Manual' for dagger-hilt to build and inject the database
     // Singleton so we only have one instance of the database
-    // todo: may have to alter database injection to account for pre-population
-
     @Singleton
     @Provides
     fun provideAppDatabase(
@@ -29,10 +27,10 @@ object DatabaseModule {
         APP_DATABASE_NAME
     ).build()
 
-    // Daos -> dagger allows us to access these based on the database we provided
+    // Dao's -> dagger allows us to access these based on the database we provided
 
     @Singleton
     @Provides
-    fun providesUserDao(db: AppDatabase) = db.getUserDao()
+    fun providesUserProfileDao(db: AppDatabase) = db.getUserProfileDao()
 
 }
