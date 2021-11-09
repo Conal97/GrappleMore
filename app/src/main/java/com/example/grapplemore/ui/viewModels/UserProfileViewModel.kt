@@ -43,7 +43,7 @@ class UserProfileViewModel @Inject constructor(
     }
 
 
-    // Check if userName exists helper function
+    // Check if userName exists
     fun userNameExists(userName: String): Boolean {
         val listOfUserNames = userProfileRepository.getAllUserNames()
         if (listOfUserNames.value?.contains(userName)!!) {

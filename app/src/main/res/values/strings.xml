@@ -14,4 +14,19 @@
     <string name="signup">Create Account</string>
     <string name="re_enter_password">Re-enter Password</string>
     <string name="reset_password">Reset Password</string>
+    <string name="please_input_a_username">Username: </string>
+    <string name="username">enter username</string>
+    <string name="select_a_profile_picture">Select a profile picture</string>
+    <string name="green_check">green check</string>
+    <string name="select_belt_colour">Select belt colour: </string>
+    <string name="academy">Academy: </string>
+    <string name="enter_academy_here">enter academy</string>
+
+    <string-array name="belt_array">
+        <item>White belt</item>
+        <item>Blue belt</item>
+        <item>Purple belt</item>
+        <item>Brown belt</item>
+        <item>Black belt</item>
+    </string-array>
 </resources>

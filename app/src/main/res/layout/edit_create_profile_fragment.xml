@@ -1,0 +1,273 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="16dp">
+
+    <LinearLayout
+        android:id="@+id/linearUserName"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_marginTop="60dp"
+        android:orientation="horizontal"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:layout_editor_absoluteX="0dp" >
+
+        <TextView
+            android:id="@+id/userNameTv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="12dp"
+            android:gravity="center"
+            android:text="@string/please_input_a_username"
+            android:textColor="@color/black"
+            android:textSize="20sp" />
+
+        <EditText
+            android:id="@+id/userNameEt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="20sp"
+            android:background="null"
+            android:hint="@string/username"
+            android:inputType="textPersonName"
+            android:importantForAutofill="no" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/linearImageSelect"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_marginTop="5dp"
+        android:orientation="horizontal"
+        app:layout_constraintTop_toBottomOf="@id/linearUserName"
+        tools:layout_editor_absoluteX="0dp" >
+
+        <Button
+            android:id="@+id/button"
+            android:layout_marginStart="14dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/select_a_profile_picture" />
+
+        <ImageView
+            android:contentDescription="@string/green_check"
+            android:layout_marginStart="35dp"
+            android:layout_width="42dp"
+            android:layout_height="50dp"
+            android:src="@drawable/green_check"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/linearBelt"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_marginTop="25dp"
+        android:orientation="horizontal"
+        app:layout_constraintTop_toBottomOf="@id/linearImageSelect"
+        tools:layout_editor_absoluteX="0dp" >
+
+        <TextView
+            android:id="@+id/beltSelectTv"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="12dp"
+            android:layout_weight="0.1"
+            android:text="@string/select_belt_colour"
+            android:textColor="@color/black"
+            android:textSize="20sp" />
+
+        <Spinner
+            android:id="@+id/beltSpinner"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="45dp"
+            android:popupBackground="@color/white"
+            android:scrollbars="none"
+            android:spinnerMode="dropdown" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/linearAcademy"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_marginTop="15dp"
+        android:orientation="horizontal"
+        app:layout_constraintTop_toBottomOf="@id/linearBelt"
+        tools:layout_editor_absoluteX="0dp" >
+
+        <TextView
+            android:id="@+id/academyTv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="12dp"
+            android:gravity="center"
+            android:text="@string/academy"
+            android:textColor="@color/black"
+            android:textSize="20sp" />
+
+        <EditText
+            android:id="@+id/academyEt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="20sp"
+            android:background="null"
+            android:hint="@string/enter_academy_here"
+            android:inputType="text"
+            android:importantForAutofill="no" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/linearWeight"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_marginTop="15dp"
+        android:orientation="horizontal"
+        app:layout_constraintTop_toBottomOf="@id/linearAcademy"
+        tools:layout_editor_absoluteX="0dp" >
+
+        <TextView
+            android:id="@+id/weightTv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="12dp"
+            android:gravity="center"
+            android:text="Weight: "
+            android:textColor="@color/black"
+            android:textSize="20sp" />
+
+        <EditText
+            android:id="@+id/weightEt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="20sp"
+            android:background="null"
+            android:hint="enter weight"
+            android:inputType="number"
+            android:importantForAutofill="no" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/linearCompsAttended"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_marginTop="15dp"
+        android:orientation="horizontal"
+        app:layout_constraintTop_toBottomOf="@id/linearWeight"
+        tools:layout_editor_absoluteX="0dp" >
+
+        <TextView
+            android:id="@+id/compsAttendedTv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Competitions attended: "
+
+            android:layout_marginStart="12dp"
+            android:textColor="@color/black"
+            android:textSize="20sp" />
+
+        <EditText
+            android:id="@+id/compsAttendedEt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="20sp"
+            android:background="null"
+            android:hint="number attended"
+            android:inputType="number"
+            android:importantForAutofill="no" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/linearWins"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_marginTop="15dp"
+        android:orientation="horizontal"
+        app:layout_constraintTop_toBottomOf="@id/linearCompsAttended"
+        tools:layout_editor_absoluteX="0dp" >
+
+        <TextView
+            android:id="@+id/winsTv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Wins : "
+
+            android:layout_marginStart="12dp"
+            android:textColor="@color/black"
+            android:textSize="20sp" />
+
+        <EditText
+            android:id="@+id/winsEt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="20sp"
+            android:background="null"
+            android:hint="number of wins"
+            android:inputType="number"
+            android:importantForAutofill="no" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/linearDraws"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_marginTop="15dp"
+        android:orientation="horizontal"
+        app:layout_constraintTop_toBottomOf="@id/linearWins"
+        tools:layout_editor_absoluteX="0dp" >
+
+        <TextView
+            android:id="@+id/drawsTv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Draws : "
+
+            android:layout_marginStart="12dp"
+            android:textColor="@color/black"
+            android:textSize="20sp" />
+
+        <EditText
+            android:id="@+id/drawsEt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="20sp"
+            android:background="null"
+            android:hint="number of draws"
+            android:inputType="number"
+            android:importantForAutofill="no" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/linearLosses"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_marginTop="15dp"
+        android:orientation="horizontal"
+        app:layout_constraintTop_toBottomOf="@id/linearDraws"
+        tools:layout_editor_absoluteX="0dp" >
+
+        <TextView
+            android:id="@+id/lossesTv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Losses : "
+
+            android:layout_marginStart="12dp"
+            android:textColor="@color/black"
+            android:textSize="20sp" />
+
+        <EditText
+            android:id="@+id/lossesEt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="20sp"
+            android:background="null"
+            android:hint="number of losses"
+            android:inputType="number"
+            android:importantForAutofill="no" />
+    </LinearLayout>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
