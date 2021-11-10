@@ -10,13 +10,13 @@ data class UserProfileEntity(
     @PrimaryKey (autoGenerate = true)
     val userProfileId: Int,
 
-    val fireBaseKey: String?,
-    val userName: String?,
-    val userAcademy: String?,
-    val profileImageUri: String?,
-    val weight: Int?,
-    val compsAttended: Int = 0,
-    val wins: Int = 0,
-    val draws: Int = 0,
-    val losses: Int = 0
+    var fireBaseKey: String?,
+    var userName: String?,
+    var userAcademy: String?,
+    var profileImageUri: String?,
+    var weight: Int?,
+    var compsAttended: Int = 0,
+    var wins: Int = 0,
+    var draws: Int = 0,
+    var losses: Int = 0
 )

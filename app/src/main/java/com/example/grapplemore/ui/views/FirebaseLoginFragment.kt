@@ -50,7 +50,6 @@ class FirebaseLoginFragment : Fragment(R.layout.login_fragment) {
     }
 
     override fun onDestroyView() {
-        // Consider not storing the binding instance in a field, if not needed.
         fragmentLoginBinding = null
         super.onDestroyView()
     }

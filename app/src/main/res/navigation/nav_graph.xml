@@ -7,24 +7,45 @@
         android:id="@+id/UserProfileFragment"
         android:label="register_fragment"
         android:name="com.example.grapplemore.ui.views.UserProfileFragment"
-        tools:layout="@layout/user_profile_fragment" />
+        tools:layout="@layout/user_profile_fragment" >
+        <action
+            android:id="@+id/action_UserProfileFragment_to_userProfileEditCreateFragment"
+            app:destination="@id/userProfileEditCreateFragment" />
+    </fragment>
     <fragment
         android:id="@+id/firebaseLoginFragment"
         android:name="com.example.grapplemore.ui.views.FirebaseLoginFragment"
-        android:label="FirebaseLoginFragment" >
+        android:label="FirebaseLoginFragment"
+        tools:layout="@layout/login_fragment" >
         <action
             android:id="@+id/action_firebaseLoginFragment_to_UserProfileFragment"
             app:destination="@id/UserProfileFragment" />
         <action
             android:id="@+id/action_firebaseLoginFragment_to_firebaseRegisterFragment"
             app:destination="@id/firebaseRegisterFragment" />
+        <action
+            android:id="@+id/action_firebaseLoginFragment_to_userProfileEditCreateFragment"
+            app:destination="@id/userProfileEditCreateFragment" />
     </fragment>
     <fragment
         android:id="@+id/firebaseRegisterFragment"
         android:name="com.example.grapplemore.ui.views.FirebaseRegisterFragment"
-        android:label="FirebaseRegisterFragment" >
+        android:label="FirebaseRegisterFragment"
+        tools:layout="@layout/register_fragment">
         <action
             android:id="@+id/action_firebaseRegisterFragment_to_UserProfileFragment"
+            app:destination="@id/UserProfileFragment" />
+        <action
+            android:id="@+id/action_firebaseRegisterFragment_to_userProfileEditCreateFragment"
+            app:destination="@id/userProfileEditCreateFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/userProfileEditCreateFragment"
+        android:name="com.example.grapplemore.ui.views.UserProfileEditCreateFragment"
+        android:label="UserProfileEditCreateFragment"
+        tools:layout="@layout/edit_create_profile_fragment">
+        <action
+            android:id="@+id/action_userProfileEditCreateFragment_to_UserProfileFragment"
             app:destination="@id/UserProfileFragment" />
     </fragment>
 </navigation>
