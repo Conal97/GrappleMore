@@ -34,7 +34,7 @@
         android:layout_width="250dp"
         android:layout_height="100dp"
         android:layout_marginTop="4dp"
-        android:src="@drawable/blackbelt"
+        android:src="@drawable/whitebelt"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.503"
         app:layout_constraintStart_toStartOf="parent"
@@ -78,6 +78,16 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/weightCatTv" />
+
+    <Button
+        android:id="@+id/submitProfileBtn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="Edit Profile"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/winDrawLossTv" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
