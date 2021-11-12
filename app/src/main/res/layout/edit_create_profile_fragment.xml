@@ -11,7 +11,6 @@
         android:id="@+id/linearUserName"
         android:layout_width="match_parent"
         android:layout_height="50dp"
-        android:layout_marginTop="60dp"
         android:orientation="horizontal"
         app:layout_constraintTop_toTopOf="parent"
         tools:layout_editor_absoluteX="0dp" >
@@ -30,11 +29,12 @@
             android:id="@+id/userNameEt"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="20sp"
-            android:background="null"
+            android:background="@null"
             android:hint="@string/username"
+            android:importantForAutofill="no"
             android:inputType="textPersonName"
-            android:importantForAutofill="no" />
+            android:minHeight="48dp"
+            android:textSize="20sp" />
     </LinearLayout>
 
     <LinearLayout
@@ -47,17 +47,19 @@
         tools:layout_editor_absoluteX="0dp" >
 
         <Button
-            android:id="@+id/button"
+            android:id="@+id/profilePictureBtn"
             android:layout_marginStart="14dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/select_a_profile_picture" />
 
         <ImageView
+            android:id="@+id/greenCheck"
             android:contentDescription="@string/green_check"
             android:layout_marginStart="35dp"
             android:layout_width="42dp"
             android:layout_height="50dp"
+            android:visibility="invisible"
             android:src="@drawable/green_check"/>
     </LinearLayout>
 
@@ -65,7 +67,7 @@
         android:id="@+id/linearBelt"
         android:layout_width="match_parent"
         android:layout_height="50dp"
-        android:layout_marginTop="25dp"
+        android:layout_marginTop="15dp"
         android:orientation="horizontal"
         app:layout_constraintTop_toBottomOf="@id/linearImageSelect"
         tools:layout_editor_absoluteX="0dp" >
@@ -85,6 +87,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="45dp"
+            android:contentDescription="Select Belt"
+            android:minHeight="48dp"
             android:popupBackground="@color/white"
             android:scrollbars="none"
             android:spinnerMode="dropdown" />
@@ -94,7 +98,7 @@
         android:id="@+id/linearAcademy"
         android:layout_width="match_parent"
         android:layout_height="50dp"
-        android:layout_marginTop="15dp"
+        android:layout_marginTop="0dp"
         android:orientation="horizontal"
         app:layout_constraintTop_toBottomOf="@id/linearBelt"
         tools:layout_editor_absoluteX="0dp" >
@@ -113,18 +117,18 @@
             android:id="@+id/academyEt"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="20sp"
-            android:background="null"
+            android:background="@null"
             android:hint="@string/enter_academy_here"
+            android:importantForAutofill="no"
             android:inputType="text"
-            android:importantForAutofill="no" />
+            android:minHeight="48dp"
+            android:textSize="20sp" />
     </LinearLayout>
 
     <LinearLayout
         android:id="@+id/linearWeight"
         android:layout_width="match_parent"
         android:layout_height="50dp"
-        android:layout_marginTop="15dp"
         android:orientation="horizontal"
         app:layout_constraintTop_toBottomOf="@id/linearAcademy"
         tools:layout_editor_absoluteX="0dp" >
@@ -143,18 +147,18 @@
             android:id="@+id/weightEt"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="20sp"
-            android:background="null"
+            android:background="@null"
             android:hint="enter weight"
+            android:importantForAutofill="no"
             android:inputType="number"
-            android:importantForAutofill="no" />
+            android:minHeight="48dp"
+            android:textSize="20sp" />
     </LinearLayout>
 
     <LinearLayout
         android:id="@+id/linearCompsAttended"
         android:layout_width="match_parent"
         android:layout_height="50dp"
-        android:layout_marginTop="15dp"
         android:orientation="horizontal"
         app:layout_constraintTop_toBottomOf="@id/linearWeight"
         tools:layout_editor_absoluteX="0dp" >
@@ -164,7 +168,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Competitions attended: "
-
             android:layout_marginStart="12dp"
             android:textColor="@color/black"
             android:textSize="20sp" />
@@ -173,18 +176,18 @@
             android:id="@+id/compsAttendedEt"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="20sp"
-            android:background="null"
+            android:background="@null"
             android:hint="number attended"
+            android:importantForAutofill="no"
             android:inputType="number"
-            android:importantForAutofill="no" />
+            android:minHeight="48dp"
+            android:textSize="20sp" />
     </LinearLayout>
 
     <LinearLayout
         android:id="@+id/linearWins"
         android:layout_width="match_parent"
         android:layout_height="50dp"
-        android:layout_marginTop="15dp"
         android:orientation="horizontal"
         app:layout_constraintTop_toBottomOf="@id/linearCompsAttended"
         tools:layout_editor_absoluteX="0dp" >
@@ -203,18 +206,18 @@
             android:id="@+id/winsEt"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="20sp"
-            android:background="null"
+            android:background="@null"
             android:hint="number of wins"
+            android:importantForAutofill="no"
             android:inputType="number"
-            android:importantForAutofill="no" />
+            android:minHeight="48dp"
+            android:textSize="20sp" />
     </LinearLayout>
 
     <LinearLayout
         android:id="@+id/linearDraws"
         android:layout_width="match_parent"
         android:layout_height="50dp"
-        android:layout_marginTop="15dp"
         android:orientation="horizontal"
         app:layout_constraintTop_toBottomOf="@id/linearWins"
         tools:layout_editor_absoluteX="0dp" >
@@ -224,7 +227,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Draws : "
-
             android:layout_marginStart="12dp"
             android:textColor="@color/black"
             android:textSize="20sp" />
@@ -233,18 +235,18 @@
             android:id="@+id/drawsEt"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="20sp"
-            android:background="null"
+            android:background="@null"
             android:hint="number of draws"
+            android:importantForAutofill="no"
             android:inputType="number"
-            android:importantForAutofill="no" />
+            android:minHeight="48dp"
+            android:textSize="20sp" />
     </LinearLayout>
 
     <LinearLayout
         android:id="@+id/linearLosses"
         android:layout_width="match_parent"
         android:layout_height="50dp"
-        android:layout_marginTop="15dp"
         android:orientation="horizontal"
         app:layout_constraintTop_toBottomOf="@id/linearDraws"
         tools:layout_editor_absoluteX="0dp">
@@ -254,7 +256,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="12dp"
-
             android:text="Losses : "
             android:textColor="@color/black"
             android:textSize="20sp" />
@@ -263,10 +264,11 @@
             android:id="@+id/lossesEt"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="null"
+            android:background="@null"
             android:hint="number of losses"
             android:importantForAutofill="no"
             android:inputType="number"
+            android:minHeight="48dp"
             android:textSize="20sp" />
     </LinearLayout>
 
@@ -274,12 +276,12 @@
         android:id="@+id/submitProfileBtn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="25dp"
         android:text="Create Profile"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/linearLosses" />
+        app:layout_constraintTop_toBottomOf="@+id/linearLosses"
+        app:layout_constraintVertical_bias="0.0" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

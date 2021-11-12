@@ -1,8 +1,11 @@
 package com.example.grapplemore.ui.views
 
+import android.Manifest
+import android.content.pm.PackageManager
 import android.os.Bundle
 import android.view.View
 import android.widget.Toast
+import androidx.core.app.ActivityCompat
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.NavHostFragment
 import com.example.grapplemore.R
@@ -20,11 +23,11 @@ class FirebaseLoginFragment : Fragment(R.layout.login_fragment) {
     override fun onStart() {
         super.onStart()
         // Check if user is signed in (non-null) and update UI accordingly.
-//        val currentUser = auth.currentUser
-//        if(currentUser != null){
-//            navToProfile()
-//        }
-    }
+        val currentUser = auth.currentUser
+        if(currentUser != null) {
+            navToProfile()
+        }
+      }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -36,7 +39,12 @@ class FirebaseLoginFragment : Fragment(R.layout.login_fragment) {
             val inputEmail = binding.etUserName.text.toString()
             val inputPassword = binding.etPassword.text.toString()
 
-            loginUser(inputEmail, inputPassword)
+            if (inputEmail.isNotEmpty() && inputPassword.isNotEmpty()) {
+                loginUser(inputEmail, inputPassword)
+            }
+            else {
+                Toast.makeText(requireActivity(), "Please fill in email and password fields", Toast.LENGTH_LONG).show()
+            }
         }
 
         binding.signupButton.setOnClickListener {
@@ -70,14 +78,20 @@ class FirebaseLoginFragment : Fragment(R.layout.login_fragment) {
     }
 
     private fun resetPassword(inputEmail: String) {
-        // Send a reset password email to a user who has forgotten their password
-        auth.sendPasswordResetEmail(inputEmail)
-            .addOnCompleteListener { task ->
-                if (task.isSuccessful) {
-                    Timber.d("Email sent", task.exception)
-                    Toast.makeText(context, "Email sent", Toast.LENGTH_LONG).show()
+
+        if (inputEmail.isNotEmpty()) {
+            // Send a reset password email to a user who has forgotten their password
+            auth.sendPasswordResetEmail(inputEmail)
+                .addOnCompleteListener { task ->
+                    if (task.isSuccessful) {
+                        Timber.d("Email sent", task.exception)
+                        Toast.makeText(context, "Email sent", Toast.LENGTH_LONG).show()
+                    }
                 }
-            }
+        } else {
+            Toast.makeText(requireActivity(), "Please fill in email field", Toast.LENGTH_LONG).show()
+        }
+
 
     }
 
@@ -97,4 +111,6 @@ class FirebaseLoginFragment : Fragment(R.layout.login_fragment) {
             Toast.makeText(requireActivity(), "Logged in!", Toast.LENGTH_LONG).show()
         }
     }
+
+
 }
