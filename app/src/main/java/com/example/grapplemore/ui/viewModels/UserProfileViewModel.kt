@@ -9,6 +9,8 @@ import com.example.grapplemore.data.repositories.UserProfileRepository
 import com.example.grapplemore.utils.Event
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
+import timber.log.Timber
+import java.util.*
 import javax.inject.Inject
 
 @HiltViewModel
@@ -16,9 +18,10 @@ class UserProfileViewModel @Inject constructor(
     private val userProfileRepository: UserProfileRepository
 ): ViewModel() {
 
-    // User profile entity to update database
-    private val _userProfile = MutableLiveData<UserProfileEntity>()
-    private val userProfile: LiveData<UserProfileEntity> = _userProfile
+    // Live data to access user profile outside viewModel scope
+    private var _currentProfile = MutableLiveData<UserProfileEntity?>()
+    val currentProfile: MutableLiveData<UserProfileEntity?>
+        get() = _currentProfile
 
     // Wrap event class for toast messaging
     private val statusMessage = MutableLiveData<Event<String>>()
@@ -40,64 +43,35 @@ class UserProfileViewModel @Inject constructor(
 
         viewModelScope.launch {
 
-            // Check all fields have input
-            if (fireBaseKey.isEmpty() || userName.isEmpty() || academy.isEmpty()
-                || imageUri.isEmpty() || weight.equals(null) || compsAttended.equals(null)
-                || wins.equals(null) || draws.equals(null) || losses.equals(null)) {
+            val profile = UserProfileEntity(fireBaseKey, userName, academy,
+            imageUri, weight, compsAttended, wins, draws, losses)
 
-                // Status message
-                statusMessage.value = Event("Please fill all fields")
+            val existingProfile = userProfileRepository.getUserProfile(fireBaseKey)
+
+            // Check if profile already exists
+            if (existingProfile != null) {
+                // If it exists -> update entry
+                userProfileRepository.updateProfile(profile)
+                statusMessage.value = Event("Profile updated")
+                _navigate.value = true
             }
+            // Create a new profile
             else {
-
-                // Catch duplicate username
-                if (!userNameExists(userName)) {
-
-                    // Set userProfile entity from inputs
-                    userProfile.value!!.fireBaseKey = fireBaseKey
-                    userProfile.value!!.userName = userName
-                    userProfile.value!!.userAcademy = academy
-                    userProfile.value!!.profileImageUri = imageUri
-                    userProfile.value!!.weight = weight
-                    userProfile.value!!.compsAttended = compsAttended
-                    userProfile.value!!.wins = wins
-                    userProfile.value!!.draws = draws
-                    userProfile.value!!.losses = losses
-
-                    // Check if profile already exists
-                    if (profileExists(fireBaseKey)) {
-                        // If it exists -> update entry
-                        userProfileRepository.updateProfile(userProfile.value!!)
-                        statusMessage.value = Event("Profile updated")
-                        _navigate.value = true
-                    }
-                    // Create a new profile
-                    else {
-                        userProfileRepository.addProfile(userProfile.value!!)
-                        statusMessage.value = Event("Profile created")
-                        _navigate.value = true
-                    }
-                } else {
-                    // username exists, update status message
-                    statusMessage.value = Event("Username already exists, please choose another!")
-                }
-
+                userProfileRepository.addProfile(profile)
+                statusMessage.value = Event("Profile created")
+                _navigate.value = true
             }
         }
     }
 
-    // Check if logged in user has a profile or not
-    fun profileExists(fireBaseKey: String): Boolean {
-        val profile = userProfileRepository.getUserProfile(fireBaseKey)
-        return profile.value != null
+    // Function to implement user profile observing
+    fun getProfile(fireBaseKey: String){
+        viewModelScope.launch {
+            val profile = userProfileRepository.getUserProfile(fireBaseKey)
+            if (profile!=null) {
+                _currentProfile.value = profile
+            }
+        }
     }
 
-    // Check if userName exists
-    private fun userNameExists(userName: String): Boolean {
-        val listOfUserNames = userProfileRepository.getAllUserNames()
-        if (listOfUserNames.value?.contains(userName)!!) {
-            return true
-        }
-        return false
-    }
 }

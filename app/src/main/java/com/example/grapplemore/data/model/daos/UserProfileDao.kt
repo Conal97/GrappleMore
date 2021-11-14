@@ -17,10 +17,7 @@ interface UserProfileDao {
 
     // Get a single userProfile by firebaseKey
     @Query("select * from user_profile_table where fireBaseKey = :fireBaseKey")
-    fun getUserProfile(fireBaseKey: String): LiveData<UserProfileEntity>
+    suspend fun getUserProfile(fireBaseKey: String): UserProfileEntity
 
-    // Get all current userNames
-    @Query("select userName from user_profile_table")
-    fun getAllUserNames(): LiveData<List<String>>
 
 }

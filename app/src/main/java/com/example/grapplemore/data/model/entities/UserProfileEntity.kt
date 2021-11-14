@@ -7,10 +7,11 @@ import androidx.room.PrimaryKey
 @Entity(tableName = "user_profile_table")
 data class UserProfileEntity(
 
-    @PrimaryKey (autoGenerate = true)
-    val userProfileId: Int,
+    @PrimaryKey
+    @NonNull
+    var fireBaseKey: String = "",
 
-    var fireBaseKey: String?,
+
     var userName: String?,
     var userAcademy: String?,
     var profileImageUri: String?,

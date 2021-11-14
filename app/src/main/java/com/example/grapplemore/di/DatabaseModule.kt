@@ -25,7 +25,7 @@ object DatabaseModule {
         context,
         AppDatabase::class.java,
         APP_DATABASE_NAME
-    ).build()
+    ).fallbackToDestructiveMigration().build()
 
     // Dao's -> dagger allows us to access these based on the database we provided
 

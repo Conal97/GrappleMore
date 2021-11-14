@@ -21,6 +21,7 @@
     <string name="select_belt_colour">Select belt colour: </string>
     <string name="academy">Academy: </string>
     <string name="enter_academy_here">enter academy </string>
+    <string name="editProfileBtn">Edit Profile</string>
 
     <string-array name="belt_array">
         <item>White belt</item>
