@@ -14,6 +14,7 @@ import com.example.grapplemore.databinding.UserProfileFragmentBinding
 import com.example.grapplemore.ui.viewModels.UserProfileViewModel
 import com.google.firebase.auth.FirebaseAuth
 import dagger.hilt.android.AndroidEntryPoint
+import timber.log.Timber
 
 @AndroidEntryPoint
 class UserProfileFragment : Fragment(R.layout.user_profile_fragment) {
@@ -25,38 +26,16 @@ class UserProfileFragment : Fragment(R.layout.user_profile_fragment) {
     private var auth: FirebaseAuth = FirebaseAuth.getInstance()
     private val fireBaseKey = auth.currentUser?.uid.toString()
 
-    // View binding and init view variables
+    // View binding
     private var fragmentBinding: UserProfileFragmentBinding? = null
-    private var username = ""
-    private var profilePic = ""
-    private var beltColour = ""
-    private var academy = ""
-    private var weight = ""
-    private var wins = null
-    private var draws = null
-    private var losses = null
 
-    // Maps
-    // For belt
+    // Mapping for belt colour
     var beltMap = mapOf(
-        "white" to "R.drawable.whitebelt.png",
-        "blue" to "R.drawable.bluebelt.png",
-        "purple" to "R.drawable.purplebelt.png",
-        "brownbelt" to "R.drawable.brownbelt.png",
-        "blackbelt" to "R.drawable.blackbelt.png"
-    )
-
-    // For weight
-    var weightCategory = mapOf(
-        (1..57) to "Rooster",
-        (58..64) to "Light Feather",
-        (65..70) to "Feather",
-        (71..76) to "Light",
-        (77..82) to "Middle",
-        (82..88) to "Medium Heavy",
-        (88..94) to "Heavy",
-        (95..100) to "Super Heavy",
-        (100..200) to "Ultra Heavy"
+        "White" to "@drawable/whitebelt",
+        "Blue" to "@drawable/bluebelt",
+        "Purple" to "@drawable/purplebelt",
+        "Brownbelt" to "@drawable/brownbelt",
+        "Blackbelt" to "@drawable/blackbelt"
     )
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -82,13 +61,39 @@ class UserProfileFragment : Fragment(R.layout.user_profile_fragment) {
         userProfileViewModel.currentProfile.observe(viewLifecycleOwner, Observer {it ->
             // User has a profile -> display it
             if (it != null) {
+                // Set the username
                 usernameTv.text = it.userName
 
+                // Set the profile picture
                 Glide.with(requireActivity())
                     .load(Uri.parse(it.profileImageUri))
                     .override(200,150)
                     .centerCrop()
                     .into(profileImageView)
+
+                // Set the belt
+                val belt = beltMap.get(it.beltColour)
+                val beltImg = resources.getIdentifier(belt, "drawable", requireActivity().packageName )
+                beltImageView.setImageResource(beltImg)
+
+                // Set the academy
+                academyTv.text = " Academy: ${it.userAcademy}"
+
+                // Set the weight category
+                when (it.weight) {
+                    in (1..57) -> weightCategoryTv.text = "Weight Category: Rooster"
+                    in (58..64) -> weightCategoryTv.text = "Weight Category: Light Feather"
+                    in (65..70) -> weightCategoryTv.text =  "Weight Category: Feather"
+                    in (71..76) -> weightCategoryTv.text = "Weight Category: Light"
+                    in (77..82) -> weightCategoryTv.text = "Weight Category: Middle"
+                    in (82..88) -> weightCategoryTv.text = "Weight Category: Medium Heavy"
+                    in (88..94) -> weightCategoryTv.text = "Weight Category: Heavy"
+                    in (95..100) -> weightCategoryTv.text = "Weight Category: Super Heavy"
+                    in (101..200) -> weightCategoryTv.text ="Weight Category: Ultra Heavy"
+                }
+
+                // Set wins, draws, losses
+                winsDrawsLossTv.text = "Wins: ${it.wins} | Draws: ${it.draws} | Losses: ${it.losses}"
             }
         })
     }

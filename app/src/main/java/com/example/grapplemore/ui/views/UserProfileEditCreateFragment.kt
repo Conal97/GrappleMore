@@ -35,7 +35,6 @@ class UserProfileEditCreateFragment: Fragment(R.layout.edit_create_profile_fragm
     private var fragmentBinding: EditCreateProfileFragmentBinding? = null
     private var beltColour: String = ""
     private var imageUri: Uri? = null
-    var bitmap = null
     lateinit var greenCheck: ImageView
     private var uriText: String = ""
     val REQUEST_CODE = 100
@@ -80,7 +79,7 @@ class UserProfileEditCreateFragment: Fragment(R.layout.edit_create_profile_fragm
 
             // Null check
             if (fireBaseKey.isEmpty() || username.equals(null) || academy.equals(null)
-                    || uriText.isEmpty() || weight.equals(null) || compsAttended.equals(null)
+                    || uriText.isEmpty() || beltColour.isEmpty() || weight.equals(null) || compsAttended.equals(null)
                     || wins.equals(null) || draws.equals(null) || losses.equals(null)) {
 
                 Toast.makeText(requireActivity(), "Please fill all fields", Toast.LENGTH_SHORT).show()
@@ -95,7 +94,7 @@ class UserProfileEditCreateFragment: Fragment(R.layout.edit_create_profile_fragm
                     // Create or update profile
                     userProfileViewModel.createOrUpdateProfile(
                         fireBaseKey, username.text.toString(), academy.text.toString(),
-                        uriText, weight.text.toString().toInt(), compsAttended.text.toString().toInt(),
+                        uriText, beltColour ,weight.text.toString().toInt(), compsAttended.text.toString().toInt(),
                         wins.text.toString().toInt(), draws.text.toString().toInt(), losses.text.toString().toInt()
                     )
                 }

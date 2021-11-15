@@ -15,6 +15,7 @@ data class UserProfileEntity(
     var userName: String?,
     var userAcademy: String?,
     var profileImageUri: String?,
+    var beltColour: String?,
     var weight: Int?,
     var compsAttended: Int = 0,
     var wins: Int = 0,

@@ -24,10 +24,10 @@
     <string name="editProfileBtn">Edit Profile</string>
 
     <string-array name="belt_array">
-        <item>White belt</item>
-        <item>Blue belt</item>
-        <item>Purple belt</item>
-        <item>Brown belt</item>
-        <item>Black belt</item>
+        <item>White</item>
+        <item>Blue</item>
+        <item>Purple</item>
+        <item>Brown</item>
+        <item>Black</item>
     </string-array>
 </resources>

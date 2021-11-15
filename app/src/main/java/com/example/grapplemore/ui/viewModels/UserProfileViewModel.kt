@@ -38,13 +38,13 @@ class UserProfileViewModel @Inject constructor(
 
     // Function for creating a new user profile
     fun createOrUpdateProfile(fireBaseKey: String, userName: String, academy: String,
-                imageUri: String, weight: Int, compsAttended: Int,
+                imageUri: String, beltColour: String ,weight: Int, compsAttended: Int,
                 wins: Int, draws: Int, losses: Int) {
 
         viewModelScope.launch {
 
             val profile = UserProfileEntity(fireBaseKey, userName, academy,
-            imageUri, weight, compsAttended, wins, draws, losses)
+            imageUri, beltColour, weight, compsAttended, wins, draws, losses)
 
             val existingProfile = userProfileRepository.getUserProfile(fireBaseKey)
 

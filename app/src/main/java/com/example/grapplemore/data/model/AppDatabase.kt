@@ -12,7 +12,7 @@ import com.example.grapplemore.data.model.entities.UserProfileEntity
     ],
 
     // Update when adding tables to database
-    version = 3
+    version = 4
 )
 // Dagger-Hilt handles the boilerplate associated with the database
 abstract class AppDatabase: RoomDatabase() {
