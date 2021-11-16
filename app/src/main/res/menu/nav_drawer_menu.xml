@@ -5,12 +5,12 @@
 
     <group android:checkableBehavior="single">
         <item
-            android:id="@+id/navUserProfile"
+            android:id="@+id/UserProfileFragment"
             android:title="Profile"/>
 
         <item
-            android:id="@+id/navNote"
-            android:title="Create note"/>
+            android:id="@+id/userProfileEditCreateFragment"
+            android:title="Edit"/>
     </group>
 
 </menu>
