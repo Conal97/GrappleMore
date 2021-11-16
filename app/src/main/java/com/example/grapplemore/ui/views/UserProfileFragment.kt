@@ -1,5 +1,6 @@
 package com.example.grapplemore.ui.views
 
+import android.graphics.Color
 import android.net.Uri
 import android.os.Bundle
 import android.view.View
@@ -94,6 +95,9 @@ class UserProfileFragment : Fragment(R.layout.user_profile_fragment) {
 
                 // Set wins, draws, losses
                 winsDrawsLossTv.text = "Wins: ${it.wins} | Draws: ${it.draws} | Losses: ${it.losses}"
+            }
+            else {
+                binding.editProfileBtn.text = "Create profile"
             }
         })
     }

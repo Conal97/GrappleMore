@@ -22,6 +22,8 @@
     <string name="academy">Academy: </string>
     <string name="enter_academy_here">enter academy </string>
     <string name="editProfileBtn">Edit Profile</string>
+    <string name="open">Open</string>
+    <string name="close">Close</string>
 
     <string-array name="belt_array">
         <item>White</item>
