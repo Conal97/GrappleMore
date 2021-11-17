@@ -10,6 +10,6 @@ data class ArchiveEntry (
     val title: String,
     val category: String,
     val content: String,
-    val timestamp: Long,
+    val timestamp: String,
     val fireBaseKey: String
 )

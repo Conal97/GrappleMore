@@ -7,7 +7,6 @@ import javax.inject.Inject
 
 // Repository implements the functions defined in the dao interface, injection through dagger
 class ArchiveEntryRepository @Inject constructor(
-
     private val archiveEntryDao: ArchiveEntryDao
 ) {
 
@@ -19,6 +18,7 @@ class ArchiveEntryRepository @Inject constructor(
         return archiveEntryDao.deleteArchiveEntry(archiveEntry)
     }
 
+    // this might need to be suspend function
     fun getSingleEntry(fireBaseKey: String, id: Int): ArchiveEntry {
         return archiveEntryDao.getSingleArchiveEntry(fireBaseKey, id)
     }

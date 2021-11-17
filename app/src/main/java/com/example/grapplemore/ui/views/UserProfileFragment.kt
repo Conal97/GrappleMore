@@ -12,6 +12,7 @@ import androidx.navigation.fragment.NavHostFragment
 import com.bumptech.glide.Glide
 import com.example.grapplemore.R
 import com.example.grapplemore.databinding.UserProfileFragmentBinding
+import com.example.grapplemore.ui.viewModels.ArchiveEntryViewModel
 import com.example.grapplemore.ui.viewModels.UserProfileViewModel
 import com.google.firebase.auth.FirebaseAuth
 import dagger.hilt.android.AndroidEntryPoint

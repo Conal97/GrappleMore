@@ -11,6 +11,7 @@
         <entry key="..\:/Users/Conal/AndroidStudioProjects/GrappleMore/app/src/main/res/drawable/ic_launcher_background.xml" value="0.39427083333333335" />
         <entry key="..\:/Users/Conal/AndroidStudioProjects/GrappleMore/app/src/main/res/drawable/white_belt_background.xml" value="0.39427083333333335" />
         <entry key="..\:/Users/Conal/AndroidStudioProjects/GrappleMore/app/src/main/res/layout/activity_main.xml" value="0.3472906403940887" />
+        <entry key="..\:/Users/Conal/AndroidStudioProjects/GrappleMore/app/src/main/res/layout/archive_item.xml" value="0.378125" />
         <entry key="..\:/Users/Conal/AndroidStudioProjects/GrappleMore/app/src/main/res/layout/edit_create_profile.xml" value="0.378125" />
         <entry key="..\:/Users/Conal/AndroidStudioProjects/GrappleMore/app/src/main/res/layout/edit_create_profile_fragment.xml" value="0.378125" />
         <entry key="..\:/Users/Conal/AndroidStudioProjects/GrappleMore/app/src/main/res/layout/entry.xml" value="0.2953125" />
@@ -20,6 +21,8 @@
         <entry key="..\:/Users/Conal/AndroidStudioProjects/GrappleMore/app/src/main/res/layout/nav_header.xml" value="0.378125" />
         <entry key="..\:/Users/Conal/AndroidStudioProjects/GrappleMore/app/src/main/res/layout/note.xml" value="0.378125" />
         <entry key="..\:/Users/Conal/AndroidStudioProjects/GrappleMore/app/src/main/res/layout/register_fragment.xml" value="0.33" />
+        <entry key="..\:/Users/Conal/AndroidStudioProjects/GrappleMore/app/src/main/res/layout/technique_archive.xml" value="0.3416666666666667" />
+        <entry key="..\:/Users/Conal/AndroidStudioProjects/GrappleMore/app/src/main/res/layout/test.xml" value="0.378125" />
         <entry key="..\:/Users/Conal/AndroidStudioProjects/GrappleMore/app/src/main/res/layout/training_archive.xml" value="0.378125" />
         <entry key="..\:/Users/Conal/AndroidStudioProjects/GrappleMore/app/src/main/res/layout/user_profile.xml" value="0.378125" />
         <entry key="..\:/Users/Conal/AndroidStudioProjects/GrappleMore/app/src/main/res/layout/user_profile_fragment.xml" value="0.378125" />
