@@ -17,6 +17,7 @@ object DatabaseModule {
 
     // 'Manual' for dagger-hilt to build and inject the database
     // Singleton so we only have one instance of the database
+    // Fall back to destructive migration -> delete existing database upon migration
     @Singleton
     @Provides
     fun provideAppDatabase(
@@ -28,9 +29,11 @@ object DatabaseModule {
     ).fallbackToDestructiveMigration().build()
 
     // Dao's -> dagger allows us to access these based on the database we provided
-
     @Singleton
     @Provides
     fun providesUserProfileDao(db: AppDatabase) = db.getUserProfileDao()
 
+    @Singleton
+    @Provides
+    fun providesEntryDao(db: AppDatabase) = db.getEntryDao()
 }
