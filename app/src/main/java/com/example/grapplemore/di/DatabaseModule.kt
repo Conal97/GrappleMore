@@ -33,7 +33,7 @@ object DatabaseModule {
     @Provides
     fun providesUserProfileDao(db: AppDatabase) = db.getUserProfileDao()
 
-
-//    @Provides
-//    fun providesArchiveEntryDao(db: AppDatabase) = db.getArchiveEntryDao()
+    @Singleton
+    @Provides
+    fun providesArchiveEntryDao(db: AppDatabase) = db.getArchiveEntryDao()
 }
