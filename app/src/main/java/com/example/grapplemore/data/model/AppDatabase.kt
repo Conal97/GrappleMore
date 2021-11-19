@@ -16,7 +16,7 @@ import com.example.grapplemore.data.model.entities.UserProfileEntity
     ],
 
     // Update when adding tables to database
-    version = 6,
+    version = 9,
     exportSchema = false
 )
 // Dagger-Hilt handles the boilerplate associated with the database

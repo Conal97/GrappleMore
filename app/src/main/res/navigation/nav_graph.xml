@@ -26,6 +26,12 @@
         <action
             android:id="@+id/action_firebaseLoginFragment_to_userProfileEditCreateFragment"
             app:destination="@id/userProfileEditCreateFragment" />
+        <action
+            android:id="@+id/action_firebaseLoginFragment_to_techniquesArchiveFragment"
+            app:destination="@id/techniquesArchiveFragment" />
+        <action
+            android:id="@+id/action_firebaseLoginFragment_to_archiveEntryFragment"
+            app:destination="@id/archiveEntryFragment" />
     </fragment>
     <fragment
         android:id="@+id/firebaseRegisterFragment"
@@ -47,5 +53,23 @@
         <action
             android:id="@+id/action_userProfileEditCreateFragment_to_UserProfileFragment"
             app:destination="@id/UserProfileFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/archiveEntryFragment"
+        android:name="com.example.grapplemore.ui.views.ArchiveEntryFragment"
+        android:label="ArchiveEntryFragment"
+        tools:layout="@layout/archive_entry">
+        <action
+            android:id="@+id/action_archiveEntryFragment_to_techniquesArchiveFragment"
+            app:destination="@id/techniquesArchiveFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/techniquesArchiveFragment"
+        android:name="com.example.grapplemore.ui.views.TechniquesArchiveFragment"
+        android:label="TechniquesArchiveFragment"
+        tools:layout="@layout/techniques_archive">
+        <action
+            android:id="@+id/action_techniquesArchiveFragment_to_archiveEntryFragment"
+            app:destination="@id/archiveEntryFragment" />
     </fragment>
 </navigation>

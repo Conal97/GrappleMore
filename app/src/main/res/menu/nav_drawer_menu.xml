@@ -9,8 +9,9 @@
             android:title="Profile"/>
 
         <item
-            android:id="@+id/userProfileEditCreateFragment"
-            android:title="Edit"/>
+            android:id="@+id/techniquesArchiveFragment"
+            android:title="Techniques Archive"/>
+
     </group>
 
 </menu>

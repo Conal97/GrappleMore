@@ -9,4 +9,5 @@
     <color name="white">#FFFFFFFF</color>
     <color name="tickGreen">#4fe086</color>
     <color name="grey">#464d48</color>
+    <color name="classNoteOrange">#fc8947</color>
 </resources>
