@@ -10,4 +10,10 @@
     <color name="tickGreen">#4fe086</color>
     <color name="grey">#464d48</color>
     <color name="classNoteOrange">#fc8947</color>
+    <color name="submissionRed">#de3e4e</color>
+    <color name="positionGreen">#44db86</color>
+    <color name="sweepPassPurple">#ca80ff</color>
+    <color name="takedownThrowYellow">#e8bd58</color>
+    <color name="escapeBlue">#4de8de</color>
+
 </resources>

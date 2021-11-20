@@ -32,7 +32,7 @@ class UserProfileFragment : Fragment(R.layout.user_profile_fragment) {
     private var fragmentBinding: UserProfileFragmentBinding? = null
 
     // Mapping for belt colour
-    var beltMap = mapOf(
+    private var beltMap = mapOf(
         "White" to "@drawable/whitebelt",
         "Blue" to "@drawable/bluebelt",
         "Purple" to "@drawable/purplebelt",
@@ -46,12 +46,12 @@ class UserProfileFragment : Fragment(R.layout.user_profile_fragment) {
         fragmentBinding = binding
 
         // View binding vars
-        var usernameTv = binding.tvUserName
-        var profileImageView = binding.profilePictureView
-        var beltImageView = binding.beltImageView
-        var academyTv = binding.academyProfileTv
-        var weightCategoryTv = binding.weightCatTv
-        var winsDrawsLossTv = binding.winDrawLossTv
+        val usernameTv = binding.tvUserName
+        val profileImageView = binding.profilePictureView
+        val beltImageView = binding.beltImageView
+        val academyTv = binding.academyProfileTv
+        val weightCategoryTv = binding.weightCatTv
+        val winsDrawsLossTv = binding.winDrawLossTv
 
         binding.editProfileBtn.setOnClickListener{
             navToEditProfile()
@@ -60,7 +60,7 @@ class UserProfileFragment : Fragment(R.layout.user_profile_fragment) {
         // Observers
         // Populate the users profile or display default values if they have not made one yet
         userProfileViewModel.getProfile(fireBaseKey)
-        userProfileViewModel.currentProfile.observe(viewLifecycleOwner, Observer {it ->
+        userProfileViewModel.currentProfile.observe(viewLifecycleOwner, { it ->
             // User has a profile -> display it
             if (it != null) {
                 // Set the username

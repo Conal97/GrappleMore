@@ -4,141 +4,170 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
-    <!-- context might have to go here (technique archive fragment) -->
 
-    <!-- may need to change this to a searchView? -->
-    <EditText
-        android:id="@+id/archive_search_bar"
+    <ScrollView
+        android:id="@+id/scrollable"
         android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:layout_marginTop="15dp"
-        android:layout_marginEnd="10dp"
-        android:layout_marginStart="10dp"
-        android:layout_marginBottom="15dp"
-        android:background="@drawable/rounded_border_background"
-        android:drawableStart="@drawable/ic_baseline_search_24"
-        android:drawablePadding="5dp"
-        android:hint="Search"
+        android:layout_height="wrap_content"
         app:layout_constraintTop_toTopOf="parent"
-        app:actionViewClass="android.support.v7.widget.SearchView"/>
-
-    <LinearLayout
-        android:id="@+id/linearRadioGroup"
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:layout_marginStart="10dp"
-        android:layout_marginEnd="10dp"
-        android:orientation="horizontal"
-        app:layout_constraintTop_toBottomOf="@id/archive_search_bar">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Filter by:"
-            android:layout_gravity="center"
-            android:textSize="18sp"
-            android:textColor="@color/black"
-            android:textStyle="bold">
-        </TextView>
-
-        <HorizontalScrollView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
-
-            <RadioGroup
-                android:id="@+id/radio_group"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="bottom"
-                android:orientation="horizontal">
-
-                <RadioButton
-                    android:id="@+id/radio_ClassNotes"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:scaleY="0.8"
-                    android:scaleX="0.8"
-                    android:paddingTop="5dp"
-                    android:text="Class Note"
-                    android:textSize="20sp" />
-
-                <RadioButton
-                    android:id="@+id/radio_Submissions"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:scaleY="0.8"
-                    android:scaleX="0.8"
-                    android:paddingTop="5dp"
-                    android:text="Submission"
-                    android:textSize="20sp" />
-
-                <RadioButton
-                    android:id="@+id/radio_Position"
-                    style="main_tab_bottom"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:scaleY="0.8"
-                    android:scaleX="0.8"
-                    android:paddingTop="5dp"
-                    android:text="Position"
-                    android:textSize="20sp" />
-
-                <RadioButton
-                    android:id="@+id/radio_SweepPass"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:scaleY="0.8"
-                    android:scaleX="0.8"
-                    android:paddingTop="5dp"
-                    android:text="Sweep/Pass"
-                    android:textSize="20sp" />
-
-                <RadioButton
-                    android:id="@+id/radio_TakedownThrow"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:scaleY="0.8"
-                    android:scaleX="0.8"
-                    android:paddingTop="5dp"
-                    android:text="Takedown/Throw"
-                    android:textSize="20sp" />
-
-                <RadioButton
-                    android:id="@+id/radio_Escape"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:scaleY="0.8"
-                    android:scaleX="0.8"
-                    android:paddingTop="5dp"
-                    android:text="Escape"
-                    android:textSize="20sp" />
-
-            </RadioGroup>
-        </HorizontalScrollView>
-    </LinearLayout>
-
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rvArchiveItems"
-        android:layout_width="match_parent"
-        android:layout_height="597dp"
-        android:layout_marginTop="16dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/linearRadioGroup" />
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <LinearLayout
+            android:id="@+id/parentLinear"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <!-- may need to change this to a searchView? -->
+            <EditText
+                android:id="@+id/archive_search_bar"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_marginTop="15dp"
+                android:layout_marginEnd="10dp"
+                android:layout_marginStart="10dp"
+                android:layout_marginBottom="15dp"
+                android:background="@drawable/rounded_border_background"
+                android:drawableStart="@drawable/ic_baseline_search_24"
+                android:drawablePadding="5dp"
+                android:hint="Search"
+                app:layout_constraintTop_toTopOf="@id/parentLinear"
+                app:actionViewClass="android.support.v7.widget.SearchView"/>
+
+            <LinearLayout
+                android:id="@+id/linearRadioGroup"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_marginStart="10dp"
+                android:layout_marginEnd="10dp"
+                android:orientation="horizontal"
+                app:layout_constraintTop_toBottomOf="@id/archive_search_bar">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Filter by:"
+                    android:layout_gravity="center"
+                    android:textSize="18sp"
+                    android:textColor="@color/black"
+                    android:textStyle="bold">
+                </TextView>
+
+                <HorizontalScrollView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+
+                    <RadioGroup
+                        android:id="@+id/radio_group"
+                        android:checkedButton="@id/radio_All"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="bottom"
+                        android:orientation="horizontal">
+
+                        <RadioButton
+                            android:id="@+id/radio_All"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:scaleY="0.8"
+                            android:scaleX="0.8"
+                            android:paddingTop="5dp"
+                            android:text="All"
+                            android:textSize="20sp" />
+
+                        <RadioButton
+                            android:id="@+id/radio_ClassNotes"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:scaleY="0.8"
+                            android:scaleX="0.8"
+                            android:paddingTop="5dp"
+                            android:text="Class Note"
+                            android:textSize="20sp" />
+
+                        <RadioButton
+                            android:id="@+id/radio_Submissions"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:scaleY="0.8"
+                            android:scaleX="0.8"
+                            android:paddingTop="5dp"
+                            android:text="Submission"
+                            android:textSize="20sp" />
+
+                        <RadioButton
+                            android:id="@+id/radio_Position"
+                            style="main_tab_bottom"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:scaleY="0.8"
+                            android:scaleX="0.8"
+                            android:paddingTop="5dp"
+                            android:text="Position"
+                            android:textSize="20sp" />
+
+                        <RadioButton
+                            android:id="@+id/radio_SweepPass"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:scaleY="0.8"
+                            android:scaleX="0.8"
+                            android:paddingTop="5dp"
+                            android:text="Sweep/Pass"
+                            android:textSize="20sp" />
+
+                        <RadioButton
+                            android:id="@+id/radio_TakedownThrow"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:scaleY="0.8"
+                            android:scaleX="0.8"
+                            android:paddingTop="5dp"
+                            android:text="Takedown/Throw"
+                            android:textSize="20sp" />
+
+                        <RadioButton
+                            android:id="@+id/radio_Escape"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:scaleY="0.8"
+                            android:scaleX="0.8"
+                            android:paddingTop="5dp"
+                            android:text="Escape"
+                            android:textSize="20sp" />
+
+                    </RadioGroup>
+                </HorizontalScrollView>
+            </LinearLayout>
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rvArchiveItems"
+                android:layout_width="match_parent"
+                android:layout_height="597dp"
+                android:layout_marginTop="16dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/linearRadioGroup" />
+
+        </LinearLayout>
+
+    </ScrollView>
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/archiveFloatingActionButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:backgroundTint="@color/white"
-        android:layout_marginBottom="5dp"
         android:layout_marginEnd="5dp"
+        android:layout_marginBottom="5dp"
+        android:backgroundTint="@color/white"
+        android:contentDescription="floating action button"
         app:backgroundTint="@color/black"
         app:borderWidth="2dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:srcCompat="@drawable/ic_baseline_add_circle_24"
-        android:contentDescription="floating action button" />
+        app:srcCompat="@drawable/ic_baseline_add_circle_24" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

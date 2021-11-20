@@ -87,8 +87,8 @@ class UserProfileEditCreateFragment: Fragment(R.layout.edit_create_profile_fragm
             } else {
 
                 // Enforce weight limit
-                if(weight.text.toString().toInt() > 200) {
-                    Toast.makeText(requireActivity(), "Weight exceeds maximum limit", Toast.LENGTH_SHORT).show()
+                if(weight.text.toString().toInt() > 200 || weight.text.toString().toInt() < 40) {
+                    Toast.makeText(requireActivity(), "Weight entries below 40 and above 200 are not permitted", Toast.LENGTH_SHORT).show()
                 }
                 else {
                     // Create or update profile

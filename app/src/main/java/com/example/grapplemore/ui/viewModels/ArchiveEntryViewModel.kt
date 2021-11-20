@@ -21,6 +21,13 @@ class ArchiveEntryViewModel @Inject constructor(
     val currentArchiveEntry: MutableLiveData<ArchiveEntry?>
         get() = _currentArchiveEntry
 
+    private val archiveID = MutableLiveData<Int>()
+    val currentID: LiveData<Int> get() = archiveID
+
+    fun getID(id:Int){
+        archiveID.value = id
+    }
+
     // Get selected archive entry
     fun getSingleEntry(fireBaseKey: String, id: Int) {
         viewModelScope.launch {
@@ -60,4 +67,6 @@ class ArchiveEntryViewModel @Inject constructor(
            archiveEntryRepository.deleteEntry(archiveEntry)
        }
    }
+
+
 }
