@@ -7,17 +7,15 @@ import android.view.View
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
-import androidx.fragment.app.viewModels
-import androidx.lifecycle.MutableLiveData
+import androidx.navigation.fragment.NavHostFragment
 import com.example.grapplemore.R
 import com.example.grapplemore.data.model.entities.ArchiveEntry
 import com.example.grapplemore.databinding.ArchiveEntryBinding
-import com.example.grapplemore.ui.adapters.ArchiveItemAdapter
 import com.example.grapplemore.ui.viewModels.ArchiveEntryViewModel
 import com.google.firebase.auth.FirebaseAuth
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.archive_entry.*
-import timber.log.Timber
+import com.example.grapplemore.utils.HelperFunctions.colourMapper
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -41,32 +39,40 @@ class ArchiveEntryFragment: Fragment(R.layout.archive_entry){
         val binding = ArchiveEntryBinding.bind(view)
         fragmentBinding = binding
         var category = ""
+        var id: Int? = null
 
-        val currentEntry = archiveEntryViewModel.currentID.value
-        Timber.d("id is: $currentEntry")
+        val currentEntry = archiveEntryViewModel.currentArchiveEntry.value
 
-//        if(currentEntry != null) {
-//            Timber.d("Archive entry id is: ${archiveEntryViewModel.currentArchiveEntry.value?.id}")
-//
-//            fun String.toEditable(): Editable = Editable.Factory.getInstance().newEditable(this)
-//
-//            // If currentEntry not null, display it
-//            binding.etArchiveEntryTitle.text = currentEntry.title.toEditable()
-//            binding.etEntryBody.text = currentEntry.content.toEditable()
-//
-//            when(currentEntry.category){
-//                "Class Note" -> binding.radioClassNotes.isChecked = true
-//                "Submission" -> binding.radioSubmissions.isChecked = true
-//                "Position" -> binding.radioPosition.isChecked = true
-//                "Sweep/Pass" -> binding.radioSweepPass.isChecked = true
-//                "Takedown/Throw" -> binding.radioTakedownThrow.isChecked = true
-//                "Escape" -> binding.radioEscape.isChecked = true
-//            }
-//            // Reset to null
-//            archiveEntryViewModel.currentArchiveEntry.value = null
-//
-//        }
+        if(currentEntry != null) {
 
+            // Set id so we update note and don't create new one
+            id = currentEntry.id
+
+            fun String.toEditable(): Editable = Editable.Factory.getInstance().newEditable(this)
+
+            // If currentEntry not null, display it
+            binding.etArchiveEntryTitle.text = currentEntry.title.toEditable()
+            binding.etEntryBody.text = currentEntry.content.toEditable()
+
+            when(currentEntry.category){
+                "Class Note" -> binding.radioClassNotes.isChecked = true
+                "Submission" -> binding.radioSubmissions.isChecked = true
+                "Position" -> binding.radioPosition.isChecked = true
+                "Sweep/Pass" -> binding.radioSweepPass.isChecked = true
+                "Takedown/Throw" -> binding.radioTakedownThrow.isChecked = true
+                "Escape" -> binding.radioEscape.isChecked = true
+            }
+
+            category = currentEntry.category
+
+            // Set background colour
+            val drawableID = colourMapper(currentEntry, requireActivity())
+            binding.etArchiveEntryTitle.background = resources.getDrawable(drawableID)
+            binding.etEntryBody.background = resources.getDrawable(drawableID)
+
+            // Reset to null
+            archiveEntryViewModel.currentArchiveEntry.value = null
+        }
 
 
         // Floating action button to submit entry
@@ -77,14 +83,15 @@ class ArchiveEntryFragment: Fragment(R.layout.archive_entry){
             val sdf = SimpleDateFormat("dd/M")
             val timestamp = sdf.format(Date())
 
+
             if( title.isEmpty() || category.isEmpty() || content.isEmpty() ||
                 timestamp.isEmpty() || fireBaseKey.isEmpty()) {
                 Toast.makeText(requireActivity(), "Please fill all fields", Toast.LENGTH_SHORT).show()
             }
             else {
-                val archiveEntry = ArchiveEntry(id = null, title, category, content, timestamp, fireBaseKey)
+                val archiveEntry = ArchiveEntry(id, title, category, content, timestamp, fireBaseKey)
                 archiveEntryViewModel.upsertEntry(archiveEntry)
-                Toast.makeText(requireActivity(), "Entry added", Toast.LENGTH_SHORT).show()
+                NavHostFragment.findNavController(this).navigate(R.id.action_archiveEntryFragment_to_techniquesArchiveFragment)
             }
         }
 

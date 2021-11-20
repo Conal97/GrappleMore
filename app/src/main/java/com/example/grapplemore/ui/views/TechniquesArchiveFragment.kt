@@ -4,7 +4,6 @@ import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
-import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.NavHostFragment
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -15,10 +14,9 @@ import com.example.grapplemore.ui.adapters.ArchiveItemAdapter
 import com.example.grapplemore.ui.viewModels.ArchiveEntryViewModel
 import com.google.firebase.auth.FirebaseAuth
 import dagger.hilt.android.AndroidEntryPoint
-import timber.log.Timber
 
 @AndroidEntryPoint
-class TechniquesArchiveFragment: Fragment(R.layout.techniques_archive), ArchiveItemAdapter.callBackInterface {
+class TechniquesArchiveFragment: Fragment(R.layout.techniques_archive), ArchiveItemAdapter.callBackInterface, ArchiveItemAdapter.deleteCallBack {
 
     // Reference to viewModel
     private val archiveEntryViewModel: ArchiveEntryViewModel by activityViewModels()
@@ -30,22 +28,32 @@ class TechniquesArchiveFragment: Fragment(R.layout.techniques_archive), ArchiveI
     // View binding
     private var fragmentBinding: TechniquesArchiveBinding? = null
 
-    var currentID = -1
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         val binding = TechniquesArchiveBinding.bind(view)
         fragmentBinding = binding
 
-        val adapter = context?.let { ArchiveItemAdapter(listOf(), this, requireActivity(), it) }
+        val adapter = context?.let { ArchiveItemAdapter(listOf(), this, this, it) }
 
         binding.rvArchiveItems.layoutManager = LinearLayoutManager(requireActivity())
         binding.rvArchiveItems.adapter = adapter
 
+        // Default to display all entries on opening
         archiveEntryViewModel.getAllUserEntries(fireBaseKey).observe(viewLifecycleOwner, Observer {
             adapter?.items = it
             adapter?.notifyDataSetChanged()
         })
+
+        // Filter by radio button
+        binding.radioClassNotes.setOnClickListener {
+            if (binding.radioClassNotes.isChecked){
+                val category = binding.radioClassNotes.text.toString()
+                archiveEntryViewModel.getByCategory(fireBaseKey, category).observe(viewLifecycleOwner, Observer {
+                    adapter?.items = it
+                    adapter?.notifyDataSetChanged()
+                })
+            }
+        }
 
         binding.archiveFloatingActionButton.setOnClickListener{
             navigate()
@@ -61,8 +69,12 @@ class TechniquesArchiveFragment: Fragment(R.layout.techniques_archive), ArchiveI
         super.onDestroyView()
     }
 
-    override fun passResultsCallback(archiveEntryID: Int) {
-        Timber.d("id is: $archiveEntryID")
-        archiveEntryViewModel.getID(archiveEntryID)
+    override fun passResultsCallback(archiveEntry: ArchiveEntry) {
+        archiveEntryViewModel.getCurrentEntry(archiveEntry)
+        val id = archiveEntryViewModel.currentArchiveEntry.value?.id
+    }
+
+    override fun deleteEntryCallBack(archiveEntry: ArchiveEntry) {
+        archiveEntryViewModel.deleteArchiveEntry(archiveEntry)
     }
 }

@@ -1,22 +1,18 @@
 package com.example.grapplemore.ui.views
 
-import android.graphics.Color
+
 import android.net.Uri
 import android.os.Bundle
 import android.view.View
-import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.Observer
 import androidx.navigation.fragment.NavHostFragment
 import com.bumptech.glide.Glide
 import com.example.grapplemore.R
 import com.example.grapplemore.databinding.UserProfileFragmentBinding
-import com.example.grapplemore.ui.viewModels.ArchiveEntryViewModel
 import com.example.grapplemore.ui.viewModels.UserProfileViewModel
 import com.google.firebase.auth.FirebaseAuth
 import dagger.hilt.android.AndroidEntryPoint
-import timber.log.Timber
 
 @AndroidEntryPoint
 class UserProfileFragment : Fragment(R.layout.user_profile_fragment) {

@@ -5,19 +5,17 @@ import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.fragment.app.FragmentActivity
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import com.example.grapplemore.R
 import com.example.grapplemore.data.model.entities.ArchiveEntry
-import com.example.grapplemore.ui.viewModels.ArchiveEntryViewModel
+import com.example.grapplemore.utils.HelperFunctions.colourMapper
 import kotlinx.android.synthetic.main.archive_item.view.*
-import timber.log.Timber
 
 class ArchiveItemAdapter(
     var items: List<ArchiveEntry>,
     private val idListener: callBackInterface,
-    private val archiveEntryViewModel: FragmentActivity,
+    private val deleteListener: deleteCallBack,
     val context: Context
 ): RecyclerView.Adapter<ArchiveItemAdapter.ArchiveViewHolder>() {
 
@@ -35,33 +33,32 @@ class ArchiveItemAdapter(
 
     @SuppressLint("UseCompatLoadingForDrawables")
     override fun onBindViewHolder(holder: ArchiveViewHolder, position: Int) {
+
         val curArchiveEntry = items[position]
+        val drawableId = colourMapper(curArchiveEntry, context)
 
-        val categoryMap = mapOf(
-            "Class Note" to "@drawable/rounded_orange_border",
-            "Submission" to "@drawable/rounded_submission_background",
-            "Position" to "@drawable/rounded_position_green",
-            "Sweep/Pass" to "@drawable/rounded_sweep_pass_purple",
-            "Takedown/Throw" to "@drawable/rounded_takedownthrow_yello",
-            "Escape" to "@drawable/rounded_escape_blue"
-        )
-
-        val categoryColour = categoryMap.get(curArchiveEntry.category)
-        val categoryDrawable = context.resources.getIdentifier(categoryColour, "drawable", context.packageName)
-
+        // Set the view
         holder.itemView.tvTitle.text = curArchiveEntry.title
         holder.itemView.tvCategory.text = curArchiveEntry.category
         holder.itemView.tvDate.text = curArchiveEntry.timestamp
-        holder.itemView.itemConstraint.background = context.resources.getDrawable(categoryDrawable)
+        holder.itemView.itemConstraint.background = context.resources.getDrawable(drawableId)
 
+        // Open entry fragment on click
         holder.itemView.setOnClickListener{
-            curArchiveEntry.id?.let { it1 -> idListener.passResultsCallback(it1) }
+            idListener.passResultsCallback(curArchiveEntry)
             it.findNavController().navigate(R.id.action_techniquesArchiveFragment_to_archiveEntryFragment)
         }
+
+        holder.itemView.deleteButton.setOnClickListener {
+            deleteListener.deleteEntryCallBack(curArchiveEntry)
+        }
+    }
+    interface deleteCallBack{
+        fun deleteEntryCallBack(archiveEntry: ArchiveEntry)
     }
 
     interface callBackInterface{
-        fun passResultsCallback(archiveEntryID: Int)
+        fun passResultsCallback(archiveEntry: ArchiveEntry)
     }
 
     override fun getItemCount(): Int {

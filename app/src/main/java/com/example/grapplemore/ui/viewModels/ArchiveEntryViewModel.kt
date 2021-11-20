@@ -5,7 +5,6 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.grapplemore.data.model.entities.ArchiveEntry
-import com.example.grapplemore.data.model.entities.UserProfileEntity
 import com.example.grapplemore.data.repositories.ArchiveEntryRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
@@ -21,11 +20,8 @@ class ArchiveEntryViewModel @Inject constructor(
     val currentArchiveEntry: MutableLiveData<ArchiveEntry?>
         get() = _currentArchiveEntry
 
-    private val archiveID = MutableLiveData<Int>()
-    val currentID: LiveData<Int> get() = archiveID
-
-    fun getID(id:Int){
-        archiveID.value = id
+    fun getCurrentEntry(entry: ArchiveEntry){
+        currentArchiveEntry.value = entry
     }
 
     // Get selected archive entry
@@ -52,8 +48,6 @@ class ArchiveEntryViewModel @Inject constructor(
     fun getByCategory(fireBaseKey: String, category: String): LiveData<List<ArchiveEntry>>{
         return archiveEntryRepository.getByCategory(fireBaseKey, category)
     }
-
-    // Get by category and title?
 
     // Insert or update archive entry
     fun upsertEntry(archiveEntry: ArchiveEntry){ // possibly define dispatcher?
