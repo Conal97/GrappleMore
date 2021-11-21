@@ -25,7 +25,7 @@ interface ArchiveEntryDao {
     fun getAllUserArchiveEntries(fireBaseKey: String): LiveData<List<ArchiveEntry>>
 
     // Get entries by title
-    @Query("select * from ArchiveEntry where fireBaseKey = :fireBaseKey and title like :title")
+    @Query("select * from ArchiveEntry where fireBaseKey = :fireBaseKey and title like '%' || :title || '%'")
     fun getByTitle(fireBaseKey: String, title: String): LiveData<List<ArchiveEntry>>
 
     // Get entries by category
@@ -33,7 +33,7 @@ interface ArchiveEntryDao {
     fun getByCategory(fireBaseKey: String, category: String): LiveData<List<ArchiveEntry>>
 
     // Get entries by category and title
-    @Query("select * from ArchiveEntry where fireBaseKey = :fireBaseKey and category=:category and title like :title")
+    @Query("select * from ArchiveEntry where fireBaseKey = :fireBaseKey and category=:category and title like '%' || :title || '%'")
     fun getByCategoryAndTitle(
         fireBaseKey: String,
         category: String,

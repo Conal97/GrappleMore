@@ -2,6 +2,7 @@ package com.example.grapplemore.ui.views
 
 import android.os.Bundle
 import android.view.View
+import android.widget.SearchView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Observer
@@ -14,9 +15,14 @@ import com.example.grapplemore.ui.adapters.ArchiveItemAdapter
 import com.example.grapplemore.ui.viewModels.ArchiveEntryViewModel
 import com.google.firebase.auth.FirebaseAuth
 import dagger.hilt.android.AndroidEntryPoint
+import timber.log.Timber
 
 @AndroidEntryPoint
-class TechniquesArchiveFragment: Fragment(R.layout.techniques_archive), ArchiveItemAdapter.callBackInterface, ArchiveItemAdapter.deleteCallBack {
+class TechniquesArchiveFragment: Fragment(R.layout.techniques_archive),
+    ArchiveItemAdapter.callBackInterface,
+    ArchiveItemAdapter.deleteCallBack {
+
+    lateinit var searchView: SearchView
 
     // Reference to viewModel
     private val archiveEntryViewModel: ArchiveEntryViewModel by activityViewModels()
@@ -27,6 +33,8 @@ class TechniquesArchiveFragment: Fragment(R.layout.techniques_archive), ArchiveI
 
     // View binding
     private var fragmentBinding: TechniquesArchiveBinding? = null
+    private var category = "All"
+
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -38,6 +46,36 @@ class TechniquesArchiveFragment: Fragment(R.layout.techniques_archive), ArchiveI
         binding.rvArchiveItems.layoutManager = LinearLayoutManager(requireActivity())
         binding.rvArchiveItems.adapter = adapter
 
+        // Search bar
+        searchView = binding.archiveSearchBar
+
+        searchView.setOnQueryTextListener(object: SearchView.OnQueryTextListener{
+            override fun onQueryTextSubmit(query: String?): Boolean {
+                return true
+            }
+
+            override fun onQueryTextChange(query: String?): Boolean {
+                if (query != null) {
+                    val searchQuery = "%$query%"
+                    if (category != "All") {
+                        archiveEntryViewModel.getByTitleAndCategory(fireBaseKey, category, searchQuery).
+                        observe(viewLifecycleOwner, Observer {
+                            adapter?.items = it
+                            adapter?.notifyDataSetChanged()
+                        })
+                    }
+                    else {
+                        archiveEntryViewModel.getByTitle(fireBaseKey, searchQuery).
+                        observe(viewLifecycleOwner, Observer {
+                            adapter?.items = it
+                            adapter?.notifyDataSetChanged()
+                        })
+                    }
+                }
+                return true
+            }
+        })
+
         // Default to display all entries on opening
         archiveEntryViewModel.getAllUserEntries(fireBaseKey).observe(viewLifecycleOwner, Observer {
             adapter?.items = it
@@ -47,7 +85,7 @@ class TechniquesArchiveFragment: Fragment(R.layout.techniques_archive), ArchiveI
         // Filter by radio button
         binding.radioAll.setOnClickListener {
             if (binding.radioAll.isChecked){
-                val category = binding.radioAll.text.toString()
+                category = binding.radioAll.text.toString()
                 archiveEntryViewModel.getAllUserEntries(fireBaseKey).observe(viewLifecycleOwner, Observer {
                     adapter?.items = it
                     adapter?.notifyDataSetChanged()
@@ -57,7 +95,7 @@ class TechniquesArchiveFragment: Fragment(R.layout.techniques_archive), ArchiveI
 
         binding.radioClassNotes.setOnClickListener {
             if (binding.radioClassNotes.isChecked){
-                val category = binding.radioClassNotes.text.toString()
+                category = binding.radioClassNotes.text.toString()
                 archiveEntryViewModel.getByCategory(fireBaseKey, category).observe(viewLifecycleOwner, Observer {
                     adapter?.items = it
                     adapter?.notifyDataSetChanged()
@@ -67,7 +105,7 @@ class TechniquesArchiveFragment: Fragment(R.layout.techniques_archive), ArchiveI
 
         binding.radioSubmissions.setOnClickListener {
             if (binding.radioSubmissions.isChecked){
-                val category = binding.radioSubmissions.text.toString()
+                category = binding.radioSubmissions.text.toString()
                 archiveEntryViewModel.getByCategory(fireBaseKey, category).observe(viewLifecycleOwner, Observer {
                     adapter?.items = it
                     adapter?.notifyDataSetChanged()
@@ -77,7 +115,7 @@ class TechniquesArchiveFragment: Fragment(R.layout.techniques_archive), ArchiveI
 
         binding.radioPosition.setOnClickListener {
             if (binding.radioPosition.isChecked){
-                val category = binding.radioPosition.text.toString()
+                category = binding.radioPosition.text.toString()
                 archiveEntryViewModel.getByCategory(fireBaseKey, category).observe(viewLifecycleOwner, Observer {
                     adapter?.items = it
                     adapter?.notifyDataSetChanged()
@@ -87,7 +125,7 @@ class TechniquesArchiveFragment: Fragment(R.layout.techniques_archive), ArchiveI
 
         binding.radioEscape.setOnClickListener {
             if (binding.radioEscape.isChecked){
-                val category = binding.radioEscape.text.toString()
+                category = binding.radioEscape.text.toString()
                 archiveEntryViewModel.getByCategory(fireBaseKey, category).observe(viewLifecycleOwner, Observer {
                     adapter?.items = it
                     adapter?.notifyDataSetChanged()
@@ -97,7 +135,7 @@ class TechniquesArchiveFragment: Fragment(R.layout.techniques_archive), ArchiveI
 
         binding.radioSweepPass.setOnClickListener {
             if (binding.radioSweepPass.isChecked){
-                val category = binding.radioSweepPass.text.toString()
+                category = binding.radioSweepPass.text.toString()
                 archiveEntryViewModel.getByCategory(fireBaseKey, category).observe(viewLifecycleOwner, Observer {
                     adapter?.items = it
                     adapter?.notifyDataSetChanged()
@@ -107,7 +145,7 @@ class TechniquesArchiveFragment: Fragment(R.layout.techniques_archive), ArchiveI
 
         binding.radioTakedownThrow.setOnClickListener {
             if (binding.radioTakedownThrow.isChecked){
-                val category = binding.radioTakedownThrow.text.toString()
+                category = binding.radioTakedownThrow.text.toString()
                 archiveEntryViewModel.getByCategory(fireBaseKey, category).observe(viewLifecycleOwner, Observer {
                     adapter?.items = it
                     adapter?.notifyDataSetChanged()
@@ -131,7 +169,6 @@ class TechniquesArchiveFragment: Fragment(R.layout.techniques_archive), ArchiveI
 
     override fun passResultsCallback(archiveEntry: ArchiveEntry) {
         archiveEntryViewModel.getCurrentEntry(archiveEntry)
-        val id = archiveEntryViewModel.currentArchiveEntry.value?.id
     }
 
     override fun deleteEntryCallBack(archiveEntry: ArchiveEntry) {

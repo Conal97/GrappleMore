@@ -44,6 +44,11 @@ class ArchiveEntryViewModel @Inject constructor(
         return archiveEntryRepository.getByTitle(fireBaseKey, title)
     }
 
+    // Get by title and category
+    fun getByTitleAndCategory(fireBaseKey: String, category:String, title: String): LiveData<List<ArchiveEntry>> {
+        return archiveEntryRepository.getByCategoryAndTitle(fireBaseKey, category, title)
+    }
+
     // Get archive entries by category
     fun getByCategory(fireBaseKey: String, category: String): LiveData<List<ArchiveEntry>>{
         return archiveEntryRepository.getByCategory(fireBaseKey, category)
