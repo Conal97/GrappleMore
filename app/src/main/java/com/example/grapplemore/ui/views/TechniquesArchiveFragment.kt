@@ -45,9 +45,69 @@ class TechniquesArchiveFragment: Fragment(R.layout.techniques_archive), ArchiveI
         })
 
         // Filter by radio button
+        binding.radioAll.setOnClickListener {
+            if (binding.radioAll.isChecked){
+                val category = binding.radioAll.text.toString()
+                archiveEntryViewModel.getAllUserEntries(fireBaseKey).observe(viewLifecycleOwner, Observer {
+                    adapter?.items = it
+                    adapter?.notifyDataSetChanged()
+                })
+            }
+        }
+
         binding.radioClassNotes.setOnClickListener {
             if (binding.radioClassNotes.isChecked){
                 val category = binding.radioClassNotes.text.toString()
+                archiveEntryViewModel.getByCategory(fireBaseKey, category).observe(viewLifecycleOwner, Observer {
+                    adapter?.items = it
+                    adapter?.notifyDataSetChanged()
+                })
+            }
+        }
+
+        binding.radioSubmissions.setOnClickListener {
+            if (binding.radioSubmissions.isChecked){
+                val category = binding.radioSubmissions.text.toString()
+                archiveEntryViewModel.getByCategory(fireBaseKey, category).observe(viewLifecycleOwner, Observer {
+                    adapter?.items = it
+                    adapter?.notifyDataSetChanged()
+                })
+            }
+        }
+
+        binding.radioPosition.setOnClickListener {
+            if (binding.radioPosition.isChecked){
+                val category = binding.radioPosition.text.toString()
+                archiveEntryViewModel.getByCategory(fireBaseKey, category).observe(viewLifecycleOwner, Observer {
+                    adapter?.items = it
+                    adapter?.notifyDataSetChanged()
+                })
+            }
+        }
+
+        binding.radioEscape.setOnClickListener {
+            if (binding.radioEscape.isChecked){
+                val category = binding.radioEscape.text.toString()
+                archiveEntryViewModel.getByCategory(fireBaseKey, category).observe(viewLifecycleOwner, Observer {
+                    adapter?.items = it
+                    adapter?.notifyDataSetChanged()
+                })
+            }
+        }
+
+        binding.radioSweepPass.setOnClickListener {
+            if (binding.radioSweepPass.isChecked){
+                val category = binding.radioSweepPass.text.toString()
+                archiveEntryViewModel.getByCategory(fireBaseKey, category).observe(viewLifecycleOwner, Observer {
+                    adapter?.items = it
+                    adapter?.notifyDataSetChanged()
+                })
+            }
+        }
+
+        binding.radioTakedownThrow.setOnClickListener {
+            if (binding.radioTakedownThrow.isChecked){
+                val category = binding.radioTakedownThrow.text.toString()
                 archiveEntryViewModel.getByCategory(fireBaseKey, category).observe(viewLifecycleOwner, Observer {
                     adapter?.items = it
                     adapter?.notifyDataSetChanged()

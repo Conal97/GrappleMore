@@ -61,6 +61,4 @@ class ArchiveEntryViewModel @Inject constructor(
            archiveEntryRepository.deleteEntry(archiveEntry)
        }
    }
-
-
 }
