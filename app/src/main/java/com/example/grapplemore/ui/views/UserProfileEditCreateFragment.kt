@@ -5,7 +5,6 @@ import android.app.Activity
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
-import android.provider.MediaStore
 import android.view.View
 import android.widget.*
 import androidx.activity.result.contract.ActivityResultContracts
@@ -19,6 +18,7 @@ import com.example.grapplemore.ui.viewModels.UserProfileViewModel
 import com.google.firebase.auth.FirebaseAuth
 import dagger.hilt.android.AndroidEntryPoint
 import timber.log.Timber
+import com.example.grapplemore.utils.Constants.REQUEST_CODE
 
 @AndroidEntryPoint
 class UserProfileEditCreateFragment: Fragment(R.layout.edit_create_profile_fragment),
@@ -37,7 +37,7 @@ class UserProfileEditCreateFragment: Fragment(R.layout.edit_create_profile_fragm
     private var imageUri: Uri? = null
     lateinit var greenCheck: ImageView
     private var uriText: String = ""
-    val REQUEST_CODE = 100
+    //val REQUEST_CODE = 100
 
     // todo pre-populate fields if user already has profile
 
@@ -126,7 +126,7 @@ class UserProfileEditCreateFragment: Fragment(R.layout.edit_create_profile_fragm
         })
     }
 
-    // Activity result event triggered when permission is called
+    // Activity result event triggered when permission is granted
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if (resultCode == Activity.RESULT_OK && requestCode == REQUEST_CODE) {
@@ -154,7 +154,9 @@ class UserProfileEditCreateFragment: Fragment(R.layout.edit_create_profile_fragm
             intent.action = Intent.ACTION_GET_CONTENT
             startActivityForResult(Intent.createChooser(intent, "Select image"), REQUEST_CODE)
         } else {
-            Timber.d("Permission: denied")
+            Timber.d("Permission: denied, please allow access to be able to use the app")
+            Toast.makeText(requireActivity(), "Permission: denied, please allow access to be able to use the app",
+                Toast.LENGTH_LONG).show()
         }
     }
 

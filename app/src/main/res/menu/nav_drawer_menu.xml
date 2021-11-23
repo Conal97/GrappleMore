@@ -12,6 +12,10 @@
             android:id="@+id/techniquesArchiveFragment"
             android:title="Techniques Archive"/>
 
+        <item
+            android:id="@+id/rollingFootageSelectorFragment"
+            android:title="Footage Selector"/>
+
     </group>
 
 </menu>

@@ -32,6 +32,9 @@
         <action
             android:id="@+id/action_firebaseLoginFragment_to_archiveEntryFragment"
             app:destination="@id/archiveEntryFragment" />
+        <action
+            android:id="@+id/action_firebaseLoginFragment_to_rollingFootageSelectorFragment"
+            app:destination="@id/rollingFootageSelectorFragment" />
     </fragment>
     <fragment
         android:id="@+id/firebaseRegisterFragment"
@@ -72,4 +75,9 @@
             android:id="@+id/action_techniquesArchiveFragment_to_archiveEntryFragment"
             app:destination="@id/archiveEntryFragment" />
     </fragment>
+    <fragment
+        android:id="@+id/rollingFootageSelectorFragment"
+        android:name="com.example.grapplemore.ui.views.RollingFootageSelectorFragment"
+        android:label="RollingFootageSelectorFragment"
+        tools:layout="@layout/footage_adder"/>
 </navigation>

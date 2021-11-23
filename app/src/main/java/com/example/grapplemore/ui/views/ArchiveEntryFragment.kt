@@ -33,7 +33,7 @@ class ArchiveEntryFragment: Fragment(R.layout.archive_entry){
     private var fragmentBinding: ArchiveEntryBinding? = null
 
 
-    @SuppressLint("UseCompatLoadingForDrawables") // maybe change to this?
+    @SuppressLint("UseCompatLoadingForDrawables")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         val binding = ArchiveEntryBinding.bind(view)
@@ -43,6 +43,7 @@ class ArchiveEntryFragment: Fragment(R.layout.archive_entry){
 
         val currentEntry = archiveEntryViewModel.currentArchiveEntry.value
 
+        // Edit existing entry
         if(currentEntry != null) {
 
             // Set id so we update note and don't create new one
@@ -74,8 +75,7 @@ class ArchiveEntryFragment: Fragment(R.layout.archive_entry){
             archiveEntryViewModel.currentArchiveEntry.value = null
         }
 
-
-        // Floating action button to submit entry
+        // Floating action button to create new entry
         binding.createEntryFloat.setOnClickListener {
 
             val title = binding.etArchiveEntryTitle.text.toString()

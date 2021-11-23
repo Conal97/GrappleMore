@@ -9,7 +9,7 @@ import com.example.grapplemore.data.model.entities.RollingFootage
 interface RollingFootageDao {
 
     // Add rolling footage
-    @Insert(onConflict = OnConflictStrategy.ABORT)
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertRollingFootage(rollingFootage: RollingFootage)
 
     // Delete rolling footage
