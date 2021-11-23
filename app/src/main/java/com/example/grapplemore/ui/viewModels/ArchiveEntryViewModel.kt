@@ -6,6 +6,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.grapplemore.data.model.entities.ArchiveEntry
 import com.example.grapplemore.data.repositories.ArchiveEntryRepository
+import com.google.firebase.auth.FirebaseAuth
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -22,16 +23,6 @@ class ArchiveEntryViewModel @Inject constructor(
 
     fun getCurrentEntry(entry: ArchiveEntry){
         currentArchiveEntry.value = entry
-    }
-
-    // Get selected archive entry
-    fun getSingleEntry(fireBaseKey: String, id: Int) {
-        viewModelScope.launch {
-            val archiveEntry = archiveEntryRepository.getSingleEntry(fireBaseKey, id)
-            if (archiveEntry != null){
-                _currentArchiveEntry.value = archiveEntry
-            }
-        }
     }
 
     // Get all user archive entries
@@ -55,13 +46,14 @@ class ArchiveEntryViewModel @Inject constructor(
     }
 
     // Insert or update archive entry
-    fun upsertEntry(archiveEntry: ArchiveEntry){ // possibly define dispatcher?
+    fun upsertEntry(archiveEntry: ArchiveEntry){
         viewModelScope.launch {
             archiveEntryRepository.upsertEntry(archiveEntry)
         }
     }
+
     // Delete archive entry
-   fun deleteArchiveEntry(archiveEntry: ArchiveEntry){ // possibly define dispatcher?
+   fun deleteArchiveEntry(archiveEntry: ArchiveEntry){
        viewModelScope.launch {
            archiveEntryRepository.deleteEntry(archiveEntry)
        }

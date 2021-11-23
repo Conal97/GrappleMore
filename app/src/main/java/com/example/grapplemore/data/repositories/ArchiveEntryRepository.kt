@@ -18,11 +18,6 @@ class ArchiveEntryRepository @Inject constructor(
         return archiveEntryDao.deleteArchiveEntry(archiveEntry)
     }
 
-    // this might need to be suspend function
-    fun getSingleEntry(fireBaseKey: String, id: Int): ArchiveEntry {
-        return archiveEntryDao.getSingleArchiveEntry(fireBaseKey, id)
-    }
-
     fun getAllUserEntries(fireBaseKey: String): LiveData<List<ArchiveEntry>> {
         return archiveEntryDao.getAllUserArchiveEntries(fireBaseKey)
     }

@@ -36,4 +36,8 @@ object DatabaseModule {
     @Singleton
     @Provides
     fun providesArchiveEntryDao(db: AppDatabase) = db.getArchiveEntryDao()
+
+    @Singleton
+    @Provides
+    fun providesRollingFootageDao(db: AppDatabase) = db.getRollingFootageDao()
 }

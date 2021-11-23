@@ -49,6 +49,9 @@ dependencies {
     def nav_version = "2.3.5"
     def dagger_hilt_version = "2.38.1"
 
+    // Exoplayer for video streaming
+    implementation 'com.google.android.exoplayer:exoplayer:2.16.1'
+
     // Glide for image handling
     implementation 'com.github.bumptech.glide:glide:4.12.0'
     annotationProcessor 'com.github.bumptech.glide:compiler:4.12.0'

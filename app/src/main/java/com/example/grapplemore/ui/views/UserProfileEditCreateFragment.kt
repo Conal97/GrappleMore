@@ -77,7 +77,7 @@ class UserProfileEditCreateFragment: Fragment(R.layout.edit_create_profile_fragm
         // Handling the submission button
         binding.submitProfileBtn.setOnClickListener {
 
-            // Null check
+            // Null input check
             if (fireBaseKey.isEmpty() || username.equals(null) || academy.equals(null)
                     || uriText.isEmpty() || beltColour.isEmpty() || weight.equals(null) || compsAttended.equals(null)
                     || wins.equals(null) || draws.equals(null) || losses.equals(null)) {
@@ -149,8 +149,6 @@ class UserProfileEditCreateFragment: Fragment(R.layout.edit_create_profile_fragm
     private val permReqLauncher = registerForActivityResult(ActivityResultContracts.RequestPermission()) {
         if (it) {
             Timber.d("Permission: granted")
-//            val intent = Intent(Intent.ACTION_GET_CONTENT)
-//            intent.type = "image/*"
             val intent = Intent()
             intent.type = "image/*"
             intent.action = Intent.ACTION_GET_CONTENT

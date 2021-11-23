@@ -16,10 +16,6 @@ interface ArchiveEntryDao {
     @Delete
     suspend fun deleteArchiveEntry(archiveEntry: ArchiveEntry)
 
-    // Get singular entry belonging to user (i.e. when clicked)
-    @Query("select * from ArchiveEntry where fireBaseKey = :fireBaseKey and id = :id")
-    fun getSingleArchiveEntry(fireBaseKey: String, id: Int): ArchiveEntry
-
     // Get all entries belonging to user
     @Query("select * from ArchiveEntry where firebaseKey = :fireBaseKey")
     fun getAllUserArchiveEntries(fireBaseKey: String): LiveData<List<ArchiveEntry>>
