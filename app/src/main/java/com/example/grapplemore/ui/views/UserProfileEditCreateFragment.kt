@@ -37,7 +37,6 @@ class UserProfileEditCreateFragment: Fragment(R.layout.edit_create_profile_fragm
     private var imageUri: Uri? = null
     lateinit var greenCheck: ImageView
     private var uriText: String = ""
-    //val REQUEST_CODE = 100
 
     // todo pre-populate fields if user already has profile
 

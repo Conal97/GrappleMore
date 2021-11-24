@@ -2,7 +2,6 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
 
-
     <group android:checkableBehavior="single">
         <item
             android:id="@+id/UserProfileFragment"
@@ -13,8 +12,8 @@
             android:title="Techniques Archive"/>
 
         <item
-            android:id="@+id/rollingFootageSelectorFragment"
-            android:title="Footage Selector"/>
+            android:id="@+id/rollingFootageFragment"
+            android:title="Rolling Footage"/>
 
     </group>
 

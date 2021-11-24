@@ -6,10 +6,12 @@ import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.view.View
+import android.widget.ImageView
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.NavHostFragment
 import com.example.grapplemore.R
 import com.example.grapplemore.data.model.entities.RollingFootage
 import com.example.grapplemore.utils.Constants.REQUEST_CODE
@@ -37,18 +39,18 @@ class RollingFootageSelectorFragment: Fragment(R.layout.footage_adder) {
     // Global variables for getting uri
     private var videoUri: Uri? = null
     private var uriText: String = ""
+    lateinit var greenCheck: ImageView
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         val binding = FootageAdderBinding.bind(view)
         fragmentBinding = binding
+        greenCheck = binding.greenCheckVideo
 
         // Handling video selection
         binding.footageSelect.setOnClickListener{
             permReqLauncher.launch(Manifest.permission.READ_EXTERNAL_STORAGE)
-            if(videoUri != null){
-                binding.greenCheckVideo.visibility = View.VISIBLE
-            }
+
         }
 
         binding.createFootageFloat.setOnClickListener {
@@ -64,6 +66,8 @@ class RollingFootageSelectorFragment: Fragment(R.layout.footage_adder) {
             else{
                 val rollingFootage = RollingFootage(null, title, uriText, timestamp, fireBaseKey)
                 rollingFootageViewModel.insertRollingFootage(rollingFootage)
+                NavHostFragment.findNavController(this).
+                navigate(R.id.action_rollingFootageSelectorFragment_to_rollingFootageFragment)
             }
         }
     }
@@ -75,6 +79,7 @@ class RollingFootageSelectorFragment: Fragment(R.layout.footage_adder) {
             videoUri = data?.data
             if(videoUri != null){
                 uriText = videoUri.toString()
+                greenCheck.visibility = View.VISIBLE
             }
         }
     }

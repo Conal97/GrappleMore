@@ -47,7 +47,7 @@
         <ImageView
             android:id="@+id/greenCheckVideo"
             android:contentDescription="@string/green_check"
-            android:layout_marginStart="35dp"
+            android:layout_marginStart="60dp"
             android:layout_width="42dp"
             android:layout_height="50dp"
             android:visibility="invisible"

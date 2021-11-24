@@ -33,8 +33,8 @@
             android:id="@+id/action_firebaseLoginFragment_to_archiveEntryFragment"
             app:destination="@id/archiveEntryFragment" />
         <action
-            android:id="@+id/action_firebaseLoginFragment_to_rollingFootageSelectorFragment"
-            app:destination="@id/rollingFootageSelectorFragment" />
+            android:id="@+id/action_firebaseLoginFragment_to_rollingFootageFragment"
+            app:destination="@id/rollingFootageFragment" />
     </fragment>
     <fragment
         android:id="@+id/firebaseRegisterFragment"
@@ -79,5 +79,18 @@
         android:id="@+id/rollingFootageSelectorFragment"
         android:name="com.example.grapplemore.ui.views.RollingFootageSelectorFragment"
         android:label="RollingFootageSelectorFragment"
-        tools:layout="@layout/footage_adder"/>
+        tools:layout="@layout/footage_adder">
+        <action
+            android:id="@+id/action_rollingFootageSelectorFragment_to_rollingFootageFragment"
+            app:destination="@id/rollingFootageFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/rollingFootageFragment"
+        android:name="com.example.grapplemore.ui.views.RollingFootageFragment"
+        android:label="RollingFootageFragment"
+        tools:layout="@layout/rolling_footage_home">
+        <action
+            android:id="@+id/action_rollingFootageFragment_to_rollingFootageSelectorFragment"
+            app:destination="@id/rollingFootageSelectorFragment" />
+    </fragment>
 </navigation>

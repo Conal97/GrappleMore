@@ -50,10 +50,13 @@ class TechniquesArchiveFragment: Fragment(R.layout.techniques_archive),
         searchView = binding.archiveSearchBar
 
         searchView.setOnQueryTextListener(object: SearchView.OnQueryTextListener{
+
+            // Don't care about submitting the query
             override fun onQueryTextSubmit(query: String?): Boolean {
                 return true
             }
 
+            // Search as query is input
             override fun onQueryTextChange(query: String?): Boolean {
                 if (query != null) {
                     val searchQuery = "%$query%"
@@ -76,7 +79,7 @@ class TechniquesArchiveFragment: Fragment(R.layout.techniques_archive),
             }
         })
 
-        // Default to display all entries on opening
+        // Default: display all entries on opening
         archiveEntryViewModel.getAllUserEntries(fireBaseKey).observe(viewLifecycleOwner, Observer {
             adapter?.items = it
             adapter?.notifyDataSetChanged()
