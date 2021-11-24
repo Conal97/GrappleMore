@@ -15,6 +15,10 @@
             android:id="@+id/rollingFootageFragment"
             android:title="Rolling Footage"/>
 
+        <item
+            android:id="@+id/rollingFootageViewerFragment"
+            android:title="Viewer"/>
+
     </group>
 
 </menu>

@@ -92,5 +92,12 @@
         <action
             android:id="@+id/action_rollingFootageFragment_to_rollingFootageSelectorFragment"
             app:destination="@id/rollingFootageSelectorFragment" />
+        <action
+            android:id="@+id/action_rollingFootageFragment_to_rollingFootageViewerFragment"
+            app:destination="@id/rollingFootageViewerFragment" />
     </fragment>
+    <fragment
+        android:id="@+id/rollingFootageViewerFragment"
+        android:name="com.example.grapplemore.ui.views.RollingFootageViewerFragment"
+        android:label="RollingFootageViewerFragment" />
 </navigation>

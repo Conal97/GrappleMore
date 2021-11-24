@@ -9,7 +9,7 @@
         android:id="@+id/linearRollingTitle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
+        android:orientation="vertical"
         app:layout_constraintTop_toTopOf="parent">
 
         <EditText
@@ -23,50 +23,50 @@
             android:hint="Title"
             android:padding="10dp"
             android:background="@drawable/rounded_border_background"/>
-    </LinearLayout>
 
-    <LinearLayout
-        android:id="@+id/linearVideoSelect"
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:layout_marginTop="5dp"
-        android:orientation="horizontal"
-        app:layout_constraintTop_toBottomOf="@id/linearRollingTitle"
-        tools:layout_editor_absoluteX="0dp" >
-
-        <Button
-            android:id="@+id/footageSelect"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Select Video"
-            android:layout_marginLeft="50dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent">
-        </Button>
-
-        <ImageView
-            android:id="@+id/greenCheckVideo"
-            android:contentDescription="@string/green_check"
-            android:layout_marginStart="60dp"
-            android:layout_width="42dp"
+        <LinearLayout
+            android:id="@+id/linearVideoSelect"
+            android:layout_width="match_parent"
             android:layout_height="50dp"
-            android:visibility="invisible"
-            android:src="@drawable/green_check"/>
+            android:layout_marginTop="50dp"
+            android:orientation="horizontal"
+            app:layout_constraintTop_toBottomOf="@id/linearRollingTitle" >
+
+            <Button
+                android:id="@+id/footageSelect"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Select Video"
+                android:layout_marginLeft="50dp"
+                app:layout_constraintStart_toStartOf="@id/linearVideoSelect">
+            </Button>
+
+            <ImageView
+                android:id="@+id/greenCheckVideo"
+                android:contentDescription="@string/green_check"
+                android:layout_marginStart="60dp"
+                android:layout_width="42dp"
+                android:layout_height="50dp"
+                android:visibility="invisible"
+                android:src="@drawable/green_check"/>
+        </LinearLayout>
     </LinearLayout>
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/createFootageFloat"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:clickable="true"
         android:backgroundTint="@color/white"
+        android:clickable="true"
+        android:contentDescription="Tick to add new note"
         app:backgroundTint="@color/black"
         app:borderWidth="2dp"
+        android:layout_marginTop="450dp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/linearVideoSelect"
-        app:srcCompat="@drawable/green_check"
-        android:layout_marginTop="30dp"
-        android:contentDescription="Tick to add new note" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/green_check" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

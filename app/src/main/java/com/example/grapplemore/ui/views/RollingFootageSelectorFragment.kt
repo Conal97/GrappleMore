@@ -2,12 +2,15 @@ package com.example.grapplemore.ui.views
 
 import android.Manifest
 import android.app.Activity
+import android.content.ContentResolver
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.view.View
 import android.widget.ImageView
+import android.widget.MediaController
 import android.widget.Toast
+import android.widget.VideoView
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -17,8 +20,14 @@ import com.example.grapplemore.data.model.entities.RollingFootage
 import com.example.grapplemore.utils.Constants.REQUEST_CODE
 import com.example.grapplemore.databinding.FootageAdderBinding
 import com.example.grapplemore.ui.viewModels.RollingFootageViewModel
+import com.google.android.exoplayer2.ExoPlayer
+import com.google.android.exoplayer2.SimpleExoPlayer
+import com.google.android.exoplayer2.source.MediaSource
+import com.google.android.exoplayer2.upstream.DataSource
+import com.google.android.exoplayer2.util.Util
 import com.google.firebase.auth.FirebaseAuth
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.android.synthetic.main.rolling_footage_item.view.*
 import timber.log.Timber
 import java.text.SimpleDateFormat
 import java.util.*
@@ -80,6 +89,7 @@ class RollingFootageSelectorFragment: Fragment(R.layout.footage_adder) {
             if(videoUri != null){
                 uriText = videoUri.toString()
                 greenCheck.visibility = View.VISIBLE
+                context?.contentResolver?.takePersistableUriPermission(videoUri!!, Intent.FLAG_GRANT_READ_URI_PERMISSION)
             }
         }
     }
@@ -90,7 +100,9 @@ class RollingFootageSelectorFragment: Fragment(R.layout.footage_adder) {
             Timber.d("Permission: granted")
             val intent = Intent()
             intent.type = "video/*"
-            intent.action = Intent.ACTION_GET_CONTENT
+            intent.action = Intent.ACTION_OPEN_DOCUMENT
+            intent.addFlags(Intent.FLAG_GRANT_PERSISTABLE_URI_PERMISSION)
+            intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
             startActivityForResult(Intent.createChooser(intent, "Select video"), REQUEST_CODE)
         } else {
             Timber.d("Permission: denied, please allow access to be able to use the app")
