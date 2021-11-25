@@ -44,12 +44,12 @@ class RollingFootageItemAdapter(
 
         // Setting video
         val videoParse = Uri.parse(curRollingFootage.videoUri)
-        val videoView = holder.itemView.rollingVideoView
-
-        videoView.setVideoURI(videoParse)
-        val mediaController = MediaController(context)
-        videoView.setMediaController(mediaController)
-        mediaController.setAnchorView(videoView)
+        //val videoView = holder.itemView.rollingVideoView
+//
+//        videoView.setVideoURI(videoParse)
+//        val mediaController = MediaController(context)
+//        videoView.setMediaController(mediaController)
+//        mediaController.setAnchorView(videoView)
 
         val size = Size(200,200)
 
@@ -57,7 +57,6 @@ class RollingFootageItemAdapter(
 
         val ivThumb = holder.itemView.ivThumbnail
         ivThumb.setImageBitmap(thumbnail)
-        ivThumb.visibility = View.VISIBLE
 
         // Set other parameters
         holder.itemView.tvRollingTitle.text = curRollingFootage.title

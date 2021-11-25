@@ -2,13 +2,13 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/itemConstraint"
+    android:id="@+id/itemVideoConstraint"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+    android:layout_height="440dp"
     android:layout_marginStart="16dp"
     android:layout_marginEnd="16dp"
     android:layout_marginTop="16dp"
-    >
+    android:background="@drawable/rounded_border_background">
 
     <TextView
         android:id="@+id/tvRollingTitle"
@@ -37,8 +37,20 @@
         app:layout_constraintTop_toTopOf="@id/tvRollingTitle"
         tools:layout_editor_absoluteX="174dp" />
 
+
     <ImageView
-        android:id="@+id/deleteRollingDeleteButton"
+        android:id="@+id/iveEditRolling"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_baseline_edit_24"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginTop="16dp"
+        android:layout_marginRight="5dp"
+        app:layout_constraintEnd_toStartOf="@+id/ivDeleteRolling"
+        />
+
+    <ImageView
+        android:id="@+id/ivDeleteRolling"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
@@ -55,20 +67,22 @@
 
         <ImageView
             android:id="@+id/ivThumbnail"
-            android:layout_width="300dp"
-            android:layout_height="300dp"
+            android:layout_width="350dp"
+            android:layout_height="350dp"
             android:scaleType="centerCrop"
             android:layout_gravity="center"
-            android:visibility="invisible"
+            android:layout_marginTop="65dp"
             />
 
+        <ImageView
+            android:id="@+id/ivPlatBtn"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:src="@drawable/ic_baseline_play_circle_outline_24"
+            android:layout_marginTop="200dp"
+            android:layout_marginStart="135dp"
+            android:scaleType="centerCrop"/>
 
-        <VideoView
-            android:id="@+id/rollingVideoView"
-            android:layout_width="match_parent"
-            android:layout_height="300dp"
-            android:layout_marginTop="270dp"
-            android:layout_gravity="center" />
 
     </FrameLayout>
 
