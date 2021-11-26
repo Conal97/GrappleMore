@@ -22,8 +22,6 @@ class TechniquesArchiveFragment: Fragment(R.layout.techniques_archive),
     ArchiveItemAdapter.callBackInterface,
     ArchiveItemAdapter.deleteCallBack {
 
-    lateinit var searchView: SearchView
-
     // Reference to viewModel
     private val archiveEntryViewModel: ArchiveEntryViewModel by activityViewModels()
 
@@ -34,7 +32,7 @@ class TechniquesArchiveFragment: Fragment(R.layout.techniques_archive),
     // View binding
     private var fragmentBinding: TechniquesArchiveBinding? = null
     private var category = "All"
-
+    lateinit var searchView: SearchView
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -48,7 +46,6 @@ class TechniquesArchiveFragment: Fragment(R.layout.techniques_archive),
 
         // Search bar
         searchView = binding.archiveSearchBar
-
         searchView.setOnQueryTextListener(object: SearchView.OnQueryTextListener{
 
             // Don't care about submitting the query

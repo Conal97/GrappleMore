@@ -10,6 +10,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.MediaController
 import androidx.annotation.RequiresApi
+import androidx.navigation.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import com.example.grapplemore.R
 import com.example.grapplemore.data.model.entities.RollingFootage
@@ -21,8 +22,9 @@ import java.io.File
 
 class RollingFootageItemAdapter(
     var items: List<RollingFootage>,
+    private val deleteListener: deleteItemCallBack,
+    private val changeViewListener: changeViewCallBack,
     val context: Context
-    // Need to add on delete listener
 ): RecyclerView.Adapter<RollingFootageItemAdapter.RollingViewHolder>() {
 
     inner class RollingViewHolder(rollingItem: View): RecyclerView.ViewHolder(rollingItem)
@@ -42,19 +44,10 @@ class RollingFootageItemAdapter(
 
         val curRollingFootage = items[position]
 
-        // Setting video
+        // Get video thumbnail
         val videoParse = Uri.parse(curRollingFootage.videoUri)
-        //val videoView = holder.itemView.rollingVideoView
-//
-//        videoView.setVideoURI(videoParse)
-//        val mediaController = MediaController(context)
-//        videoView.setMediaController(mediaController)
-//        mediaController.setAnchorView(videoView)
-
         val size = Size(200,200)
-
         val thumbnail = context.contentResolver.loadThumbnail(videoParse,size,null)
-
         val ivThumb = holder.itemView.ivThumbnail
         ivThumb.setImageBitmap(thumbnail)
 
@@ -62,6 +55,33 @@ class RollingFootageItemAdapter(
         holder.itemView.tvRollingTitle.text = curRollingFootage.title
         holder.itemView.tvRollingDate.text = curRollingFootage.dateAndTime
 
+        // Open editor on edit icon click
+        holder.itemView.iveEditRolling.setOnClickListener {
+            changeViewListener.changeViewCallBack(curRollingFootage)
+            it.findNavController().navigate(R.id.
+            action_rollingFootageFragment_to_rollingFootageSelectorFragment)
+        }
+
+        // Open viewer on play button click
+        holder.itemView.ivPlayBtn.setOnClickListener {
+            changeViewListener.changeViewCallBack(curRollingFootage)
+            it.findNavController().navigate(R.id.
+            action_rollingFootageFragment_to_rollingFootageViewerFragment)
+        }
+
+        // Delete item on delete icon click
+        holder.itemView.ivDeleteRolling.setOnClickListener {
+            deleteListener.deleteEntryCallBack(curRollingFootage)
+        }
+    }
+
+    // callback interfaces here
+    interface deleteItemCallBack{
+        fun deleteEntryCallBack(rollingFootage: RollingFootage)
+    }
+
+    interface changeViewCallBack{
+        fun changeViewCallBack(rollingFootage: RollingFootage)
     }
 
     override fun getItemCount(): Int {

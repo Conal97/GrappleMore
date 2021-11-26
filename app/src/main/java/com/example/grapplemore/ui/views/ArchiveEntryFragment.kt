@@ -80,7 +80,7 @@ class ArchiveEntryFragment: Fragment(R.layout.archive_entry){
 
             val title = binding.etArchiveEntryTitle.text.toString()
             val content = binding.etEntryBody.text.toString()
-            val sdf = SimpleDateFormat("dd/M")
+            val sdf = SimpleDateFormat("HH:mm | dd/MM/yyyy")
             val timestamp = sdf.format(Date())
 
 

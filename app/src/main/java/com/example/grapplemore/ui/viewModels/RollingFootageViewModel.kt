@@ -1,6 +1,7 @@
 package com.example.grapplemore.ui.viewModels
 
 import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.grapplemore.data.model.entities.RollingFootage
@@ -14,6 +15,15 @@ import javax.inject.Inject
 class RollingFootageViewModel @Inject constructor(
     private val rollingFootageRepository: RollingFootageRepository
 ): ViewModel() {
+
+    // Live data to access RollingFootage outside viewModel scope
+    private var _currentRollingFootage = MutableLiveData<RollingFootage?>()
+    val currentRollingFootage: MutableLiveData<RollingFootage?>
+        get() = _currentRollingFootage
+
+    fun getCurrentRollingFootage(footage: RollingFootage){
+        currentRollingFootage.value = footage
+    }
 
     // Firebase for user
     private var auth: FirebaseAuth = FirebaseAuth.getInstance()
@@ -36,5 +46,10 @@ class RollingFootageViewModel @Inject constructor(
     // Get rolling footage
     fun getRollingFootage(): LiveData<List<RollingFootage>>{
         return rollingFootageRepository.getRollingFootage(fireBaseKey)
+    }
+
+    // Get rolling footage by title
+    fun getFootageByTitle(title: String): LiveData<List<RollingFootage>> {
+        return rollingFootageRepository.getFootageByTitle(fireBaseKey, title)
     }
 }

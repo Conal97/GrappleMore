@@ -20,4 +20,8 @@ interface RollingFootageDao {
     @Query("select * from RollingFootage where fireBaseKey =:fireBaseKey")
     fun getAll(fireBaseKey: String): LiveData<List<RollingFootage>>
 
+    // Get footage by title
+    @Query("select * from RollingFootage where fireBaseKey =:fireBaseKey and title like '%' || :title || '%'")
+    fun getFootageByTitle(fireBaseKey: String,title: String): LiveData<List<RollingFootage>>
+
 }

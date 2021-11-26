@@ -25,15 +25,21 @@ class RollingFootageViewerFragment: Fragment(R.layout.rolling_viewer) {
         val binding = RollingViewerBinding.bind(view)
         fragmentBinding = binding
 
-        // Setting video
-        val contentString = "content://com.android.providers.media.documents/document/video%3A32"
-        val videoParse = Uri.parse(contentString)
-        val videoView = binding.videoViewer
+        val currentFootage = rollingFootageViewModel.currentRollingFootage.value
 
-        videoView.setVideoURI(videoParse)
-        val mediaController = MediaController(context)
-        videoView.setMediaController(mediaController)
-        mediaController.setAnchorView(videoView)
+        // Setting video
+        if (currentFootage != null) {
+            val videoParse = Uri.parse(currentFootage.videoUri)
+            val videoView = binding.videoViewer
+            videoView.setVideoURI(videoParse)
+            val mediaController = MediaController(context)
+            videoView.setMediaController(mediaController)
+            mediaController.setAnchorView(videoView)
+            videoView.start()
+
+            // Reset to null
+            rollingFootageViewModel.currentRollingFootage.value = null
+        }
 
     }
 

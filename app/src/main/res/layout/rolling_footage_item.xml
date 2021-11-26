@@ -75,7 +75,7 @@
             />
 
         <ImageView
-            android:id="@+id/ivPlatBtn"
+            android:id="@+id/ivPlayBtn"
             android:layout_width="100dp"
             android:layout_height="100dp"
             android:src="@drawable/ic_baseline_play_circle_outline_24"

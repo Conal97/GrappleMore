@@ -20,4 +20,8 @@ class RollingFootageRepository @Inject constructor(
     fun getRollingFootage(fireBaseKey: String): LiveData<List<RollingFootage>>{
         return rollingFootageDao.getAll(fireBaseKey)
     }
+
+    fun getFootageByTitle(fireBaseKey: String, title: String): LiveData<List<RollingFootage>> {
+        return rollingFootageDao.getFootageByTitle(fireBaseKey, title)
+    }
 }

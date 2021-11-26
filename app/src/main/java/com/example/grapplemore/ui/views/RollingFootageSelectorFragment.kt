@@ -2,32 +2,24 @@ package com.example.grapplemore.ui.views
 
 import android.Manifest
 import android.app.Activity
-import android.content.ContentResolver
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
+import android.text.Editable
 import android.view.View
 import android.widget.ImageView
-import android.widget.MediaController
 import android.widget.Toast
-import android.widget.VideoView
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.viewModels
+import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.NavHostFragment
 import com.example.grapplemore.R
 import com.example.grapplemore.data.model.entities.RollingFootage
 import com.example.grapplemore.utils.Constants.REQUEST_CODE
 import com.example.grapplemore.databinding.FootageAdderBinding
 import com.example.grapplemore.ui.viewModels.RollingFootageViewModel
-import com.google.android.exoplayer2.ExoPlayer
-import com.google.android.exoplayer2.SimpleExoPlayer
-import com.google.android.exoplayer2.source.MediaSource
-import com.google.android.exoplayer2.upstream.DataSource
-import com.google.android.exoplayer2.util.Util
 import com.google.firebase.auth.FirebaseAuth
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.android.synthetic.main.rolling_footage_item.view.*
 import timber.log.Timber
 import java.text.SimpleDateFormat
 import java.util.*
@@ -36,7 +28,7 @@ import java.util.*
 class RollingFootageSelectorFragment: Fragment(R.layout.footage_adder) {
 
     // Reference to viewModel
-    private val rollingFootageViewModel: RollingFootageViewModel by viewModels()
+    private val rollingFootageViewModel: RollingFootageViewModel by activityViewModels()
 
     // View Binding
     private var fragmentBinding: FootageAdderBinding? = null
@@ -49,12 +41,31 @@ class RollingFootageSelectorFragment: Fragment(R.layout.footage_adder) {
     private var videoUri: Uri? = null
     private var uriText: String = ""
     lateinit var greenCheck: ImageView
+    var id: Int? = null
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         val binding = FootageAdderBinding.bind(view)
         fragmentBinding = binding
         greenCheck = binding.greenCheckVideo
+
+        val currentFootage = rollingFootageViewModel.currentRollingFootage.value
+
+        if (currentFootage != null) {
+
+            id = currentFootage.id
+
+            // Pre-populate the title
+            fun String.toEditable(): Editable = Editable.Factory.getInstance().newEditable(this)
+            binding.etRollingTitle.text = currentFootage.title.toEditable()
+
+            // Preset the video so user doesn't have to re-pick
+            uriText = currentFootage.videoUri
+            greenCheck.visibility =View.VISIBLE
+
+            // Reset to null
+            rollingFootageViewModel.currentRollingFootage.value = null
+        }
 
         // Handling video selection
         binding.footageSelect.setOnClickListener{
@@ -65,7 +76,7 @@ class RollingFootageSelectorFragment: Fragment(R.layout.footage_adder) {
         binding.createFootageFloat.setOnClickListener {
 
             val title = binding.etRollingTitle.text.toString()
-            val sdf = SimpleDateFormat("HH:mm | dd/M")
+            val sdf = SimpleDateFormat("HH:mm | dd/MM/yyyy")
             val timestamp = sdf.format(Date())
 
             if (title.isEmpty() || uriText.isEmpty()
@@ -73,7 +84,7 @@ class RollingFootageSelectorFragment: Fragment(R.layout.footage_adder) {
                 Toast.makeText(requireActivity(), "Please fill all fields", Toast.LENGTH_SHORT)
             }
             else{
-                val rollingFootage = RollingFootage(null, title, uriText, timestamp, fireBaseKey)
+                val rollingFootage = RollingFootage(id, title, uriText, timestamp, fireBaseKey)
                 rollingFootageViewModel.insertRollingFootage(rollingFootage)
                 NavHostFragment.findNavController(this).
                 navigate(R.id.action_rollingFootageSelectorFragment_to_rollingFootageFragment)
@@ -94,7 +105,7 @@ class RollingFootageSelectorFragment: Fragment(R.layout.footage_adder) {
         }
     }
 
-    // For handling permissions
+    // For handling permissions -> persistent uri permission to have permanent access
     private val permReqLauncher = registerForActivityResult(ActivityResultContracts.RequestPermission()) {
         if (it) {
             Timber.d("Permission: granted")
