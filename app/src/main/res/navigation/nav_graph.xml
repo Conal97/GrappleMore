@@ -35,6 +35,9 @@
         <action
             android:id="@+id/action_firebaseLoginFragment_to_rollingFootageFragment"
             app:destination="@id/rollingFootageFragment" />
+        <action
+            android:id="@+id/action_firebaseLoginFragment_to_trainingScheduleFragment"
+            app:destination="@id/trainingScheduleFragment" />
     </fragment>
     <fragment
         android:id="@+id/firebaseRegisterFragment"
@@ -100,4 +103,8 @@
         android:id="@+id/rollingFootageViewerFragment"
         android:name="com.example.grapplemore.ui.views.RollingFootageViewerFragment"
         android:label="RollingFootageViewerFragment" />
+    <fragment
+        android:id="@+id/trainingScheduleFragment"
+        android:name="com.example.grapplemore.ui.views.TrainingScheduleFragment"
+        android:label="TrainingScheduleFragment" />
 </navigation>

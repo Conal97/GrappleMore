@@ -14,7 +14,7 @@ import dagger.hilt.android.AndroidEntryPoint
 @AndroidEntryPoint
 class RollingFootageViewerFragment: Fragment(R.layout.rolling_viewer) {
 
-    // Ref to viewModel -> will change this to shared
+    // Ref to viewModel
     private val rollingFootageViewModel: RollingFootageViewModel by activityViewModels()
 
     // View Binding
@@ -40,7 +40,6 @@ class RollingFootageViewerFragment: Fragment(R.layout.rolling_viewer) {
             // Reset to null
             rollingFootageViewModel.currentRollingFootage.value = null
         }
-
     }
 
     override fun onDestroyView() {

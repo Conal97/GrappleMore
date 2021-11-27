@@ -49,6 +49,9 @@ dependencies {
     def nav_version = "2.3.5"
     def dagger_hilt_version = "2.38.1"
 
+    // Week view library
+    implementation 'com.github.sundeepk:compact-calendar-view:3.0.0'
+
     // Exoplayer for video streaming
     implementation 'com.google.android.exoplayer:exoplayer:2.16.1'
 
