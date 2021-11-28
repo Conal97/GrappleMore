@@ -4,10 +4,12 @@ import androidx.room.Database
 import androidx.room.RoomDatabase
 import com.example.grapplemore.data.model.daos.ArchiveEntryDao
 import com.example.grapplemore.data.model.daos.RollingFootageDao
+import com.example.grapplemore.data.model.daos.TrainingEventDao
 //import com.example.grapplemore.data.model.daos.ArchiveEntryDao
 import com.example.grapplemore.data.model.daos.UserProfileDao
 import com.example.grapplemore.data.model.entities.ArchiveEntry
 import com.example.grapplemore.data.model.entities.RollingFootage
+import com.example.grapplemore.data.model.entities.TrainingEvent
 //import com.example.grapplemore.data.model.entities.ArchiveEntry
 import com.example.grapplemore.data.model.entities.UserProfileEntity
 
@@ -16,10 +18,11 @@ import com.example.grapplemore.data.model.entities.UserProfileEntity
         UserProfileEntity::class,
         ArchiveEntry::class,
         RollingFootage::class,
+        TrainingEvent::class,
     ],
 
     // Update when adding tables to database
-    version = 10,
+    version = 11,
     exportSchema = false
 )
 // Dagger-Hilt handles the boilerplate associated with the database
@@ -28,4 +31,5 @@ abstract class AppDatabase: RoomDatabase() {
     abstract fun getUserProfileDao(): UserProfileDao
     abstract fun getArchiveEntryDao(): ArchiveEntryDao
     abstract fun getRollingFootageDao(): RollingFootageDao
+    abstract fun getTrainingEventDao(): TrainingEventDao
 }

@@ -32,7 +32,6 @@ class ArchiveEntryFragment: Fragment(R.layout.archive_entry){
     // View binding
     private var fragmentBinding: ArchiveEntryBinding? = null
 
-
     @SuppressLint("UseCompatLoadingForDrawables")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)

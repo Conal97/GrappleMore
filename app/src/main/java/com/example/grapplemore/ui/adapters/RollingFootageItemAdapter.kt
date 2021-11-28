@@ -87,10 +87,4 @@ class RollingFootageItemAdapter(
     override fun getItemCount(): Int {
         return items.size
     }
-
-
-
-
-
-
 }

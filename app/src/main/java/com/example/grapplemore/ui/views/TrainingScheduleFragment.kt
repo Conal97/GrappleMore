@@ -21,8 +21,6 @@ class TrainingScheduleFragment: Fragment(R.layout.training_schedule) {
 
     }
 
-
-
     override fun onDestroyView() {
         fragmentBinding = null
         super.onDestroyView()

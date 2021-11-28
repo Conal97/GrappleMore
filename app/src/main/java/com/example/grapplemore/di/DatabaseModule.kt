@@ -40,4 +40,8 @@ object DatabaseModule {
     @Singleton
     @Provides
     fun providesRollingFootageDao(db: AppDatabase) = db.getRollingFootageDao()
+
+    @Singleton
+    @Provides
+    fun providesTrainingEventDao(db: AppDatabase) = db.getTrainingEventDao()
 }

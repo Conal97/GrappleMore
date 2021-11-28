@@ -9,10 +9,10 @@ data class TrainingEvent(
     @PrimaryKey(autoGenerate = true)
     val id: Int? = null,
     val title: String,
-    val dateTime: Long,
+    val unixDateTime: Long,
     val dayOfWeek: String,
     val startTime: String,
-    val EndTime: String,
-
+    val endTime: String,
+    val fireBaseKey: String
 
 )
