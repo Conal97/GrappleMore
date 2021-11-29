@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/itemConstraint"
     android:layout_width="match_parent"
-    android:layout_height="120dp"
+    android:layout_height="140dp"
     android:layout_marginStart="16dp"
     android:layout_marginEnd="16dp"
     android:layout_marginTop="16dp"
@@ -13,13 +13,14 @@
 
     <TextView
         android:id="@+id/tvClassTitle"
-        android:layout_width="248dp"
-        android:layout_height="66dp"
+        android:layout_width="253dp"
+        android:layout_height="64dp"
         android:layout_gravity="clip_horizontal"
-        android:layout_marginEnd="44dp"
+        android:layout_marginTop="24dp"
+        android:layout_marginEnd="60dp"
         android:hint="Title"
         android:padding="15dp"
-        android:textColor="@color/black"
+        android:textColor="@color/grey"
         android:textSize="20sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
@@ -46,15 +47,70 @@
         app:layout_constraintTop_toTopOf="@+id/tvClassTitle" />
 
     <TextView
+        android:id="@+id/tvDayOfWeek"
+        android:layout_width="50dp"
+        android:layout_height="30dp"
+        android:layout_marginStart="16dp"
+        android:gravity="center"
+        android:text="Wed"
+        android:textColor="@color/grey"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.111" />
+
+    <TextView
+        android:id="@+id/tvDay"
+        android:layout_width="50dp"
+        android:layout_height="60dp"
+        android:layout_marginStart="16dp"
+        android:gravity="center"
+        android:textStyle="bold"
+        android:text="09"
+        android:textSize="35sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tvDayOfWeek"
+        app:layout_constraintVertical_bias="0.0" />
+
+    <TextView
+        android:id="@+id/tvMonth"
+        android:layout_width="50dp"
+        android:layout_height="30dp"
+        android:gravity="center"
+        android:text="Dec"
+        android:textColor="@color/grey"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        android:layout_marginStart="16dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tvDay"
+        app:layout_constraintVertical_bias="0.0" />
+
+    <View
+        android:layout_width="2dp"
+        android:layout_height="140dp"
+        android:layout_marginVertical="15dp"
+        android:background="@color/grey"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.174"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
         android:id="@+id/tvTimeSlot"
-        android:layout_width="230dp"
-        android:layout_height="wrap_content"
+        android:layout_width="253dp"
+        android:layout_height="52dp"
         android:layout_gravity="clip_horizontal"
-        android:layout_marginTop="64dp"
+        android:layout_marginTop="44dp"
         android:layout_marginEnd="60dp"
         android:hint="Time"
         android:padding="15dp"
-        android:textColor="@color/black"
+        android:textColor="@color/grey"
         android:textSize="16sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="@id/tvClassTitle" />

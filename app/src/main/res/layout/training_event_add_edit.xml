@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:id="@+id/linearTrainingTitle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <EditText
+            android:id="@+id/etTrainingTitle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginBottom="8dp"
+            android:hint="Training Event Name"
+            android:padding="10dp"
+            android:background="@drawable/rounded_border_background"/>
+
+        <LinearLayout
+            android:id="@+id/linearDateSelect"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_marginTop="15dp"
+            android:orientation="horizontal"
+            app:layout_constraintTop_toBottomOf="@id/linearTrainingTitle" >
+
+            <Button
+                android:id="@+id/dateSelect"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Select date"
+                android:layout_marginLeft="20dp">
+            </Button>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:textColor="@color/grey"
+                android:textStyle="bold"
+                android:layout_gravity="center_vertical"
+                android:textSize="18sp"
+                android:text="Date is: " />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/linearStartSelect"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_marginTop="15dp"
+            android:orientation="horizontal"
+            app:layout_constraintTop_toBottomOf="@id/linearTrainingTitle" >
+
+            <Button
+                android:id="@+id/startSelect"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Select start time"
+                android:layout_marginLeft="20dp">
+            </Button>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:textColor="@color/grey"
+                android:textStyle="bold"
+                android:layout_gravity="center_vertical"
+                android:textSize="18sp"
+                android:text="Start time is: " />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/linearEndSelect"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_marginTop="15dp"
+            android:orientation="horizontal"
+            app:layout_constraintTop_toBottomOf="@id/linearTrainingTitle" >
+
+            <Button
+                android:id="@+id/endSelect"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Select end time"
+                android:layout_marginLeft="20dp">
+            </Button>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:textColor="@color/grey"
+                android:textStyle="bold"
+                android:layout_gravity="center_vertical"
+                android:textSize="18sp"
+                android:text="End time is: " />
+        </LinearLayout>
+
+
+    </LinearLayout>
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/createFootageFloat"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:backgroundTint="@color/white"
+        android:clickable="true"
+        android:contentDescription="Tick to add new note"
+        app:backgroundTint="@color/black"
+        app:borderWidth="2dp"
+        android:layout_marginTop="450dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/green_check" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -45,11 +45,9 @@
 
             <View
                 android:layout_width="match_parent"
-                android:layout_height="5dp"
+                android:layout_height="3dp"
                 android:background="@color/grey"
-                android:layout_marginVertical="15dp"
-                />
-
+                android:layout_marginVertical="15dp" />
 
             <TextView
                 android:id="@+id/tvPreviousTraining"
