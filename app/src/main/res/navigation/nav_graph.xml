@@ -106,5 +106,19 @@
     <fragment
         android:id="@+id/trainingScheduleFragment"
         android:name="com.example.grapplemore.ui.views.TrainingScheduleFragment"
-        android:label="TrainingScheduleFragment" />
+        android:label="TrainingScheduleFragment"
+        tools:layout="@layout/training_schedule">
+        <action
+            android:id="@+id/action_trainingScheduleFragment_to_trainingEventAddEditFragment"
+            app:destination="@id/trainingEventAddEditFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/trainingEventAddEditFragment"
+        android:name="com.example.grapplemore.ui.views.TrainingEventAddEditFragment"
+        android:label="TrainingEventAddEditFragment"
+        tools:layout="@layout/training_event_add_edit">
+        <action
+            android:id="@+id/action_trainingEventAddEditFragment_to_trainingScheduleFragment"
+            app:destination="@id/trainingScheduleFragment" />
+    </fragment>
 </navigation>

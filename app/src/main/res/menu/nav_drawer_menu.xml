@@ -16,7 +16,7 @@
             android:title="Rolling Footage"/>
 
         <item
-            android:id="@+id/trainingScheduleFragment"
+            android:id="@+id/trainingEventAddEditFragment"
             android:title="Training Schedule"/>
 
     </group>
