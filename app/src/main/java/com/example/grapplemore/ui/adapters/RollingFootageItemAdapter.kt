@@ -1,24 +1,18 @@
 package com.example.grapplemore.ui.adapters
 
 import android.content.Context
-import android.media.ThumbnailUtils
 import android.net.Uri
 import android.os.Build
 import android.util.Size
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.MediaController
 import androidx.annotation.RequiresApi
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import com.example.grapplemore.R
 import com.example.grapplemore.data.model.entities.RollingFootage
-import com.google.android.exoplayer2.MediaItem
-import com.google.android.exoplayer2.SimpleExoPlayer
-import com.google.android.exoplayer2.util.Util
 import kotlinx.android.synthetic.main.rolling_footage_item.view.*
-import java.io.File
 
 class RollingFootageItemAdapter(
     var items: List<RollingFootage>,

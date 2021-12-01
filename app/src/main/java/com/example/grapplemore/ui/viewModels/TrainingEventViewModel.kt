@@ -1,5 +1,6 @@
 package com.example.grapplemore.ui.viewModels
 
+import android.widget.Toast
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -29,6 +30,7 @@ class TrainingEventViewModel @Inject constructor(
     fun upsertTrainingEvent(trainingEvent: TrainingEvent){
         viewModelScope.launch {
             trainingEventRepository.upsertTrainingEvent(trainingEvent)
+
         }
     }
 

@@ -10,13 +10,30 @@ import android.widget.TimePicker
 import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
+import androidx.navigation.fragment.NavHostFragment
 import com.example.grapplemore.R
+import com.example.grapplemore.data.model.entities.TrainingEvent
 import com.example.grapplemore.databinding.TrainingEventAddEditBinding
-import kotlinx.android.synthetic.main.archive_item.*
+import com.example.grapplemore.ui.viewModels.TrainingEventViewModel
+import com.google.firebase.auth.FirebaseAuth
 import kotlinx.android.synthetic.main.training_event_add_edit.*
+import kotlinx.datetime.Instant
+import java.text.SimpleDateFormat
+import java.time.LocalDate
+import java.time.LocalDateTime
+import java.time.ZoneId
+import java.time.format.DateTimeFormatter
 import java.util.*
 
 class TrainingEventAddEditFragment: Fragment(R.layout.training_event_add_edit), DatePickerDialog.OnDateSetListener, TimePickerDialog.OnTimeSetListener {
+
+    // Reference to viewModel
+    private val trainingEventViewModel: TrainingEventViewModel by activityViewModels()
+
+    // Firebase
+    private var auth: FirebaseAuth = FirebaseAuth.getInstance()
+    private val fireBaseKey = auth.currentUser?.uid.toString()
 
     private var fragmentBinding: TrainingEventAddEditBinding? = null
 
@@ -38,6 +55,7 @@ class TrainingEventAddEditFragment: Fragment(R.layout.training_event_add_edit), 
     var endMinute = 0
     var endHour = 0
 
+    @RequiresApi(Build.VERSION_CODES.O)
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         val binding = TrainingEventAddEditBinding.bind(view)
@@ -61,9 +79,10 @@ class TrainingEventAddEditFragment: Fragment(R.layout.training_event_add_edit), 
             TimePickerDialog(requireActivity(), this, hour, minute, true).show()
         }
 
-        // Submit on floating action click
+        // Submit on floating action click - move to vm?
         binding.createTrainingEventFloat.setOnClickListener {
 
+            val id = null
             val title = binding.etTrainingTitle.text.toString()
             val date = binding.tvDatePicked.text.toString()
             val start = binding.tvStartTime.text.toString()
@@ -74,13 +93,41 @@ class TrainingEventAddEditFragment: Fragment(R.layout.training_event_add_edit), 
                 Toast.makeText(requireActivity(), "Please fill all fields", Toast.LENGTH_SHORT).show()
             }
             else {
-                // todo Convert to dateTime formats and get in unix date format
-                Toast.makeText(requireActivity(), "All filled", Toast.LENGTH_SHORT).show()
+                // String format for event db table
+                val stringDateStart = "$date $start"
+                val stringDateEnd = "$date $end"
+
+                // Convert to date format to access day of week
+                val formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy")
+                val localDate = LocalDate.parse(date,formatter)
+                val zoneID = ZoneId.systemDefault()
+                val dateFormat: Date = Date.from(localDate.atStartOfDay(zoneID).toInstant())
+
+                // Now get day of week
+                val dayOfWeek = SimpleDateFormat("EE").format(dateFormat)
+
+                // Convert startTime to ISO time for unix conversion
+                val newFormat = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm")
+                val localStartDate = LocalDateTime.parse(stringDateEnd,newFormat)
+                val isoTime = DateTimeFormatter.ISO_LOCAL_DATE_TIME.format(localStartDate)
+                val startInstant = Instant.parse(isoTime.replace(":00", "Z"))
+
+                // Now get unix startTime
+                val unixStartTime = startInstant.toEpochMilliseconds()
+
+                // Create trainingEvent
+                val trainingEvent = TrainingEvent(id, title, unixStartTime,
+                    dayOfWeek, stringDateStart, stringDateEnd, fireBaseKey)
+
+                // Call viewModel to update room
+                trainingEventViewModel.upsertTrainingEvent(trainingEvent)
+
+                // Navigate
+                NavHostFragment.findNavController(this)
+                    .navigate(R.id.action_trainingEventAddEditFragment_to_trainingScheduleFragment)
 
             }
-
         }
-
     }
 
     override fun onDestroyView() {
@@ -95,20 +142,19 @@ class TrainingEventAddEditFragment: Fragment(R.layout.training_event_add_edit), 
         month = c.get(Calendar.MONTH)
         year = c.get(Calendar.YEAR)
         minute = c.get(Calendar.MINUTE)
-        hour = c.get(Calendar.HOUR)
+        hour = c.get(Calendar.HOUR_OF_DAY)
     }
 
     override fun onDateSet(view: DatePicker?, year: Int, month: Int, dayOfMonth: Int) {
         // Set the date
         saveDay = dayOfMonth
-        saveMonth = dayOfMonth
+        saveMonth = month + 1
         saveYear = year
         tvDatePicked.text = String.format("%02d/%02d/%d", saveDay, saveMonth, saveYear)
-        //tvDatePicked.text = "Date is: $saveDay/$saveMonth/$saveYear"
     }
 
     override fun onTimeSet(view: TimePicker?, hourOfDay: Int, minute: Int) {
-        // Set start/end time & enforce start < end
+        // Set start/end time & enforce start is less than end
         if(startClicked) {
             startHour = hourOfDay
             startMinute = minute
@@ -128,3 +174,5 @@ class TrainingEventAddEditFragment: Fragment(R.layout.training_event_add_edit), 
         }
     }
 }
+
+

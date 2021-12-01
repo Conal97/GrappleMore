@@ -73,6 +73,7 @@ class RollingFootageSelectorFragment: Fragment(R.layout.footage_adder) {
 
         }
 
+        // Create footage entry in room db - vm?
         binding.createFootageFloat.setOnClickListener {
 
             val title = binding.etRollingTitle.text.toString()

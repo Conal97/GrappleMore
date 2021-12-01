@@ -74,14 +74,13 @@ class ArchiveEntryFragment: Fragment(R.layout.archive_entry){
             archiveEntryViewModel.currentArchiveEntry.value = null
         }
 
-        // Floating action button to create new entry
+        // Floating action button to create new entry- vm?
         binding.createEntryFloat.setOnClickListener {
 
             val title = binding.etArchiveEntryTitle.text.toString()
             val content = binding.etEntryBody.text.toString()
             val sdf = SimpleDateFormat("HH:mm | dd/MM/yyyy")
             val timestamp = sdf.format(Date())
-
 
             if( title.isEmpty() || category.isEmpty() || content.isEmpty() ||
                 timestamp.isEmpty() || fireBaseKey.isEmpty()) {
