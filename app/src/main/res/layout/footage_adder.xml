@@ -42,7 +42,7 @@
             </Button>
 
             <ImageView
-                android:id="@+id/greenCheckVideo"
+                android:id="@+id/greenCheckVideoSelect"
                 android:contentDescription="@string/green_check"
                 android:layout_marginStart="60dp"
                 android:layout_width="42dp"
@@ -50,6 +50,34 @@
                 android:visibility="invisible"
                 android:src="@drawable/green_check"/>
         </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/linearVideoCapture"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_marginTop="50dp"
+            android:orientation="horizontal"
+            app:layout_constraintTop_toBottomOf="@id/linearRollingTitle" >
+
+            <Button
+                android:id="@+id/footageCapture"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="or Capture video"
+                android:layout_marginLeft="50dp"
+                app:layout_constraintStart_toStartOf="@id/linearVideoSelect">
+            </Button>
+
+            <ImageView
+                android:id="@+id/greenCheckVideoCapture"
+                android:contentDescription="@string/green_check"
+                android:layout_marginStart="60dp"
+                android:layout_width="42dp"
+                android:layout_height="50dp"
+                android:visibility="invisible"
+                android:src="@drawable/green_check"/>
+        </LinearLayout>
+
     </LinearLayout>
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton

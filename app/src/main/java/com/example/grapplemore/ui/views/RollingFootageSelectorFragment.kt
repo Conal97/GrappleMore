@@ -2,9 +2,11 @@ package com.example.grapplemore.ui.views
 
 import android.Manifest
 import android.app.Activity
+import android.content.ComponentName
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
+import android.provider.MediaStore
 import android.text.Editable
 import android.view.View
 import android.widget.ImageView
@@ -15,11 +17,15 @@ import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.NavHostFragment
 import com.example.grapplemore.R
 import com.example.grapplemore.data.model.entities.RollingFootage
-import com.example.grapplemore.utils.Constants.REQUEST_CODE
+import com.example.grapplemore.utils.Constants.REQUEST_VIDEO_SELECT
+import com.example.grapplemore.utils.Constants.REQUEST_VIDEO_CAPTURE
 import com.example.grapplemore.databinding.FootageAdderBinding
 import com.example.grapplemore.ui.viewModels.RollingFootageViewModel
+import com.google.android.gms.common.wrappers.PackageManagerWrapper
+import com.google.android.gms.common.wrappers.Wrappers.packageManager
 import com.google.firebase.auth.FirebaseAuth
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.android.synthetic.main.footage_adder.*
 import timber.log.Timber
 import java.text.SimpleDateFormat
 import java.util.*
@@ -40,14 +46,16 @@ class RollingFootageSelectorFragment: Fragment(R.layout.footage_adder) {
     // Global variables for getting uri
     private var videoUri: Uri? = null
     private var uriText: String = ""
-    lateinit var greenCheck: ImageView
+    lateinit var greenCheckSelect: ImageView
+    lateinit var greenCheckVideoCapture: ImageView
     var id: Int? = null
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         val binding = FootageAdderBinding.bind(view)
         fragmentBinding = binding
-        greenCheck = binding.greenCheckVideo
+        greenCheckSelect = binding.greenCheckVideoSelect
+        greenCheckVideoCapture = binding.greenCheckVideoCapture
 
         val currentFootage = rollingFootageViewModel.currentRollingFootage.value
 
@@ -61,7 +69,7 @@ class RollingFootageSelectorFragment: Fragment(R.layout.footage_adder) {
 
             // Preset the video so user doesn't have to re-pick
             uriText = currentFootage.videoUri
-            greenCheck.visibility =View.VISIBLE
+            greenCheckSelect.visibility =View.VISIBLE
 
             // Reset to null
             rollingFootageViewModel.currentRollingFootage.value = null
@@ -71,6 +79,11 @@ class RollingFootageSelectorFragment: Fragment(R.layout.footage_adder) {
         binding.footageSelect.setOnClickListener{
             permReqLauncher.launch(Manifest.permission.READ_EXTERNAL_STORAGE)
 
+        }
+
+        // Handling video capture
+        binding.footageCapture.setOnClickListener {
+            captureReqLauncher.launch(Manifest.permission.CAMERA)
         }
 
         // Create footage entry in room db - vm?
@@ -96,17 +109,38 @@ class RollingFootageSelectorFragment: Fragment(R.layout.footage_adder) {
     // Activity result event triggered when permission is granted
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        if (resultCode == Activity.RESULT_OK && requestCode == REQUEST_CODE) {
+        if (resultCode == Activity.RESULT_OK && requestCode == REQUEST_VIDEO_SELECT) {
             videoUri = data?.data
             if(videoUri != null){
                 uriText = videoUri.toString()
-                greenCheck.visibility = View.VISIBLE
+                greenCheckSelect.visibility = View.VISIBLE
                 context?.contentResolver?.takePersistableUriPermission(videoUri!!, Intent.FLAG_GRANT_READ_URI_PERMISSION)
+            }
+        }
+
+        if(resultCode == Activity.RESULT_OK && requestCode == REQUEST_VIDEO_CAPTURE){
+            videoUri = data?.data
+            if(videoUri != null){
+                uriText = videoUri.toString()
+                greenCheckVideoCapture.visibility = View.VISIBLE
             }
         }
     }
 
-    // For handling permissions -> persistent uri permission to have permanent access
+    private val captureReqLauncher = registerForActivityResult(ActivityResultContracts.RequestPermission()){
+        if(it){
+            val intent = Intent(MediaStore.ACTION_VIDEO_CAPTURE)
+            intent.addFlags(Intent.FLAG_GRANT_PERSISTABLE_URI_PERMISSION)
+            intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
+            startActivityForResult(intent, REQUEST_VIDEO_CAPTURE)
+        } else {
+            Timber.d("Permission: denied, please allow access to be able to use the app")
+            Toast.makeText(requireActivity(), "Permission: denied, please allow access to be able to use the app fully",
+                Toast.LENGTH_LONG).show()
+        }
+    }
+
+    // For handling video select permission -> persistent uri permission to have permanent access
     private val permReqLauncher = registerForActivityResult(ActivityResultContracts.RequestPermission()) {
         if (it) {
             Timber.d("Permission: granted")
@@ -115,10 +149,10 @@ class RollingFootageSelectorFragment: Fragment(R.layout.footage_adder) {
             intent.action = Intent.ACTION_OPEN_DOCUMENT
             intent.addFlags(Intent.FLAG_GRANT_PERSISTABLE_URI_PERMISSION)
             intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
-            startActivityForResult(Intent.createChooser(intent, "Select video"), REQUEST_CODE)
+            startActivityForResult(Intent.createChooser(intent, "Select video"), REQUEST_VIDEO_SELECT)
         } else {
             Timber.d("Permission: denied, please allow access to be able to use the app")
-            Toast.makeText(requireActivity(), "Permission: denied, please allow access to be able to use the app",
+            Toast.makeText(requireActivity(), "Permission: denied, please allow access to be able to use the app fully",
                 Toast.LENGTH_LONG).show()
         }
     }
@@ -128,3 +162,4 @@ class RollingFootageSelectorFragment: Fragment(R.layout.footage_adder) {
         super.onDestroyView()
     }
 }
+

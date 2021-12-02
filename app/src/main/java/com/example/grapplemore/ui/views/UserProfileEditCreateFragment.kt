@@ -20,7 +20,7 @@ import com.example.grapplemore.ui.viewModels.UserProfileViewModel
 import com.google.firebase.auth.FirebaseAuth
 import dagger.hilt.android.AndroidEntryPoint
 import timber.log.Timber
-import com.example.grapplemore.utils.Constants.REQUEST_CODE
+import com.example.grapplemore.utils.Constants.REQUEST_PHOTO_SELECT
 import kotlinx.android.synthetic.main.edit_create_profile_fragment.*
 
 @AndroidEntryPoint
@@ -160,7 +160,7 @@ class UserProfileEditCreateFragment: Fragment(R.layout.edit_create_profile_fragm
     // Activity result event triggered when permission is granted
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        if (resultCode == Activity.RESULT_OK && requestCode == REQUEST_CODE) {
+        if (resultCode == Activity.RESULT_OK && requestCode == REQUEST_PHOTO_SELECT) {
             imageUri = data?.data
             if (imageUri != null) {
                 // Once user has selected an image, make the green check visible
@@ -183,7 +183,7 @@ class UserProfileEditCreateFragment: Fragment(R.layout.edit_create_profile_fragm
             val intent = Intent()
             intent.type = "image/*"
             intent.action = Intent.ACTION_GET_CONTENT
-            startActivityForResult(Intent.createChooser(intent, "Select image"), REQUEST_CODE)
+            startActivityForResult(Intent.createChooser(intent, "Select image"), REQUEST_PHOTO_SELECT)
         } else {
             Timber.d("Permission: denied, please allow access to be able to use the app")
             Toast.makeText(requireActivity(), "Permission: denied, please allow access to be able to use the app",
