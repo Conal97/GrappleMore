@@ -9,8 +9,6 @@ import com.example.grapplemore.data.repositories.UserProfileRepository
 import com.example.grapplemore.utils.Event
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
-import timber.log.Timber
-import java.util.*
 import javax.inject.Inject
 
 @HiltViewModel
@@ -23,12 +21,9 @@ class UserProfileViewModel @Inject constructor(
     val currentProfile: MutableLiveData<UserProfileEntity?>
         get() = _currentProfile
 
-    // Function to get current user profile
-    fun getProfile(fireBaseKey: String){
-        val profile = userProfileRepository.getUserProfile(fireBaseKey)
-        if (profile.value!=null) {
-            _currentProfile.value = profile.value
-        }
+    // Get profile via fireBaseKey
+    fun getProfile(fireBaseKey: String): LiveData<UserProfileEntity> {
+        return userProfileRepository.getUserProfile(fireBaseKey)
     }
 
     // Wrap event class for toast messaging
@@ -51,24 +46,14 @@ class UserProfileViewModel @Inject constructor(
 
         viewModelScope.launch {
 
+            // Create profile
             val profile = UserProfileEntity(fireBaseKey, userName, academy,
             imageUri, beltColour, weight, compsAttended, wins, draws, losses)
 
-            val existingProfile = userProfileRepository.getUserProfile(fireBaseKey)
-
-            // Check if profile already exists
-            if (existingProfile.value != null) {
-                // If it exists -> update entry
-                userProfileRepository.updateProfile(profile)
-                statusMessage.value = Event("Profile updated")
-                _navigate.value = true
-            }
-            // Create a new profile
-            else {
-                userProfileRepository.addProfile(profile)
-                statusMessage.value = Event("Profile created")
-                _navigate.value = true
-            }
+            // Upsert into db
+            userProfileRepository.upsertProfile(profile)
+            _currentProfile.value = profile
+            _navigate.value = true
         }
     }
 }

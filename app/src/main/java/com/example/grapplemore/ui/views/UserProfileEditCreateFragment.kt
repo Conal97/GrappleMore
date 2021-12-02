@@ -5,10 +5,12 @@ import android.app.Activity
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
+import android.text.Editable
 import android.view.View
 import android.widget.*
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.NavHostFragment
@@ -19,13 +21,14 @@ import com.google.firebase.auth.FirebaseAuth
 import dagger.hilt.android.AndroidEntryPoint
 import timber.log.Timber
 import com.example.grapplemore.utils.Constants.REQUEST_CODE
+import kotlinx.android.synthetic.main.edit_create_profile_fragment.*
 
 @AndroidEntryPoint
 class UserProfileEditCreateFragment: Fragment(R.layout.edit_create_profile_fragment),
     AdapterView.OnItemSelectedListener {
 
     // Reference to viewModel
-    private val userProfileViewModel: UserProfileViewModel by viewModels()
+    private val userProfileViewModel: UserProfileViewModel by activityViewModels()
 
     // Firebase for user authentication
     private var auth: FirebaseAuth = FirebaseAuth.getInstance()
@@ -37,8 +40,6 @@ class UserProfileEditCreateFragment: Fragment(R.layout.edit_create_profile_fragm
     private var imageUri: Uri? = null
     lateinit var greenCheck: ImageView
     private var uriText: String = ""
-
-    // todo pre-populate fields if user already has profile
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -55,6 +56,28 @@ class UserProfileEditCreateFragment: Fragment(R.layout.edit_create_profile_fragm
         val draws = binding.drawsEt
         val losses = binding.lossesEt
 
+        val currentProfile = userProfileViewModel.currentProfile.value
+
+        // Pre-populate edit screen with current values
+        if(currentProfile != null){
+
+            fun String.toEditable(): Editable = Editable.Factory.getInstance().newEditable(this)
+
+            // Edit text fields
+            username.text = currentProfile.userName?.toEditable()
+            academy.text = currentProfile.userAcademy?.toEditable()
+            weight.text = currentProfile.weight?.toString()?.toEditable()
+            compsAttended.text = currentProfile.compsAttended.toString().toEditable()
+            wins.text = currentProfile.wins.toString().toEditable()
+            draws.text = currentProfile.draws.toString().toEditable()
+            losses.text = currentProfile.losses.toString().toEditable()
+
+            // Image and belt
+            greenCheck.visibility = View.VISIBLE
+            uriText = currentProfile.profileImageUri.toString()
+            beltColour = currentProfile.beltColour.toString()
+        }
+
         // Handling the drop down menu widget (spinner)
         val spinner: Spinner = binding.beltSpinner
 
@@ -64,6 +87,15 @@ class UserProfileEditCreateFragment: Fragment(R.layout.edit_create_profile_fragm
                 adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
                 //Apply the adapter to the spinner
                 spinner.adapter = adapter
+
+                when(beltColour){
+                    "White" -> spinner.setSelection(0)
+                    "Blue" -> spinner.setSelection(1)
+                    "Purple" -> spinner.setSelection(2)
+                    "Brownbelt" -> spinner.setSelection(3)
+                    "Blackbelt" -> spinner.setSelection(4)
+                }
+
                 // Get the selected item
                 spinner.onItemSelectedListener = this
             }

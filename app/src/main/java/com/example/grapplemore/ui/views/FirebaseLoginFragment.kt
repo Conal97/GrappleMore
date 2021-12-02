@@ -19,6 +19,7 @@ import timber.log.Timber
 class FirebaseLoginFragment : Fragment(R.layout.login_fragment) {
 
     private var auth: FirebaseAuth = FirebaseAuth.getInstance()
+    private val fireBaseKey = auth.currentUser?.uid.toString()
     private var fragmentLoginBinding: LoginFragmentBinding? = null
 
     // Reference to viewModel
@@ -30,10 +31,14 @@ class FirebaseLoginFragment : Fragment(R.layout.login_fragment) {
         val currentUser = auth.currentUser
         if(currentUser != null) {
             // Navigate based on existing profile or not
-            if (userProfileViewModel.currentProfile.value!= null) {
-                navToProfile()
-            } else{
-                navToEdit()
+            val savedProfile = userProfileViewModel.getProfile(fireBaseKey)
+            savedProfile.observe(viewLifecycleOwner){
+                if (it != null){
+                    navToProfile()
+                    userProfileViewModel.currentProfile.value = savedProfile.value
+                }else{
+                    navToEdit()
+                }
             }
         }
       }
@@ -100,8 +105,6 @@ class FirebaseLoginFragment : Fragment(R.layout.login_fragment) {
         } else {
             Toast.makeText(requireActivity(), "Please fill in email field", Toast.LENGTH_LONG).show()
         }
-
-
     }
 
     private fun navToProfile() {
@@ -123,6 +126,4 @@ class FirebaseLoginFragment : Fragment(R.layout.login_fragment) {
             Toast.makeText(requireActivity(), "Logged in!", Toast.LENGTH_LONG).show()
         }
     }
-
-
 }

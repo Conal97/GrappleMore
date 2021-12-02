@@ -61,7 +61,7 @@ class FirebaseRegisterFragment: Fragment(R.layout.register_fragment) {
                 if (task.isSuccessful) {
                     Timber.d("user registered")
                     Toast.makeText(requireActivity(), "User registered successfully", Toast.LENGTH_LONG).show()
-                    navToProfile()
+                    navToEdit()
                 }
                 // Handle exceptions
                 else {
@@ -88,8 +88,8 @@ class FirebaseRegisterFragment: Fragment(R.layout.register_fragment) {
         }
     }
 
-    private fun navToProfile() {
-        NavHostFragment.findNavController(this).navigate(R.id.action_firebaseRegisterFragment_to_UserProfileFragment)
+    private fun navToEdit() {
+        NavHostFragment.findNavController(this).navigate(R.id.action_firebaseRegisterFragment_to_userProfileEditCreateFragment)
     }
 }
 

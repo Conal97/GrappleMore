@@ -36,10 +36,14 @@ class MainActivity : AppCompatActivity() {
         navController = navHostFragment.findNavController()
         navController.addOnDestinationChangedListener { _, destination, _ ->
 
-            if (destination.id == R.id.userProfileEditCreateFragment){
-                drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED)
-            }
+            when(destination.id){
+                R.id.userProfileEditCreateFragment, R.id.firebaseLoginFragment, R.id.firebaseRegisterFragment
+                    -> drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED)
 
+                else -> {
+                    drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED)
+                }
+            }
         }
 
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
