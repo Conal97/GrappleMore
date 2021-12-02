@@ -5,6 +5,7 @@ import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.navigation.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import com.example.grapplemore.R
 import com.example.grapplemore.data.model.entities.TrainingEvent
@@ -57,6 +58,17 @@ class TrainingEventAdapterPrevious(
         holder.itemView.eventItemConstraint.background = context.resources.getDrawable(drawId)
 
         // Implement on click listeners here
+        // Edit item
+        holder.itemView.editEventButton.setOnClickListener {
+            editListener.editPreviousTrainingCallBack(curTrainingEvent)
+            it.findNavController().navigate(R.id
+                .action_trainingScheduleFragment_to_trainingEventAddEditFragment)
+        }
+
+        // Delete item
+        holder.itemView.deleteEventButton.setOnClickListener {
+            deleteListener.deletePreviousTrainingCallBack(curTrainingEvent)
+        }
 
     }
 

@@ -1,6 +1,7 @@
 package com.example.grapplemore.data.model.daos
 
 
+import androidx.lifecycle.LiveData
 import androidx.room.*
 import com.example.grapplemore.data.model.entities.UserProfileEntity
 
@@ -17,5 +18,5 @@ interface UserProfileDao {
 
     // Get a single userProfile by firebaseKey
     @Query("select * from user_profile_table where fireBaseKey = :fireBaseKey")
-    suspend fun getUserProfile(fireBaseKey: String): UserProfileEntity
+    fun getUserProfile(fireBaseKey: String): LiveData<UserProfileEntity>
 }

@@ -5,6 +5,7 @@ import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.navigation.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import com.example.grapplemore.R
 import com.example.grapplemore.data.model.entities.TrainingEvent
@@ -53,7 +54,17 @@ class TrainingEventAdapterUpcoming(
         holder.itemView.tvTimeSlot.text = timeRange
         holder.itemView.tvDay.setTextColor(Color.parseColor("#44db86"))
 
-        // Implement on click listeners here
+        // Edit item
+        holder.itemView.editEventButton.setOnClickListener {
+            editListener.editTrainingCallBack(curTrainingEvent)
+            it.findNavController().navigate(R.id
+                .action_trainingScheduleFragment_to_trainingEventAddEditFragment)
+        }
+
+        // Delete item
+        holder.itemView.deleteEventButton.setOnClickListener {
+            deleteListener.deleteTrainingCallBack(curTrainingEvent)
+        }
 
     }
 

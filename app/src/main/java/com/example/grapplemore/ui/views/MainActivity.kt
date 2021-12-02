@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.MenuItem
 import androidx.appcompat.app.ActionBarDrawerToggle
+import androidx.drawerlayout.widget.DrawerLayout
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.fragment.findNavController
@@ -28,9 +29,19 @@ class MainActivity : AppCompatActivity() {
         drawer_layout.addDrawerListener(toggle)
         toggle.syncState()
 
+        val drawerLayout: DrawerLayout = findViewById(R.id.drawer_layout)
+
         // Navigation with the navigation drawer
         val navHostFragment = supportFragmentManager.findFragmentById(R.id.nav_host) as NavHostFragment
         navController = navHostFragment.findNavController()
+        navController.addOnDestinationChangedListener { _, destination, _ ->
+
+            if (destination.id == R.id.userProfileEditCreateFragment){
+                drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED)
+            }
+
+        }
+
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         navView.setupWithNavController(navController)
     }

@@ -19,7 +19,7 @@ class UserProfileRepository @Inject constructor (
         return userProfileDao.updateProfile(profile)
     }
 
-    suspend fun getUserProfile(firebaseKey: String): UserProfileEntity{
+    fun getUserProfile(firebaseKey: String): LiveData<UserProfileEntity>{
         return userProfileDao.getUserProfile(firebaseKey)
     }
 

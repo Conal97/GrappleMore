@@ -4,25 +4,37 @@ import android.os.Bundle
 import android.view.View
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.Observer
 import androidx.navigation.fragment.NavHostFragment
 import com.example.grapplemore.R
 import com.example.grapplemore.databinding.LoginFragmentBinding
+import com.example.grapplemore.ui.viewModels.UserProfileViewModel
 import com.google.firebase.auth.FirebaseAuth
+import dagger.hilt.android.AndroidEntryPoint
 import timber.log.Timber
 
-
+@AndroidEntryPoint
 class FirebaseLoginFragment : Fragment(R.layout.login_fragment) {
 
     private var auth: FirebaseAuth = FirebaseAuth.getInstance()
     private var fragmentLoginBinding: LoginFragmentBinding? = null
 
+    // Reference to viewModel
+    private val userProfileViewModel: UserProfileViewModel by activityViewModels()
 
     override fun onStart() {
         super.onStart()
         // Check if user is signed in (non-null) and update UI accordingly.
         val currentUser = auth.currentUser
         if(currentUser != null) {
-            navToProfile()
+            // Navigate based on existing profile or not
+            if (userProfileViewModel.currentProfile.value!= null) {
+                navToProfile()
+            } else{
+                navToEdit()
+            }
         }
       }
 
@@ -66,7 +78,7 @@ class FirebaseLoginFragment : Fragment(R.layout.login_fragment) {
                     // sign in successful
                     Timber.d("sign in with email: success")
                     checkLoggedInState()
-                    navToProfile()
+                    navToEdit()
                 } else {
                     Timber.d("sign in with email: failure", task.exception)
                     Toast.makeText(context, "Authentication failed", Toast.LENGTH_LONG).show()
@@ -96,11 +108,14 @@ class FirebaseLoginFragment : Fragment(R.layout.login_fragment) {
         NavHostFragment.findNavController(this).navigate(R.id.action_firebaseLoginFragment_to_UserProfileFragment)
     }
 
+    private fun navToEdit(){
+        NavHostFragment.findNavController(this).navigate(R.id.action_firebaseLoginFragment_to_userProfileEditCreateFragment)
+    }
+
     private fun createAccount(){
         NavHostFragment.findNavController(this).navigate(R.id.action_firebaseLoginFragment_to_firebaseRegisterFragment)
     }
 
-    // Change this?
     private fun checkLoggedInState() {
         if (auth.currentUser == null) {
             Toast.makeText(requireActivity(), "Not a valid login - please sign up", Toast.LENGTH_LONG).show()

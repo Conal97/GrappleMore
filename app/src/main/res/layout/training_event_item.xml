@@ -27,7 +27,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <ImageView
-        android:id="@+id/editButton"
+        android:id="@+id/editEventButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
@@ -37,7 +37,7 @@
         app:layout_constraintTop_toTopOf="@+id/tvClassTitle" />
 
     <ImageView
-        android:id="@+id/deleteButton"
+        android:id="@+id/deleteEventButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"

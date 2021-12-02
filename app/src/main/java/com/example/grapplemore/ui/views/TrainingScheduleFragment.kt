@@ -1,10 +1,12 @@
 package com.example.grapplemore.ui.views
 
 
+import android.content.Context
 import android.os.Bundle
 import android.view.View
-
+import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentTransaction
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.NavHostFragment
@@ -15,6 +17,8 @@ import com.example.grapplemore.databinding.TrainingScheduleBinding
 import com.example.grapplemore.ui.adapters.TrainingEventAdapterPrevious
 import com.example.grapplemore.ui.adapters.TrainingEventAdapterUpcoming
 import com.example.grapplemore.ui.viewModels.TrainingEventViewModel
+import kotlinx.datetime.Instant
+import java.time.Clock
 
 
 class TrainingScheduleFragment: Fragment(R.layout.training_schedule),
@@ -30,6 +34,9 @@ class TrainingScheduleFragment: Fragment(R.layout.training_schedule),
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        refreshFragment(requireActivity())
+
         val binding = TrainingScheduleBinding.bind(view)
         fragmentBinding = binding
 
@@ -48,12 +55,16 @@ class TrainingScheduleFragment: Fragment(R.layout.training_schedule),
                 .navigate(R.id.action_trainingScheduleFragment_to_trainingEventAddEditFragment)
         }
 
-        trainingEventViewModel.getUpcomingTrainingEvents().observe(viewLifecycleOwner, Observer {
+        // Current dateTime in milliseconds
+        val currentMoment: Instant = kotlinx.datetime.Clock.System.now()
+        val dateTimeMillis: Long = currentMoment.toEpochMilliseconds()
+
+        trainingEventViewModel.getUpcomingTrainingEvents(dateTimeMillis).observe(viewLifecycleOwner, Observer {
             adapterUpcoming?.items = it
             adapterUpcoming?.notifyDataSetChanged()
         })
 
-        trainingEventViewModel.getPreviousTrainingEvents().observe(viewLifecycleOwner, Observer {
+        trainingEventViewModel.getPreviousTrainingEvents(dateTimeMillis).observe(viewLifecycleOwner, Observer {
             adapterPrevious?.items = it
             adapterPrevious?.notifyDataSetChanged()
         })
@@ -66,18 +77,33 @@ class TrainingScheduleFragment: Fragment(R.layout.training_schedule),
     }
 
     override fun deleteTrainingCallBack(trainingEvent: TrainingEvent) {
-        TODO("Not yet implemented")
+        trainingEventViewModel.deleteTrainingEvent(trainingEvent)
     }
 
     override fun editTrainingCallBack(trainingEvent: TrainingEvent) {
-        TODO("Not yet implemented")
+        trainingEventViewModel.getCurrentTrainingEvent(trainingEvent)
     }
 
     override fun deletePreviousTrainingCallBack(trainingEvent: TrainingEvent) {
-        TODO("Not yet implemented")
+        trainingEventViewModel.deleteTrainingEvent(trainingEvent)
     }
 
     override fun editPreviousTrainingCallBack(trainingEvent: TrainingEvent) {
-        TODO("Not yet implemented")
+        trainingEventViewModel.getCurrentTrainingEvent(trainingEvent)
+    }
+
+    fun refreshFragment(context: Context){
+        context?.let {
+            val fragmentManager = (context as? AppCompatActivity)?.supportFragmentManager
+            fragmentManager?.let{
+                val currentFragment = fragmentManager.findFragmentById(R.id.trainingScheduleContainer)
+                currentFragment?.let {
+                    val fragmentTransaction = fragmentManager.beginTransaction()
+                    fragmentTransaction.detach(it)
+                    fragmentTransaction.attach(it)
+                    fragmentTransaction.commit()
+                }
+            }
+        }
     }
 }

@@ -23,6 +23,14 @@ class UserProfileViewModel @Inject constructor(
     val currentProfile: MutableLiveData<UserProfileEntity?>
         get() = _currentProfile
 
+    // Function to get current user profile
+    fun getProfile(fireBaseKey: String){
+        val profile = userProfileRepository.getUserProfile(fireBaseKey)
+        if (profile.value!=null) {
+            _currentProfile.value = profile.value
+        }
+    }
+
     // Wrap event class for toast messaging
     private val statusMessage = MutableLiveData<Event<String>>()
     val message: LiveData<Event<String>>
@@ -49,7 +57,7 @@ class UserProfileViewModel @Inject constructor(
             val existingProfile = userProfileRepository.getUserProfile(fireBaseKey)
 
             // Check if profile already exists
-            if (existingProfile != null) {
+            if (existingProfile.value != null) {
                 // If it exists -> update entry
                 userProfileRepository.updateProfile(profile)
                 statusMessage.value = Event("Profile updated")
@@ -63,15 +71,4 @@ class UserProfileViewModel @Inject constructor(
             }
         }
     }
-
-    // Function to implement user profile observing
-    fun getProfile(fireBaseKey: String){
-        viewModelScope.launch {
-            val profile = userProfileRepository.getUserProfile(fireBaseKey)
-            if (profile!=null) {
-                _currentProfile.value = profile
-            }
-        }
-    }
-
 }

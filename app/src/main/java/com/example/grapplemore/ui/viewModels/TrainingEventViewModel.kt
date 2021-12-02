@@ -2,6 +2,7 @@ package com.example.grapplemore.ui.viewModels
 
 import android.widget.Toast
 import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.grapplemore.data.model.entities.TrainingEvent
@@ -22,9 +23,14 @@ class TrainingEventViewModel @Inject constructor(
     private var auth: FirebaseAuth = FirebaseAuth.getInstance()
     private val fireBaseKey = auth.currentUser?.uid.toString()
 
-    // Current dateTime in milliseconds
-    val currentMoment: Instant = Clock.System.now()
-    val dateTimeMillis: Long = currentMoment.toEpochMilliseconds()
+    // LIve data to access trainingEvent outside viewModel scope
+    private var _currentTrainingEvent = MutableLiveData<TrainingEvent?>()
+    val currentTrainingEvent: MutableLiveData<TrainingEvent?>
+        get() = _currentTrainingEvent
+
+    fun getCurrentTrainingEvent(trainingEvent: TrainingEvent){
+        currentTrainingEvent.value = trainingEvent
+    }
 
     // Add training event
     fun upsertTrainingEvent(trainingEvent: TrainingEvent){
@@ -42,12 +48,12 @@ class TrainingEventViewModel @Inject constructor(
     }
 
     // Get upcoming training events
-    fun getUpcomingTrainingEvents(): LiveData<List<TrainingEvent>>{
+    fun getUpcomingTrainingEvents(dateTimeMillis: Long): LiveData<List<TrainingEvent>>{
         return trainingEventRepository.getUpcomingTrainingEvents(fireBaseKey, dateTimeMillis)
     }
 
     // Get previous training events
-    fun getPreviousTrainingEvents(): LiveData<List<TrainingEvent>>{
+    fun getPreviousTrainingEvents(dateTimeMillis: Long): LiveData<List<TrainingEvent>>{
         return trainingEventRepository.getPreviousTrainingEvents(fireBaseKey, dateTimeMillis)
     }
 }
