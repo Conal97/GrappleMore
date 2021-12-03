@@ -9,6 +9,7 @@ import com.example.grapplemore.data.repositories.UserProfileRepository
 import com.example.grapplemore.utils.Event
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
+import timber.log.Timber
 import javax.inject.Inject
 
 @HiltViewModel
@@ -22,8 +23,13 @@ class UserProfileViewModel @Inject constructor(
         get() = _currentProfile
 
     // Get profile via fireBaseKey
-    fun getProfile(fireBaseKey: String): LiveData<UserProfileEntity> {
+    fun getProfile(fireBaseKey: String): LiveData<UserProfileEntity>{
         return userProfileRepository.getUserProfile(fireBaseKey)
+    }
+
+    // Set profile
+    fun getCurrentProfile(profile: UserProfileEntity){
+        currentProfile.value = profile
     }
 
     // Wrap event class for toast messaging
@@ -50,9 +56,16 @@ class UserProfileViewModel @Inject constructor(
             val profile = UserProfileEntity(fireBaseKey, userName, academy,
             imageUri, beltColour, weight, compsAttended, wins, draws, losses)
 
+            Timber.d("Profile created")
+
             // Upsert into db
             userProfileRepository.upsertProfile(profile)
+
+            Timber.d("Profile inserted")
+
             _currentProfile.value = profile
+
+            Timber.d("Profile is ${_currentProfile.value!!.userName}")
             _navigate.value = true
         }
     }

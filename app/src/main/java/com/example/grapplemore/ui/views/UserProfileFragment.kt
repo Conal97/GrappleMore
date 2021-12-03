@@ -33,8 +33,8 @@ class UserProfileFragment : Fragment(R.layout.user_profile_fragment) {
         "White" to "@drawable/whitebelt",
         "Blue" to "@drawable/bluebelt",
         "Purple" to "@drawable/purplebelt",
-        "Brownbelt" to "@drawable/brownbelt",
-        "Blackbelt" to "@drawable/blackbelt"
+        "Brown" to "@drawable/brownbelt",
+        "Black" to "@drawable/blackbelt"
     )
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

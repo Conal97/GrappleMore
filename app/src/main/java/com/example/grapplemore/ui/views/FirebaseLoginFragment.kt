@@ -31,11 +31,10 @@ class FirebaseLoginFragment : Fragment(R.layout.login_fragment) {
         val currentUser = auth.currentUser
         if(currentUser != null) {
             // Navigate based on existing profile or not
-            val savedProfile = userProfileViewModel.getProfile(fireBaseKey)
-            savedProfile.observe(viewLifecycleOwner){
+            userProfileViewModel.getProfile(fireBaseKey).observe(viewLifecycleOwner){
                 if (it != null){
+                    userProfileViewModel.getCurrentProfile(it)
                     navToProfile()
-                    userProfileViewModel.currentProfile.value = savedProfile.value
                 }else{
                     navToEdit()
                 }
