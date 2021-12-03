@@ -14,12 +14,14 @@
 
         <EditText
             android:id="@+id/etTrainingTitle"
-            android:layout_width="match_parent"
+            android:layout_width="350dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
             android:layout_marginTop="8dp"
             android:layout_marginEnd="16dp"
             android:layout_marginBottom="8dp"
+            android:layout_gravity="center"
+            android:maxLength="30"
             android:hint="Training Event"
             android:padding="10dp"
             android:background="@drawable/rounded_border_background"/>

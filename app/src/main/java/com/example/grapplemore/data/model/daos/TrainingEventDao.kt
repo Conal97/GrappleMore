@@ -16,15 +16,15 @@ interface TrainingEventDao {
     suspend fun deleteTrainingEvent(trainingEvent: TrainingEvent)
 
     // Get all
-    @Query("select * from TrainingEvent where fireBaseKey =:fireBaseKey order by unixDateTime ASC")
+    @Query("select * from TrainingEvent where fireBaseKey =:fireBaseKey order by unixStartTime ASC")
     fun getAllTrainingEvents(fireBaseKey: String): LiveData<List<TrainingEvent>>
 
     // Get all upcoming training events
-    @Query("select * from TrainingEvent where fireBaseKey =:fireBaseKey and unixDateTime > :currentDateTime order by unixDateTime ASC")
+    @Query("select * from TrainingEvent where fireBaseKey =:fireBaseKey and unixStartTime > :currentDateTime order by unixStartTime ASC")
     fun getUpcomingTrainingEvents(fireBaseKey: String, currentDateTime: Long): LiveData<List<TrainingEvent>>
 
     // Get all previous training events
-    @Query("select * from TrainingEvent where fireBaseKey =:fireBaseKey and unixDateTime < :currentDateTime order by unixDateTime ASC")
+    @Query("select * from TrainingEvent where fireBaseKey =:fireBaseKey and unixStartTime < :currentDateTime order by unixStartTime ASC")
     fun getPreviousTrainingEvents(fireBaseKey: String, currentDateTime: Long): LiveData<List<TrainingEvent>>
 
 }

@@ -2,6 +2,9 @@ package com.example.grapplemore.ui.views
 
 import android.app.DatePickerDialog
 import android.app.TimePickerDialog
+import android.content.ContentUris
+import android.content.ContentValues
+import android.content.Context
 import android.os.Build
 import android.os.Bundle
 import android.text.Editable
@@ -19,7 +22,6 @@ import com.example.grapplemore.databinding.TrainingEventAddEditBinding
 import com.example.grapplemore.ui.viewModels.TrainingEventViewModel
 import com.google.firebase.auth.FirebaseAuth
 import kotlinx.android.synthetic.main.training_event_add_edit.*
-import kotlinx.datetime.Clock
 import kotlinx.datetime.Instant
 import timber.log.Timber
 import java.text.SimpleDateFormat
@@ -28,6 +30,11 @@ import java.time.LocalDateTime
 import java.time.ZoneId
 import java.time.format.DateTimeFormatter
 import java.util.*
+import android.provider.CalendarContract
+
+import android.content.Intent
+import android.net.Uri
+
 
 class TrainingEventAddEditFragment: Fragment(R.layout.training_event_add_edit), DatePickerDialog.OnDateSetListener, TimePickerDialog.OnTimeSetListener {
 
@@ -38,8 +45,13 @@ class TrainingEventAddEditFragment: Fragment(R.layout.training_event_add_edit), 
     private var auth: FirebaseAuth = FirebaseAuth.getInstance()
     private val fireBaseKey = auth.currentUser?.uid.toString()
 
+    // View binding
     private var fragmentBinding: TrainingEventAddEditBinding? = null
 
+    // Boolean for updating devices calendar
+    var savedEventId: Long? = null
+
+    // Calendar global variables
     var day = 0
     var month = 0
     var year = 0
@@ -95,6 +107,9 @@ class TrainingEventAddEditFragment: Fragment(R.layout.training_event_add_edit), 
             binding.tvStartTime.text = currentTrainingEvent.startTime.slice((11..15))
             binding.tvEndTime.text = currentTrainingEvent.endTime.slice((11..15))
 
+            // Set savedEventId to determine whether to update or insert into calendar
+            savedEventId = currentTrainingEvent.calendarEventId
+
             // Reset to null
             trainingEventViewModel.currentTrainingEvent.value = null
         }
@@ -128,18 +143,22 @@ class TrainingEventAddEditFragment: Fragment(R.layout.training_event_add_edit), 
                 // Convert startTime to ISO time for unix conversion - startTime or endTime better?
                 val newFormat = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm")
                 val localStartDate = LocalDateTime.parse(stringDateStart,newFormat)
-                val isoTime = DateTimeFormatter.ISO_LOCAL_DATE_TIME.format(localStartDate)
-                val startInstant = Instant.parse(isoTime.replace(":00", "Z"))
+                val isoStartTime = DateTimeFormatter.ISO_LOCAL_DATE_TIME.format(localStartDate)
+                val startInstant = Instant.parse(isoStartTime.replace(":00", "Z"))
 
-                // Now get unix startTime
+                val localEndDate = LocalDateTime.parse(stringDateEnd,newFormat)
+                val isoEndTime = DateTimeFormatter.ISO_LOCAL_DATE_TIME.format(localEndDate)
+                val endInstant = Instant.parse(isoEndTime.replace(":00", "Z"))
+
+                // Now get unix startTime & endTime
                 val unixStartTime = startInstant.toEpochMilliseconds()
-                val currentMoment: Instant = Clock.System.now()
-                val dateTimeMillis: Long = currentMoment.toEpochMilliseconds()
-                Timber.d("current epoch time is : $dateTimeMillis")
+                val unixEndTime = endInstant.toEpochMilliseconds()
+
+                upsertEvent(unixStartTime, unixEndTime, title, requireActivity())
 
                 // Create trainingEvent
                 val trainingEvent = TrainingEvent(id, title, unixStartTime,
-                    dayOfWeek, stringDateStart, stringDateEnd, fireBaseKey)
+                        unixEndTime, savedEventId!! ,dayOfWeek, stringDateStart, stringDateEnd, fireBaseKey)
 
                 // Call viewModel to update room
                 trainingEventViewModel.upsertTrainingEvent(trainingEvent)
@@ -193,6 +212,100 @@ class TrainingEventAddEditFragment: Fragment(R.layout.training_event_add_edit), 
                 Toast.makeText(requireActivity(), "Please select an end time after the start time", Toast.LENGTH_SHORT).show()
             }
         }
+    }
+
+    private fun upsertEvent(startMillis: Long, endMillis: Long, title: String, context: Context){
+
+        val calendarID = getCalendarId(requireActivity())
+        val values = ContentValues().apply{
+
+            put(CalendarContract.Events.DTSTART, startMillis)
+            put(CalendarContract.Events.DTEND, endMillis)
+            put(CalendarContract.Events.TITLE, title)
+            put(CalendarContract.Events.CALENDAR_ID, calendarID)
+            put(CalendarContract.Events.EVENT_TIMEZONE,"Greenwich")
+        }
+
+        if (savedEventId == null){
+            val uri: Uri? = context.contentResolver.insert(CalendarContract.Events.CONTENT_URI,values)
+            val eventID: Long? = uri?.lastPathSegment?.toLong()
+            savedEventId = eventID
+        } else{
+            val updateUri: Uri = ContentUris.withAppendedId(CalendarContract.Events.CONTENT_URI, savedEventId!!)
+            val rows: Int = context.contentResolver.update(updateUri, values, null, null)
+            Timber.d("Rows updated: $rows")
+        }
+
+
+
+
+//        val intent = Intent(Intent.ACTION_INSERT)
+//            .setData(CalendarContract.Events.CONTENT_URI)
+//            .putExtra(CalendarContract.Events.CALENDAR_ID, calendarID)
+//            .putExtra(CalendarContract.EXTRA_EVENT_BEGIN_TIME, startMillis)
+//            .putExtra(CalendarContract.EXTRA_EVENT_END_TIME, endMillis)
+//            .putExtra(CalendarContract.Events.TITLE, title)
+//        startActivity(intent)
+
+    }
+
+//    private fun updateEvent(startMillis: Long, endMillis: Long, title: String, context: Context){
+//
+//        val calendarID = getCalendarId(requireActivity())
+//
+//        val values = ContentValues().apply{
+//
+//            put(CalendarContract.Events.DTSTART, startMillis)
+//            put(CalendarContract.Events.DTEND, endMillis)
+//            put(CalendarContract.Events.TITLE, title)
+//            put(CalendarContract.Events.CALENDAR_ID, calendarID)
+//            put(CalendarContract.Events.EVENT_TIMEZONE,"Greenwich")
+//        }
+//
+//        val
+//    }
+
+    private fun getCalendarId(context: Context): Long?{
+
+        // Function to get devices calendar ID
+
+        val projection = arrayOf(CalendarContract.Calendars._ID, CalendarContract.Calendars.CALENDAR_DISPLAY_NAME)
+
+        var calCursor = context.contentResolver.query(
+            CalendarContract.Calendars.CONTENT_URI,
+            projection,
+            CalendarContract.Calendars.VISIBLE + " = 1 AND " + CalendarContract.Calendars.IS_PRIMARY + "=1",
+            null,
+            CalendarContract.Calendars._ID + " ASC"
+        )
+
+        if (calCursor != null && calCursor.count <= 0) {
+            calCursor = context.contentResolver.query(
+                CalendarContract.Calendars.CONTENT_URI,
+                projection,
+                CalendarContract.Calendars.VISIBLE + " = 1",
+                null,
+                CalendarContract.Calendars._ID + " ASC"
+            )
+        }
+
+        if (calCursor != null) {
+            if (calCursor.moveToFirst()) {
+                val calName: String
+                val calID: String
+                val nameCol = calCursor.getColumnIndex(projection[1])
+                val idCol = calCursor.getColumnIndex(projection[0])
+
+                calName = calCursor.getString(nameCol)
+                calID = calCursor.getString(idCol)
+
+                Timber.d("Calendar name = $calName Calendar ID = $calID")
+
+                calCursor.close()
+                return calID.toLong()
+            }
+        }
+        return null
     }
 }
 
