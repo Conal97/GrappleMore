@@ -16,6 +16,10 @@ class RollingFootageViewModel @Inject constructor(
     private val rollingFootageRepository: RollingFootageRepository
 ): ViewModel() {
 
+    // Firebase for user
+    private var auth: FirebaseAuth = FirebaseAuth.getInstance()
+    private val fireBaseKey = auth.currentUser?.uid.toString()
+
     // Live data to access RollingFootage outside viewModel scope
     private var _currentRollingFootage = MutableLiveData<RollingFootage?>()
     val currentRollingFootage: MutableLiveData<RollingFootage?>
@@ -24,10 +28,6 @@ class RollingFootageViewModel @Inject constructor(
     fun getCurrentRollingFootage(footage: RollingFootage){
         currentRollingFootage.value = footage
     }
-
-    // Firebase for user
-    private var auth: FirebaseAuth = FirebaseAuth.getInstance()
-    private val fireBaseKey = auth.currentUser?.uid.toString()
 
     // Add video
     fun insertRollingFootage(rollingFootage: RollingFootage){

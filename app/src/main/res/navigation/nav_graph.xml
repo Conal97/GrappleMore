@@ -11,6 +11,9 @@
         <action
             android:id="@+id/action_UserProfileFragment_to_userProfileEditCreateFragment"
             app:destination="@id/userProfileEditCreateFragment" />
+        <action
+            android:id="@+id/action_UserProfileFragment_to_firebaseLoginFragment"
+            app:destination="@id/firebaseLoginFragment" />
     </fragment>
     <fragment
         android:id="@+id/firebaseLoginFragment"

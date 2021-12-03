@@ -15,6 +15,7 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.NavHostFragment
 import com.example.grapplemore.R
+import com.example.grapplemore.data.model.entities.UserProfileEntity
 import com.example.grapplemore.databinding.EditCreateProfileFragmentBinding
 import com.example.grapplemore.ui.viewModels.UserProfileViewModel
 import com.google.firebase.auth.FirebaseAuth
@@ -27,12 +28,12 @@ import kotlinx.android.synthetic.main.edit_create_profile_fragment.*
 class UserProfileEditCreateFragment: Fragment(R.layout.edit_create_profile_fragment),
     AdapterView.OnItemSelectedListener {
 
-    // Reference to viewModel
-    private val userProfileViewModel: UserProfileViewModel by activityViewModels()
-
-    // Firebase for user authentication
+    // Firebase for user
     private var auth: FirebaseAuth = FirebaseAuth.getInstance()
     private val fireBaseKey = auth.currentUser?.uid.toString()
+
+    // Reference to viewModel
+    private val userProfileViewModel: UserProfileViewModel by activityViewModels()
 
     // ViewBinding and init some view variables
     private var fragmentBinding: EditCreateProfileFragmentBinding? = null
@@ -40,12 +41,14 @@ class UserProfileEditCreateFragment: Fragment(R.layout.edit_create_profile_fragm
     private var imageUri: Uri? = null
     lateinit var greenCheck: ImageView
     private var uriText: String = ""
+    var id: Int? = null
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         val binding = EditCreateProfileFragmentBinding.bind(view)
         fragmentBinding = binding
         greenCheck = binding.greenCheck
+
 
         // Variables to save the user profile
         val username = binding.userNameEt
@@ -76,6 +79,11 @@ class UserProfileEditCreateFragment: Fragment(R.layout.edit_create_profile_fragm
             greenCheck.visibility = View.VISIBLE
             uriText = currentProfile.profileImageUri.toString()
             beltColour = currentProfile.beltColour.toString()
+
+            // Button
+            binding.submitProfileBtn.text = "Edit Profile"
+
+            userProfileViewModel.currentProfile.value = null
         }
 
         // Handling the drop down menu widget (spinner)
@@ -92,8 +100,8 @@ class UserProfileEditCreateFragment: Fragment(R.layout.edit_create_profile_fragm
                     "White" -> spinner.setSelection(0)
                     "Blue" -> spinner.setSelection(1)
                     "Purple" -> spinner.setSelection(2)
-                    "Brownbelt" -> spinner.setSelection(3)
-                    "Blackbelt" -> spinner.setSelection(4)
+                    "Brown" -> spinner.setSelection(3)
+                    "Black" -> spinner.setSelection(4)
                 }
 
                 // Get the selected item
@@ -109,7 +117,7 @@ class UserProfileEditCreateFragment: Fragment(R.layout.edit_create_profile_fragm
         binding.submitProfileBtn.setOnClickListener {
 
             // Null input check
-            if (fireBaseKey.isEmpty() || username.equals(null) || academy.equals(null)
+            if (username.equals(null) || academy.equals(null)
                     || uriText.isEmpty() || beltColour.isEmpty() || weight.equals(null) || compsAttended.equals(null)
                     || wins.equals(null) || draws.equals(null) || losses.equals(null)) {
 
@@ -122,24 +130,16 @@ class UserProfileEditCreateFragment: Fragment(R.layout.edit_create_profile_fragm
                     Toast.makeText(requireActivity(), "Weight entries below 40 and above 200 are not permitted", Toast.LENGTH_SHORT).show()
                 }
                 else {
-                    // Create or update profile
-                    userProfileViewModel.createOrUpdateProfile(
-                        fireBaseKey, username.text.toString(), academy.text.toString(),
-                        uriText, beltColour ,weight.text.toString().toInt(), compsAttended.text.toString().toInt(),
-                        wins.text.toString().toInt(), draws.text.toString().toInt(), losses.text.toString().toInt()
-                    )
+                    // Create profile
+                    val profile = UserProfileEntity(fireBaseKey, username.text.toString(), academy.text.toString(),
+                        uriText, beltColour, weight.text.toString().toInt(), compsAttended.text.toString().toInt(),
+                        wins.text.toString().toInt(), draws.text.toString().toInt(), losses.text.toString().toInt())
+
+                    userProfileViewModel.createOrUpdateProfile(profile)
+
                 }
             }
         }
-
-        // Observers
-        // Change text view depending on whether user already has associated profile
-        userProfileViewModel.getProfile(fireBaseKey)
-        userProfileViewModel.currentProfile.observe(viewLifecycleOwner, Observer {it ->
-            if (it != null) {
-                binding.submitProfileBtn.text = "Edit Profile"
-            }
-        })
 
         // Navigation
         userProfileViewModel.navigate.observe(viewLifecycleOwner, Observer {

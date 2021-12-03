@@ -15,7 +15,7 @@ class UserProfileRepository @Inject constructor (
         return userProfileDao.upsertProfile(profile)
     }
 
-    fun getUserProfile(firebaseKey: String): LiveData<UserProfileEntity>{
+    suspend fun getUserProfile(firebaseKey: String): UserProfileEntity{
         return userProfileDao.getUserProfile(firebaseKey)
     }
 

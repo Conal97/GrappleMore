@@ -7,18 +7,17 @@ import androidx.room.PrimaryKey
 @Entity(tableName = "user_profile_table")
 data class UserProfileEntity(
 
-    @PrimaryKey
-    @NonNull
-    var fireBaseKey: String = "",
+    @PrimaryKey(autoGenerate = false)
+    val fireBaseKey: String,
 
+    val userName: String?,
+    val userAcademy: String?,
+    val profileImageUri: String?,
+    val beltColour: String?,
+    val weight: Int?,
+    val compsAttended: Int = 0,
+    val wins: Int = 0,
+    val draws: Int = 0,
+    val losses: Int = 0,
 
-    var userName: String?,
-    var userAcademy: String?,
-    var profileImageUri: String?,
-    var beltColour: String?,
-    var weight: Int?,
-    var compsAttended: Int = 0,
-    var wins: Int = 0,
-    var draws: Int = 0,
-    var losses: Int = 0
 )

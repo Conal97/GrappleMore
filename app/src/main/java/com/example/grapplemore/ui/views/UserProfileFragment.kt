@@ -6,7 +6,6 @@ import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
-import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.NavHostFragment
 import com.bumptech.glide.Glide
 import com.example.grapplemore.R
@@ -14,6 +13,7 @@ import com.example.grapplemore.databinding.UserProfileFragmentBinding
 import com.example.grapplemore.ui.viewModels.UserProfileViewModel
 import com.google.firebase.auth.FirebaseAuth
 import dagger.hilt.android.AndroidEntryPoint
+import timber.log.Timber
 
 @AndroidEntryPoint
 class UserProfileFragment : Fragment(R.layout.user_profile_fragment) {
@@ -54,31 +54,36 @@ class UserProfileFragment : Fragment(R.layout.user_profile_fragment) {
             navToEditProfile()
         }
 
+        binding.logoutBtn.setOnClickListener {
+            auth.signOut()
+            navToLogin()
+        }
+
         // Populate the users profile or display default values if they have not made one yet
-        //userProfileViewModel.getProfile(fireBaseKey)
-        val currentProfile = userProfileViewModel.currentProfile.value
+        userProfileViewModel.getProfile(fireBaseKey)
+        userProfileViewModel.currentProfile.observe(viewLifecycleOwner){
             // User has a profile -> display it
-            if (currentProfile != null) {
+            if (it != null) {
                 // Set the username
-                usernameTv.text = currentProfile.userName
+                usernameTv.text = it.userName
 
                 // Set the profile picture
                 Glide.with(requireActivity())
-                    .load(Uri.parse(currentProfile.profileImageUri))
+                    .load(Uri.parse(it.profileImageUri))
                     .override(200,150)
                     .centerCrop()
                     .into(profileImageView)
 
                 // Set the belt
-                val belt = beltMap[currentProfile.beltColour]
+                val belt = beltMap[it.beltColour]
                 val beltImg = resources.getIdentifier(belt, "drawable", requireActivity().packageName )
                 beltImageView.setImageResource(beltImg)
 
                 // Set the academy
-                academyTv.text = " Academy: ${currentProfile.userAcademy}"
+                academyTv.text = " Academy: ${it.userAcademy}"
 
                 // Set the weight category
-                when (currentProfile.weight) {
+                when (it.weight) {
                     in (1..57) -> weightCategoryTv.text = "Weight Category: Rooster"
                     in (58..64) -> weightCategoryTv.text = "Weight Category: Light Feather"
                     in (65..70) -> weightCategoryTv.text =  "Weight Category: Feather"
@@ -91,11 +96,13 @@ class UserProfileFragment : Fragment(R.layout.user_profile_fragment) {
                 }
 
                 // Set wins, draws, losses
-                winsDrawsLossTv.text = "Wins: ${currentProfile.wins} | Draws: ${currentProfile.draws} | Losses: ${currentProfile.losses}"
+                winsDrawsLossTv.text = "Wins: ${it.wins} | Draws: ${it.draws} | Losses: ${it.losses}"
             }
             else {
                 binding.editProfileBtn.text = "Create profile"
             }
+        }
+
     }
 
     override fun onDestroyView() {
@@ -105,5 +112,9 @@ class UserProfileFragment : Fragment(R.layout.user_profile_fragment) {
 
     private fun navToEditProfile() {
         NavHostFragment.findNavController(this).navigate(R.id.action_UserProfileFragment_to_userProfileEditCreateFragment)
+    }
+
+    private fun navToLogin(){
+        NavHostFragment.findNavController(this).navigate(R.id.action_UserProfileFragment_to_firebaseLoginFragment)
     }
 }

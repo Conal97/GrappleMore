@@ -7,6 +7,7 @@ import androidx.lifecycle.viewModelScope
 import com.example.grapplemore.data.model.entities.UserProfileEntity
 import com.example.grapplemore.data.repositories.UserProfileRepository
 import com.example.grapplemore.utils.Event
+import com.google.firebase.auth.FirebaseAuth
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import timber.log.Timber
@@ -23,12 +24,15 @@ class UserProfileViewModel @Inject constructor(
         get() = _currentProfile
 
     // Get profile via fireBaseKey
-    fun getProfile(fireBaseKey: String): LiveData<UserProfileEntity>{
-        return userProfileRepository.getUserProfile(fireBaseKey)
+    fun getProfile(fireBaseKey: String){
+        viewModelScope.launch {
+            val profile = userProfileRepository.getUserProfile(fireBaseKey)
+            getCurrentProfile(profile)
+        }
     }
 
     // Set profile
-    fun getCurrentProfile(profile: UserProfileEntity){
+    private fun getCurrentProfile(profile: UserProfileEntity){
         currentProfile.value = profile
     }
 
@@ -46,26 +50,12 @@ class UserProfileViewModel @Inject constructor(
     }
 
     // Function for creating a new user profile
-    fun createOrUpdateProfile(fireBaseKey: String, userName: String, academy: String,
-                imageUri: String, beltColour: String ,weight: Int, compsAttended: Int,
-                wins: Int, draws: Int, losses: Int) {
+    fun createOrUpdateProfile(profile: UserProfileEntity) {
 
         viewModelScope.launch {
-
-            // Create profile
-            val profile = UserProfileEntity(fireBaseKey, userName, academy,
-            imageUri, beltColour, weight, compsAttended, wins, draws, losses)
-
-            Timber.d("Profile created")
-
             // Upsert into db
             userProfileRepository.upsertProfile(profile)
-
-            Timber.d("Profile inserted")
-
-            _currentProfile.value = profile
-
-            Timber.d("Profile is ${_currentProfile.value!!.userName}")
+            getCurrentProfile(profile)
             _navigate.value = true
         }
     }

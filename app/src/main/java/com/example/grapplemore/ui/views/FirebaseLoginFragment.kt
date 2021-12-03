@@ -19,7 +19,6 @@ import timber.log.Timber
 class FirebaseLoginFragment : Fragment(R.layout.login_fragment) {
 
     private var auth: FirebaseAuth = FirebaseAuth.getInstance()
-    private val fireBaseKey = auth.currentUser?.uid.toString()
     private var fragmentLoginBinding: LoginFragmentBinding? = null
 
     // Reference to viewModel
@@ -30,15 +29,7 @@ class FirebaseLoginFragment : Fragment(R.layout.login_fragment) {
         // Check if user is signed in (non-null) and update UI accordingly.
         val currentUser = auth.currentUser
         if(currentUser != null) {
-            // Navigate based on existing profile or not
-            userProfileViewModel.getProfile(fireBaseKey).observe(viewLifecycleOwner){
-                if (it != null){
-                    userProfileViewModel.getCurrentProfile(it)
-                    navToProfile()
-                }else{
-                    navToEdit()
-                }
-            }
+            profileRedirect()
         }
       }
 
@@ -49,8 +40,8 @@ class FirebaseLoginFragment : Fragment(R.layout.login_fragment) {
 
         binding.loginButton.setOnClickListener {
 
-            val inputEmail = binding.etUserName.text.toString()
-            val inputPassword = binding.etPassword.text.toString()
+            val inputEmail = binding.etUserName.text.toString().trim()
+            val inputPassword = binding.etPassword.text.toString().trim()
 
             if (inputEmail.isNotEmpty() && inputPassword.isNotEmpty()) {
                 loginUser(inputEmail, inputPassword)
@@ -82,7 +73,10 @@ class FirebaseLoginFragment : Fragment(R.layout.login_fragment) {
                     // sign in successful
                     Timber.d("sign in with email: success")
                     checkLoggedInState()
-                    navToEdit()
+
+                    if (auth.currentUser != null){
+                        profileRedirect()
+                    }
                 } else {
                     Timber.d("sign in with email: failure", task.exception)
                     Toast.makeText(context, "Authentication failed", Toast.LENGTH_LONG).show()
@@ -103,6 +97,17 @@ class FirebaseLoginFragment : Fragment(R.layout.login_fragment) {
                 }
         } else {
             Toast.makeText(requireActivity(), "Please fill in email field", Toast.LENGTH_LONG).show()
+        }
+    }
+
+    private fun profileRedirect(){
+        userProfileViewModel.getProfile(auth.currentUser?.uid.toString())
+        userProfileViewModel.currentProfile.observe(viewLifecycleOwner){
+            if (it != null){
+                navToProfile()
+            }else{
+                navToEdit()
+            }
         }
     }
 

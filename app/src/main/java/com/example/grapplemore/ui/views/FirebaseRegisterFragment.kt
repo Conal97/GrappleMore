@@ -27,9 +27,9 @@ class FirebaseRegisterFragment: Fragment(R.layout.register_fragment) {
         binding.registerButton.setOnClickListener {
 
             // Get variables from inflated XML
-            val passOne: String = binding.etPassword.text.toString()
-            val passTwo: String = binding.etPassword2.text.toString()
-            val email: String = binding.etUserEmail.text.toString()
+            val passOne: String = binding.etPassword.text.toString().trim()
+            val passTwo: String = binding.etPassword2.text.toString().trim()
+            val email: String = binding.etUserEmail.text.toString().trim()
 
             // Check that fields are filled
             if(email.isNotEmpty() && passOne.isNotEmpty() && passTwo.isNotEmpty()) {

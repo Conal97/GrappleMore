@@ -141,24 +141,30 @@ class TrainingEventAddEditFragment: Fragment(R.layout.training_event_add_edit), 
                 val dayOfWeek = SimpleDateFormat("EE").format(dateFormat)
 
                 // Convert startTime to ISO time for unix conversion - startTime or endTime better?
-                val newFormat = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm")
-                val localStartDate = LocalDateTime.parse(stringDateStart,newFormat)
-                val isoStartTime = DateTimeFormatter.ISO_LOCAL_DATE_TIME.format(localStartDate)
-                val startInstant = Instant.parse(isoStartTime.replace(":00", "Z"))
+//                val newFormat = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm")
+//                val localStartDate = LocalDateTime.parse(stringDateStart,newFormat)
+//                val isoStartTime = DateTimeFormatter.ISO_LOCAL_DATE_TIME.format(localStartDate)
+//                val startInstant = Instant.parse(isoStartTime.replace(":00", "Z"))
 
-                val localEndDate = LocalDateTime.parse(stringDateEnd,newFormat)
-                val isoEndTime = DateTimeFormatter.ISO_LOCAL_DATE_TIME.format(localEndDate)
-                val endInstant = Instant.parse(isoEndTime.replace(":00", "Z"))
+                val df = SimpleDateFormat("dd/MM/yyyy HH:mm")
+                val startDate = df.parse(stringDateStart)
+                val startMillis: Long = startDate.time
+                val endDate = df.parse(stringDateEnd)
+                val endMillis: Long = endDate.time
+
+//                val localEndDate = LocalDateTime.parse(stringDateEnd,newFormat)
+//                val isoEndTime = DateTimeFormatter.ISO_LOCAL_DATE_TIME.format(localEndDate)
+//                val endInstant = Instant.parse(isoEndTime.replace(":00", "Z"))
 
                 // Now get unix startTime & endTime
-                val unixStartTime = startInstant.toEpochMilliseconds()
-                val unixEndTime = endInstant.toEpochMilliseconds()
+                //val unixStartTime = startInstant.toEpochMilliseconds()
+                //val unixEndTime = endInstant.toEpochMilliseconds()
 
-                upsertEvent(unixStartTime, unixEndTime, title, requireActivity())
+                upsertEvent(startMillis, endMillis, title, requireActivity())
 
                 // Create trainingEvent
-                val trainingEvent = TrainingEvent(id, title, unixStartTime,
-                        unixEndTime, savedEventId!! ,dayOfWeek, stringDateStart, stringDateEnd, fireBaseKey)
+                val trainingEvent = TrainingEvent(id, title, startMillis,
+                        endMillis, savedEventId!! ,dayOfWeek, stringDateStart, stringDateEnd, fireBaseKey)
 
                 // Call viewModel to update room
                 trainingEventViewModel.upsertTrainingEvent(trainingEvent)
