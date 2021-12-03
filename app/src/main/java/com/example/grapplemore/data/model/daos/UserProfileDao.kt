@@ -9,7 +9,7 @@ import com.example.grapplemore.data.model.entities.UserProfileEntity
 interface UserProfileDao {
 
     // Upsert user profile
-    @Update(onConflict = OnConflictStrategy.REPLACE)
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun upsertProfile(profile: UserProfileEntity)
 
     // Get a single userProfile by firebaseKey
