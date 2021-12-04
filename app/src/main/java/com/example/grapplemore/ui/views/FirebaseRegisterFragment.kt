@@ -4,15 +4,20 @@ import android.os.Bundle
 import android.view.View
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.NavHostFragment
 import com.example.grapplemore.R
 import com.example.grapplemore.databinding.RegisterFragmentBinding
+import com.example.grapplemore.ui.viewModels.UserProfileViewModel
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseAuthException
 import com.google.firebase.auth.FirebaseAuthUserCollisionException
 import timber.log.Timber
 
 class FirebaseRegisterFragment: Fragment(R.layout.register_fragment) {
+
+    // Reference to viewModel
+    private val userProfileViewModel: UserProfileViewModel by activityViewModels()
 
     // Access firebase and binding
     private var auth: FirebaseAuth = FirebaseAuth.getInstance()
@@ -61,6 +66,7 @@ class FirebaseRegisterFragment: Fragment(R.layout.register_fragment) {
                 if (task.isSuccessful) {
                     Timber.d("user registered")
                     Toast.makeText(requireActivity(), "User registered successfully", Toast.LENGTH_LONG).show()
+                    userProfileViewModel.currentProfile.value = null
                     navToEdit()
                 }
                 // Handle exceptions

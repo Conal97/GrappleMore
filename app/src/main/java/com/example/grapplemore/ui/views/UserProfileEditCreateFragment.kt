@@ -59,6 +59,7 @@ class UserProfileEditCreateFragment: Fragment(R.layout.edit_create_profile_fragm
         val draws = binding.drawsEt
         val losses = binding.lossesEt
 
+        //userProfileViewModel.getProfile(fireBaseKey)
         val currentProfile = userProfileViewModel.currentProfile.value
 
         // Pre-populate edit screen with current values
