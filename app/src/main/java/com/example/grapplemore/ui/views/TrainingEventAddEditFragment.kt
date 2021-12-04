@@ -140,31 +140,18 @@ class TrainingEventAddEditFragment: Fragment(R.layout.training_event_add_edit), 
                 // Now get day of week
                 val dayOfWeek = SimpleDateFormat("EE").format(dateFormat)
 
-                // Convert startTime to ISO time for unix conversion - startTime or endTime better?
-//                val newFormat = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm")
-//                val localStartDate = LocalDateTime.parse(stringDateStart,newFormat)
-//                val isoStartTime = DateTimeFormatter.ISO_LOCAL_DATE_TIME.format(localStartDate)
-//                val startInstant = Instant.parse(isoStartTime.replace(":00", "Z"))
-
+                // Convert start and end times to millis
                 val df = SimpleDateFormat("dd/MM/yyyy HH:mm")
                 val startDate = df.parse(stringDateStart)
                 val startMillis: Long = startDate.time
                 val endDate = df.parse(stringDateEnd)
                 val endMillis: Long = endDate.time
 
-//                val localEndDate = LocalDateTime.parse(stringDateEnd,newFormat)
-//                val isoEndTime = DateTimeFormatter.ISO_LOCAL_DATE_TIME.format(localEndDate)
-//                val endInstant = Instant.parse(isoEndTime.replace(":00", "Z"))
-
-                // Now get unix startTime & endTime
-                //val unixStartTime = startInstant.toEpochMilliseconds()
-                //val unixEndTime = endInstant.toEpochMilliseconds()
-
                 upsertEvent(startMillis, endMillis, title, requireActivity())
 
                 // Create trainingEvent
                 val trainingEvent = TrainingEvent(id, title, startMillis,
-                        endMillis, savedEventId!! ,dayOfWeek, stringDateStart, stringDateEnd, fireBaseKey)
+                        endMillis, savedEventId ,dayOfWeek, stringDateStart, stringDateEnd, fireBaseKey)
 
                 // Call viewModel to update room
                 trainingEventViewModel.upsertTrainingEvent(trainingEvent)
@@ -223,28 +210,31 @@ class TrainingEventAddEditFragment: Fragment(R.layout.training_event_add_edit), 
     private fun upsertEvent(startMillis: Long, endMillis: Long, title: String, context: Context){
 
         val calendarID = getCalendarId(requireActivity())
-        val values = ContentValues().apply{
 
-            put(CalendarContract.Events.DTSTART, startMillis)
-            put(CalendarContract.Events.DTEND, endMillis)
-            put(CalendarContract.Events.TITLE, title)
-            put(CalendarContract.Events.CALENDAR_ID, calendarID)
-            put(CalendarContract.Events.EVENT_TIMEZONE,"Greenwich")
+        if (calendarID != null){
+
+            Timber.d("caledndarID is: $calendarID")
+            val values = ContentValues().apply{
+
+                put(CalendarContract.Events.DTSTART, startMillis)
+                put(CalendarContract.Events.DTEND, endMillis)
+                put(CalendarContract.Events.TITLE, title)
+                put(CalendarContract.Events.CALENDAR_ID, calendarID)
+                put(CalendarContract.Events.EVENT_TIMEZONE,"Greenwich")
+            }
+
+            if (savedEventId == null){
+                val uri: Uri? = context.contentResolver.insert(CalendarContract.Events.CONTENT_URI,values)
+                Timber.d("Uri is: $uri")
+                val eventID: Long? = uri?.lastPathSegment?.toLong()
+                Timber.d("Event ID is: $eventID")
+                savedEventId = eventID
+            } else{
+                val updateUri: Uri = ContentUris.withAppendedId(CalendarContract.Events.CONTENT_URI, savedEventId!!)
+                val rows: Int = context.contentResolver.update(updateUri, values, null, null)
+                Timber.d("Rows updated: $rows")
+            }
         }
-
-        if (savedEventId == null){
-            val uri: Uri? = context.contentResolver.insert(CalendarContract.Events.CONTENT_URI,values)
-            val eventID: Long? = uri?.lastPathSegment?.toLong()
-            savedEventId = eventID
-        } else{
-            val updateUri: Uri = ContentUris.withAppendedId(CalendarContract.Events.CONTENT_URI, savedEventId!!)
-            val rows: Int = context.contentResolver.update(updateUri, values, null, null)
-            Timber.d("Rows updated: $rows")
-        }
-
-
-
-
 //        val intent = Intent(Intent.ACTION_INSERT)
 //            .setData(CalendarContract.Events.CONTENT_URI)
 //            .putExtra(CalendarContract.Events.CALENDAR_ID, calendarID)
@@ -254,22 +244,6 @@ class TrainingEventAddEditFragment: Fragment(R.layout.training_event_add_edit), 
 //        startActivity(intent)
 
     }
-
-//    private fun updateEvent(startMillis: Long, endMillis: Long, title: String, context: Context){
-//
-//        val calendarID = getCalendarId(requireActivity())
-//
-//        val values = ContentValues().apply{
-//
-//            put(CalendarContract.Events.DTSTART, startMillis)
-//            put(CalendarContract.Events.DTEND, endMillis)
-//            put(CalendarContract.Events.TITLE, title)
-//            put(CalendarContract.Events.CALENDAR_ID, calendarID)
-//            put(CalendarContract.Events.EVENT_TIMEZONE,"Greenwich")
-//        }
-//
-//        val
-//    }
 
     private fun getCalendarId(context: Context): Long?{
 

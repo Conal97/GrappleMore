@@ -115,8 +115,8 @@ class TrainingScheduleFragment: Fragment(R.layout.training_schedule),
     private fun deleteCalendarEvent(trainingEvent: TrainingEvent){
         // Delete event from calendar
         val eventId = trainingEvent.calendarEventId
-        val deleteUri: Uri = ContentUris.withAppendedId(CalendarContract.Events.CONTENT_URI, eventId)
-        val rows: Int = requireActivity().contentResolver.delete(deleteUri,null,null)
+        val deleteUri: Uri? = eventId?.let { ContentUris.withAppendedId(CalendarContract.Events.CONTENT_URI, it) }
+        val rows: Int? = deleteUri?.let { requireActivity().contentResolver.delete(it,null,null) }
         Timber.d("Rows deleted: $rows")
     }
 
