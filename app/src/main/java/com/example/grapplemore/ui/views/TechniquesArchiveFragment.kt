@@ -154,6 +154,7 @@ class TechniquesArchiveFragment: Fragment(R.layout.techniques_archive),
         }
 
         binding.archiveFloatingActionButton.setOnClickListener{
+            archiveEntryViewModel.currentArchiveEntry.value = null
             navigate()
         }
     }

@@ -71,7 +71,7 @@ class ArchiveEntryFragment: Fragment(R.layout.archive_entry){
             binding.etEntryBody.background = resources.getDrawable(drawableID)
 
             // Reset to null
-            archiveEntryViewModel.currentArchiveEntry.value = null
+            //archiveEntryViewModel.currentArchiveEntry.value = null
         }
 
         // Floating action button to create new entry- vm?

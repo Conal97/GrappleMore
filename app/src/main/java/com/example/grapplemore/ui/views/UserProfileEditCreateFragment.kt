@@ -84,7 +84,7 @@ class UserProfileEditCreateFragment: Fragment(R.layout.edit_create_profile_fragm
             // Button
             binding.submitProfileBtn.text = "Edit Profile"
 
-            userProfileViewModel.currentProfile.value = null
+            //userProfileViewModel.currentProfile.value = null
         }
 
         // Handling the drop down menu widget (spinner)
@@ -118,9 +118,9 @@ class UserProfileEditCreateFragment: Fragment(R.layout.edit_create_profile_fragm
         binding.submitProfileBtn.setOnClickListener {
 
             // Null input check
-            if (username.equals(null) || academy.equals(null)
-                    || uriText.isEmpty() || beltColour.isEmpty() || weight.equals(null) || compsAttended.equals(null)
-                    || wins.equals(null) || draws.equals(null) || losses.equals(null)) {
+            if (username.text.isEmpty() || academy.text.isEmpty() || uriText.isEmpty()
+                || beltColour.isEmpty() || weight.text.isEmpty() || compsAttended.text.isEmpty()
+                || wins.text.isEmpty() || draws.text.isEmpty() || losses.text.isEmpty()) {
 
                 Toast.makeText(requireActivity(), "Please fill all fields", Toast.LENGTH_SHORT).show()
 

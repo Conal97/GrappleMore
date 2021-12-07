@@ -105,7 +105,8 @@
     <fragment
         android:id="@+id/rollingFootageViewerFragment"
         android:name="com.example.grapplemore.ui.views.RollingFootageViewerFragment"
-        android:label="RollingFootageViewerFragment" />
+        android:label="RollingFootageViewerFragment"
+        tools:layout="@layout/rolling_viewer"/>
     <fragment
         android:id="@+id/trainingScheduleFragment"
         android:name="com.example.grapplemore.ui.views.TrainingScheduleFragment"

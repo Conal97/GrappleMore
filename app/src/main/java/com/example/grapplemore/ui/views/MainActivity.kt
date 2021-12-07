@@ -45,16 +45,13 @@ class MainActivity : AppCompatActivity() {
                 }
             }
         }
-
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         navView.setupWithNavController(navController)
     }
-
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         if(toggle.onOptionsItemSelected(item)){
             return true
         }
         return super.onOptionsItemSelected(item)
     }
-
 }
