@@ -62,6 +62,24 @@ class ArchiveEntryDaoTest {
     }
 
     @Test
+    fun updateArchiveEntry() = runBlocking {
+
+        val archiveEntry = ArchiveEntry(1, "TestOne", "TestOne", "TestOne",
+            "TestOne", "TestOne")
+        archiveEntryDao.upsertArchiveEntry(archiveEntry)
+
+        val updatedEntry = ArchiveEntry(1, "updated", "updated",
+            "updated", "updated", "TestOne")
+
+        archiveEntryDao.upsertArchiveEntry(updatedEntry)
+        val retrieveUpdated = archiveEntryDao.getAllUserArchiveEntries("TestOne").getOrAwaitValue()
+        val retrieved = retrieveUpdated[0]
+
+        assertThat(retrieved).isEqualTo(updatedEntry)
+
+    }
+
+    @Test
     fun getEntriesByID() = runBlocking {
 
         val archiveEntry = ArchiveEntry(1, "TestOne", "TestOne", "TestOne",

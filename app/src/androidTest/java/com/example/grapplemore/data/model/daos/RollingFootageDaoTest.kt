@@ -63,6 +63,24 @@ class RollingFootageDaoTest {
     }
 
     @Test
+    fun updateRollingFootage() = runBlocking {
+
+        val testFootage = RollingFootage(1, "testOne","testOne",
+            "testOne","testOne")
+
+        rollingFootageDao.insertRollingFootage(testFootage)
+        val updatedFootage = RollingFootage(1, "updated", "updated",
+            "updated", "testOne")
+
+        rollingFootageDao.insertRollingFootage(updatedFootage)
+        val retrieveUpdated = rollingFootageDao.getAll("testOne").getOrAwaitValue()
+        val retrieved = retrieveUpdated[0]
+
+        assertThat(retrieved).isEqualTo(updatedFootage)
+
+    }
+
+    @Test
     fun deleteRollingFootage() = runBlocking {
 
         val testFootage = RollingFootage(1, "testOne","testOne",
