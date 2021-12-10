@@ -75,8 +75,4 @@ class UserProfileDaoTest {
         assertThat(retrievedProfile).isEqualTo(updatedProfile)
 
     }
-
-
-
-
 }
